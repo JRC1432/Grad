@@ -1,0 +1,439 @@
+<template>
+  <form id="scholarForm" @submit.prevent="submitScholar">
+    <div class="q-pa-md">
+      <!-- Step 1 -->
+
+      <q-stepper
+        v-model="step"
+        ref="stepper"
+        alternative-labels
+        color="primary"
+        animated
+      >
+        <q-step
+          :name="1"
+          title="Personal Informations"
+          icon="person"
+          :done="step > 1"
+        >
+          <div class="col-xs-12 col-sm-6">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-xs-12">
+                <q-input
+                  v-model="state.spasid"
+                  label="SPAS ID:"
+                  style="max-width: 200px"
+                  name="spasid"
+                  mask="A - #### - ## - #####"
+                />
+              </div>
+
+              <div class="col-md-3">
+                <q-input
+                  v-model="state.lastname"
+                  label="Last Name"
+                  name="lastname"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-3 col-md-3">
+                <q-input
+                  v-model="state.firstname"
+                  label="First Name"
+                  name="firstname"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-3 col-md-3">
+                <q-input
+                  v-model="state.midname"
+                  label="Middle Name"
+                  name="midname"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-2 col-md-2">
+                <q-select
+                  label="Suffix Name"
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  v-model="state.suffixname"
+                  name="suffixname"
+                  :options="suffix"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.birthdate"
+                  name="birthdate"
+                  type="date"
+                  label="Birthday"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-select
+                  label="Gender"
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  v-model="state.gender"
+                  :options="genders"
+                  name="gender"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.emailadd"
+                  name="emailadd"
+                  label="E-mail Address"
+                  type="email"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.contact"
+                  name="contact"
+                  label="Phone"
+                  mask="(####) ### - ####"
+                />
+              </div>
+            </div>
+          </div>
+          <q-stepper-navigation>
+            <q-btn @click="step = 2" color="primary" label="Continue" />
+          </q-stepper-navigation>
+        </q-step>
+        <!-- Step 2 -->
+
+        <q-step
+          :name="2"
+          title="Location"
+          caption="Address Details"
+          icon="map"
+          :done="step > 2"
+        >
+          <div class="col-xs-12 col-sm-6">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-xs-12 col-sm-4 col-md-8">
+                <q-select
+                  v-model="state.province"
+                  name="province"
+                  emit-value
+                  map-options
+                  use-input
+                  input-debounce="0"
+                  label="Select Province"
+                  :options="provinceoptions"
+                  @filter="filterFnp"
+                  behavior="menu"
+                  @update:model-value="populateaddress"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        No results
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+
+              <div class="col-xs-12 col-sm-8 col-md-4">
+                <q-input
+                  v-model="state.housenum"
+                  name="housenum"
+                  label="Block Lot/House No."
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.street"
+                  name="street"
+                  label="Compound/Street/Phase/Purok"
+                />
+                <q-input
+                  v-model="state.subdivision"
+                  name="subdivision"
+                  label="Subdivision/Village"
+                />
+                <q-input
+                  v-model="state.barangay"
+                  name="barangay"
+                  label="Barangay"
+                />
+                <q-input
+                  readonly
+                  v-model="state.district"
+                  name="district"
+                  label="District"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.region"
+                  readonly
+                  name="region"
+                  label="Region"
+                />
+                <q-input
+                  v-model="state.municipality"
+                  readonly
+                  name="municipality"
+                  label="Municipality"
+                />
+                <q-input
+                  readonly
+                  v-model="state.provincecity"
+                  name="provincecity"
+                  label="Province"
+                />
+              </div>
+            </div>
+          </div>
+
+          <q-stepper-navigation>
+            <q-btn @click="step = 3" color="primary" label="Continue" />
+            <q-btn
+              flat
+              @click="step = 1"
+              color="primary"
+              label="Back"
+              class="q-ml-sm"
+            />
+          </q-stepper-navigation>
+        </q-step>
+
+        <!-- Step 3 -->
+
+        <q-step :name="3" title="School" icon="workspace_premium">
+          <div class="col-xs-12 col-sm-6">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.course"
+                  name="course"
+                  label="Previous Course"
+                />
+                <q-input
+                  v-model="state.school"
+                  name="school"
+                  label="Previous School"
+                />
+                <q-select
+                  label="Entry Type"
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  v-model="state.entry"
+                  name="entry"
+                  :options="entryType"
+                  style="width: 250px"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  v-model="state.yraward"
+                  name="yraward"
+                  label="Year of Award"
+                />
+                <q-input v-model="state.batch" name="batch" label="Batch" />
+              </div>
+            </div>
+          </div>
+          <q-stepper-navigation>
+            <q-btn color="primary" label="Submit" type="submit" />
+
+            <q-btn
+              flat
+              @click="step = 2"
+              color="primary"
+              label="Back"
+              class="q-ml-sm"
+            />
+          </q-stepper-navigation>
+        </q-step>
+      </q-stepper>
+    </div>
+  </form>
+</template>
+
+<script setup>
+import { ref, reactive, onMounted, inject } from "vue";
+import { useQuasar, QSpinnerGears } from "quasar";
+import router from "../router";
+
+const $q = useQuasar();
+
+const axios = inject("$axios");
+const user = inject("$user");
+
+const step = ref(1);
+
+const state = reactive({
+  spasid: "",
+  lastname: "",
+  firstname: "",
+  midname: "",
+  suffixname: "",
+  emailadd: "",
+  birthdate: "",
+  contact: "",
+  gender: "",
+
+  province: "",
+  housenum: "",
+  street: "",
+  municipality: "",
+  barangay: "",
+  subdivision: "",
+  provincecity: "",
+  district: "",
+  region: "",
+
+  course: "",
+  school: "",
+  entry: "",
+  yraward: "",
+  batch: "",
+});
+
+const suffix = [
+  "JR.",
+  "SR.",
+  "I",
+  "II",
+  "III",
+  "IV",
+  "V",
+  "VI",
+  "VII",
+  "VIII",
+  "IX",
+  "X",
+];
+
+const genders = ["Male", "Female"];
+
+const entryType = [
+  { label: "New", value: "New" },
+  { label: "Lateral", value: "Lateral" },
+  { label: "Residential", value: "Residential" },
+];
+
+// Show Loading State in Create
+const showCustom = () => {
+  const dialog = $q.dialog({
+    title: "Adding New Scholar...",
+    dark: true,
+    message: "0%",
+    progress: {
+      spinner: QSpinnerGears,
+      color: "amber",
+    },
+    persistent: true, // we want the user to not be able to close it
+    ok: false, // we want the user to not be able to close it
+  });
+
+  // we simulate some progress here...
+  let percentage = 0;
+  const interval = setInterval(() => {
+    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
+
+    // we update the dialog
+    dialog.update({
+      message: `${percentage}%`,
+    });
+
+    // if we are done...
+    if (percentage === 100) {
+      clearInterval(interval);
+
+      dialog.update({
+        title: "Done!",
+        message: "New Scholar Added Successfully",
+        progress: false,
+        ok: true,
+      });
+    }
+  }, 500);
+};
+
+// Showing Province
+var provinceoption2 = [];
+const provinceoptions = ref(provinceoption2);
+
+onMounted(() => {
+  populateprovince();
+});
+
+const populateprovince = () => {
+  axios.get("/read.php?address").then((response) => {
+    provinceoption2 = response.data;
+  });
+};
+
+const filterFnp = (val, update) => {
+  if (val === "") {
+    update(() => {
+      provinceoptions.value = provinceoption2;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    provinceoptions.value = provinceoption2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
+  });
+};
+
+// Showing Adress Data
+
+onMounted(() => {
+  populateaddress();
+});
+
+const populateaddress = () => {
+  var formData = new FormData();
+  formData.append("province", state.province);
+  console.log(state.province);
+
+  axios.post("/read.php?addressid", formData).then(function (response) {
+    state.municipality = response.data.zmun;
+    state.provincecity = response.data.zpro;
+    state.barangay = response.data.zbar;
+    state.district = response.data.zdis;
+    state.region = response.data.zreg;
+  });
+};
+
+const submitScholar = () => {
+  var formData = new FormData(document.getElementById("scholarForm"));
+  formData.append("spasid", state.spasid);
+  formData.append("lastname", state.lastname);
+  formData.append("firstname", state.firstname);
+  formData.append("midname", state.midname);
+  formData.append("suffixname", state.suffixname);
+  formData.append("emailadd", state.emailadd);
+  formData.append("birthdate", state.birthdate);
+  formData.append("contact", state.contact);
+  formData.append("gender", state.gender);
+
+  formData.append("province", state.province);
+  formData.append("housenum", state.housenum);
+  formData.append("street", state.street);
+  formData.append("municipality", state.municipality);
+  formData.append("barangay", state.barangay);
+  formData.append("subdivision", state.subdivision);
+  formData.append("provincecity", state.provincecity);
+  formData.append("district", state.district);
+  formData.append("region", state.region);
+
+  axios.post("/create.php?createScholar", formData).then(function (response) {
+    if (response.data == true) {
+      showCustom();
+    } else {
+      alert("failed");
+    }
+  });
+};
+</script>

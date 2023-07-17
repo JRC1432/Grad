@@ -1,0 +1,29 @@
+{
+  "name": "grad",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "@tabler/icons-vue": "^2.25.0",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.3",
+    "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
+    "quasar": "^2.12.2",
+    "vue": "^3.3.4",
+    "vue-chartjs": "^5.2.0",
+    "vue-router": "^4.2.2",
+    "vue3-lottie": "^3.0.0"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.4.1",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.32.12",
+    "vite": "^4.3.9"
+  }
+}
