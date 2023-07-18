@@ -9,15 +9,18 @@
         name="usernames"
         lazy-rules
         :rules="inputRules"
-      />
+        :error="confirmpass"
+      >
+      </q-input>
 
       <q-input
         ref="passRef"
         :type="isPwd ? 'password' : 'text'"
-        v-model="state.password"
         label="Password"
+        v-model="state.password"
         lazy-rules
-        :rules="inputRules"
+        :rules="inputpassRules"
+        :error="confirmpass"
       >
         <template v-slot:prepend>
           <q-icon name="password" />
@@ -47,13 +50,15 @@
 
 <script setup>
 import { useQuasar } from "quasar";
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 
 const $q = useQuasar();
 const isPwd = ref(true);
 
 const nameRef = ref(null);
 const passRef = ref(null);
+const password = ref();
+const usernames = ref();
 
 const state = reactive({
   password: "",
@@ -64,12 +69,23 @@ const inputRules = [
   (val) => (val && val.length > 0) || "Please type something",
 ];
 
+const inputpassRules = [
+  (val) => !!val || "Field is required",
+  (val) => val.length >= 6 || "Please use minimum of 6 characters",
+];
+
+const confirmpass = computed(() => state.usernames !== state.password);
+
 const onSubmit = () => {
   nameRef.value.validate();
   passRef.value.validate();
 
+  console.log(nameRef.value);
+  console.log(passRef.value);
+
   if (nameRef.value.hasError || passRef.value.hasError) {
     // form has error
+    alert("An error occured");
   } else {
     $q.notify({
       icon: "done",
@@ -78,12 +94,4 @@ const onSubmit = () => {
     });
   }
 };
-
-// const onReset = () => {
-//   name.value = null;
-//   age.value = null;
-
-//   nameRef.value.resetValidation();
-//   passRef.value.resetValidation();
-// };
 </script>

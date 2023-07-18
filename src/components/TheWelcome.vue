@@ -39,7 +39,7 @@
               v-model="state.password"
               label="Password"
               lazy-rules
-              :rules="inputRules"
+              :rules="inputpassRules"
               name="password"
             >
               <template v-slot:prepend>
@@ -102,6 +102,10 @@ const state = reactive({
 
 const inputRules = [
   (val) => (val && val.length > 0) || "Please type something",
+];
+const inputpassRules = [
+  (val) => !!val || "Field is required",
+  (val) => val.length >= 6 || "Please use minimum of 6 characters",
 ];
 
 onBeforeUnmount(() => {

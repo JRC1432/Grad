@@ -118,57 +118,84 @@
     <!-- New User modal -->
     <q-dialog v-model="fixed" persistent>
       <q-card>
-        <form id="UserForm" @submit.prevent="CreateUser">
+        <form id="UserForm" @submit.prevent.stop="CreateUser">
           <q-card-section>
             <div class="text-h6">Add New User</div>
           </q-card-section>
 
           <q-separator />
 
-          <q-card-section style="max-height: 50vh" class="scroll">
-            <q-input
-              v-model="state.username"
-              name="username"
-              label="UserName"
-            />
-
-            <q-input
-              :type="isPwds ? 'password' : 'text'"
-              v-model="state.password"
-              name="password"
-              label="Password"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwds ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwds = !isPwds"
-                />
-              </template>
-            </q-input>
-            <q-input
-              :type="isPwd ? 'password' : 'text'"
-              v-model="state.confirmpassword"
-              name="confirmpassword"
-              label="Confirm Password"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
-              </template>
-            </q-input>
-            <q-select
-              label="User Access Level"
-              transition-show="flip-up"
-              transition-hide="flip-down"
-              v-model="state.acclevel"
-              name="acclevel"
-              :options="Acclevel"
-              style="width: 250px"
-            />
+          <q-card-section style="max-height: 60vh" class="scroll">
+            <div class="q-pa-md">
+              <div class="row row_width q-col-gutter-sm">
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="nameRef"
+                    rounded
+                    outlined
+                    v-model="state.username"
+                    name="username"
+                    label="UserName"
+                    :rules="inputRules"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="passRef"
+                    rounded
+                    outlined
+                    :type="isPwds ? 'password' : 'text'"
+                    v-model="state.password"
+                    name="password"
+                    label="Password"
+                    :rules="inputpassRules"
+                    :error="confirmpass"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwds ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwds = !isPwds"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="confpassRef"
+                    rounded
+                    outlined
+                    :type="isPwd ? 'password' : 'text'"
+                    v-model="state.confirmpassword"
+                    name="confirmpassword"
+                    label="Confirm Password"
+                    :rules="inputpassRules"
+                    :error="confirmpass"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwd = !isPwd"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-select
+                    rounded
+                    outlined
+                    label="User Access Level"
+                    transition-show="flip-up"
+                    transition-hide="flip-down"
+                    v-model="state.acclevel"
+                    name="acclevel"
+                    :options="Acclevel"
+                    style="width: 250px"
+                  />
+                </div>
+              </div>
+            </div>
           </q-card-section>
 
           <q-separator />
@@ -256,7 +283,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, reactive, inject } from "vue";
+import { ref, onMounted, reactive, inject, computed } from "vue";
 import axios from "axios";
 import { useQuasar, QSpinnerGears } from "quasar";
 
@@ -264,6 +291,10 @@ const user = inject("$user");
 const $q = useQuasar();
 
 // Items Variables
+const nameRef = ref(null);
+const passRef = ref(null);
+const confpassRef = ref(null);
+
 const filter = ref("");
 const fixed = ref("false");
 const editdialog = ref(false);
@@ -281,7 +312,7 @@ const state = reactive({
   username: "",
   password: "",
   confirmpassword: "",
-  acclevel: "",
+  acclevel: "User Account",
 
   upusername: "",
   uppassword: "",
@@ -289,6 +320,18 @@ const state = reactive({
   upacclevel: "",
   upid: "",
 });
+
+// Rules & Validations
+const inputRules = [
+  (val) => (val && val.length > 0) || "Please type something",
+];
+
+const inputpassRules = [
+  (val) => !!val || "Field is required",
+  (val) => val.length >= 6 || "Please use minimum of 6 characters",
+];
+
+const confirmpass = computed(() => state.password !== state.confirmpassword);
 
 const columns = [
   {
@@ -477,27 +520,35 @@ const countusers = () => {
 // Create New Users
 
 const CreateUser = () => {
-  var formData = new FormData(document.getElementById("UserForm"));
-  formData.append("creator", user.username);
+  nameRef.value.validate();
+  passRef.value.validate();
+  confpassRef.value.validate();
 
-  axios
-    .post("http://localhost/backdbase/create.php?createuser", formData)
-    .then(function (response) {
-      if (response.data == true) {
-        state.username = "";
-        state.password = "";
-        state.confirmpassword = "";
-        state.acclevel = "";
-        fixed.value = false;
-        showCustom();
-      } else {
-        $q.notify({
-          color: "red",
-          textColor: "white",
-          message: "Err",
-        });
-      }
-    });
+  if (nameRef.value.hasError || passRef.value.hasError) {
+    // form has error
+  } else {
+    var formData = new FormData(document.getElementById("UserForm"));
+    formData.append("creator", user.username);
+
+    axios
+      .post("http://localhost/backdbase/create.php?createuser", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          state.username = "";
+          state.password = "";
+          state.confirmpassword = "";
+          state.acclevel = "";
+          fixed.value = false;
+          showCustom();
+        } else {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            message: "Err",
+          });
+        }
+      });
+  }
 };
 
 // Delete Users
