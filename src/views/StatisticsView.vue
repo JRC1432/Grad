@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12">
           <q-card
             class="my-card text-white"
             style="
@@ -18,39 +18,22 @@
                 </q-card>
               </div>
             </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section class="q-pr-lg">
-              <div class="text-h6">Male Scholars</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
 
             <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ malecounts }}</div>
-            </q-card-section>
-          </q-card>
-          <br />
-
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section class="q-pr-lg">
-              <div class="text-h6">Female Scholars</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ femalecounts }}</div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="text-h6">Male Scholars</div>
+                    <div class="text-h6">Count: {{ malecounts }}</div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="text-right text-h6">Female Scholars</div>
+                    <div class="text-right text-h6">
+                      Count: {{ femalecounts }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </q-card-section>
           </q-card>
         </div>
