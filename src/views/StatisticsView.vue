@@ -90,13 +90,12 @@ import {
   LineElement,
 } from "chart.js";
 import { Pie, Line } from "vue-chartjs";
-import { IconCalendarSearch } from "@tabler/icons-vue";
 
 const $q = useQuasar();
 
 const axios = inject("$axios");
 const user = inject("$user");
-
+const array = reactive([]);
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -107,6 +106,8 @@ ChartJS.register(
   LineElement,
   Title
 );
+
+// Count Male Section
 
 onMounted(() => {
   countmale();
@@ -120,6 +121,8 @@ const countmale = () => {
     console.log(malecounts.value);
   });
 };
+
+// Count Female Section
 
 onMounted(() => {
   countfemale();
@@ -154,12 +157,25 @@ const options = {
 //Line Data
 
 const linedata = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
   datasets: [
     {
-      label: "Data One",
+      label: "Applied Scholars",
       backgroundColor: "#f87979",
-      data: [40, 39, 10, 40, 39, 80, 40],
+      data: [40, 39, 10, 40, 39, 80, 40, 45, 50, 67, 90, 56],
     },
   ],
 };
