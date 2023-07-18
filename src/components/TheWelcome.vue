@@ -19,22 +19,27 @@
           Log In To Continue
         </div>
         <div class="q-pa-xl">
-          <form id="login" @submit.prevent="LogSubmit">
+          <form id="login" @submit.prevent.stop="LogSubmit">
             <q-input
+              ref="nameRef"
               v-model="state.usernames"
               :dense="dense"
               label="UserName"
               name="usernames"
+              lazy-rules
+              :rules="inputRules"
             >
               <template v-slot:prepend>
                 <q-icon name="person" />
               </template>
             </q-input>
             <q-input
-              :dense="dense"
-              label="Password"
+              ref="passRef"
               :type="isPwd ? 'password' : 'text'"
               v-model="state.password"
+              label="Password"
+              lazy-rules
+              :rules="inputRules"
               name="password"
             >
               <template v-slot:prepend>
@@ -85,6 +90,8 @@ const isPwd = ref(true);
 
 const q$ = useQuasar();
 const $q = useQuasar();
+const nameRef = ref(null);
+const passRef = ref(null);
 
 let timer;
 
@@ -92,6 +99,10 @@ const state = reactive({
   password: "",
   usernames: "",
 });
+
+const inputRules = [
+  (val) => (val && val.length > 0) || "Please type something",
+];
 
 onBeforeUnmount(() => {
   if (timer !== void 0) {
@@ -113,21 +124,28 @@ const showLoading = () => {
 };
 
 const LogSubmit = () => {
-  var formData = new FormData(document.getElementById("login"));
+  nameRef.value.validate();
+  passRef.value.validate();
 
-  axios.post("/read.php?usnames", formData).then(function (response) {
-    console.log(response.data);
-    if (response.data.error) {
-      $q.notify({
-        color: "red",
-        textColor: "white",
-        message: "Login Failed",
-      });
-      location.reload();
-    } else {
-      showLoading();
-      router.push("/dash");
-    }
-  });
+  if (nameRef.value.hasError || passRef.value.hasError) {
+    // form has error
+  } else {
+    var formData = new FormData(document.getElementById("login"));
+
+    axios.post("/read.php?usnames", formData).then(function (response) {
+      console.log(response.data);
+      if (response.data.error) {
+        $q.notify({
+          color: "red",
+          textColor: "white",
+          message: "Login Failed",
+        });
+        location.reload();
+      } else {
+        showLoading();
+        router.push("/dash");
+      }
+    });
+  }
 };
 </script>

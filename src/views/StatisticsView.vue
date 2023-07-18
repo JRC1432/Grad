@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject } from "vue";
+import { ref, reactive, onMounted, inject, toRaw } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import {
   Chart as ChartJS,
@@ -101,7 +101,7 @@ const malecounts = ref([]);
 const countmale = () => {
   axios.get("/read.php?countmale").then(function (response) {
     malecounts.value = response.data.malecount;
-    console.log(malecounts.value);
+    // array.push(malecounts.value);
   });
 };
 
@@ -116,9 +116,10 @@ const femalecounts = ref([]);
 const countfemale = () => {
   axios.get("/read.php?countfemale").then(function (response) {
     femalecounts.value = response.data.femalecount;
-    console.log(femalecounts.value);
+    // array.push(femalecounts.value);
   });
 };
+console.log(array);
 
 // Pie Data
 
@@ -126,8 +127,9 @@ const data = {
   labels: ["Male", "Female"],
   datasets: [
     {
-      backgroundColor: ["#41B883", "#E46651"],
+      backgroundColor: ["#2ea0c4", "#F59E8C"],
       data: ["1", "2"],
+      // data: toRaw(array),
     },
   ],
 };
