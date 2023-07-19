@@ -1,22 +1,29 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <q-input
-      filled
-      v-model="model"
-      label="Password"
-      bottom-slots
-      :error="!isValid"
-      hint="Minimum 8 characters"
-    >
-      <template #error> Please use minimum of 8 characters. </template>
-    </q-input>
+  <div id="q-app">
+    <div class="q-pa-md">
+      <div class="q-gutter-md row items-start">
+        <q-select
+          filled
+          v-model="single"
+          :options="options"
+          label="Select a Company"
+          style="width: 250px"
+          :rules="[myRule]"
+        ></q-select>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
-const model = ref("");
+const single = ref(null);
+const options = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 
-const isValid = computed(() => model.value.length >= 8);
+const myRule = (val) => {
+  if (val === null) {
+    return "You must make a selection!";
+  }
+};
 </script>

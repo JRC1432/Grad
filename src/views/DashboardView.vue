@@ -205,15 +205,16 @@
                 </div>
                 <div class="col-xs-12 col-sm-12">
                   <q-select
+                    ref="SlctUservalidate"
                     rounded
                     outlined
                     label="User Access Level"
                     transition-show="flip-up"
                     transition-hide="flip-down"
-                    v-model="state.acclevel"
+                    v-model="acclevel"
                     name="acclevel"
                     :options="Acclevel"
-                    style="width: 250px"
+                    :rules="[myRule]"
                   />
                 </div>
               </div>
@@ -321,6 +322,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-12">
                   <q-select
+                    ref="upSlctUservalidate"
                     rounded
                     outlined
                     emit-value
@@ -328,10 +330,10 @@
                     label="User Access Level"
                     transition-show="flip-up"
                     transition-hide="flip-down"
-                    v-model="state.upacclevel"
+                    v-model="upacclevel"
                     name="upacclevel"
                     :options="Acclevel"
-                    style="width: 250px"
+                    :rules="[myRule]"
                   />
                 </div>
               </div>
@@ -367,6 +369,8 @@ const passRef = ref(null);
 const confpassRef = ref(null);
 const lnameRef = ref(null);
 const fnameRef = ref(null);
+const SlctUservalidate = ref(null);
+const upSlctUservalidate = ref(null);
 
 const upfnameRef = ref(null);
 const uplnameRef = ref(null);
@@ -387,20 +391,22 @@ const isPwds = ref(true);
 const admincount = ref();
 const usercounting = ref();
 
+//Select Declarations
+const acclevel = ref(null);
+const upacclevel = ref(null);
+
 const state = reactive({
   firstname: "",
   lastname: "",
   username: "",
   password: "",
   confirmpassword: "",
-  acclevel: "User Account",
 
   upfirstname: "",
   uplastname: "",
   upusername: "",
   uppassword: "",
   upconfirmpassword: "",
-  upacclevel: "",
   upid: "",
 });
 
@@ -414,11 +420,20 @@ const inputpassRules = [
   (val) => val.length >= 6 || "Please use minimum of 6 characters",
 ];
 
+const SelectValidate = [
+  (val) => val === null || "Please Select the User Status",
+];
+
 const confirmpass = computed(() => state.password !== state.confirmpassword);
 const upconfirmpass = computed(
   () => state.uppassword !== state.upconfirmpassword
 );
 
+const myRule = (val) => {
+  if (val === null) {
+    return "You must make a selection!";
+  }
+};
 const columns = [
   {
     name: "fname",
@@ -627,12 +642,14 @@ const CreateUser = () => {
   nameRef.value.validate();
   passRef.value.validate();
   confpassRef.value.validate();
+  SlctUservalidate.value.validate();
 
   if (
     nameRef.value.hasError ||
     passRef.value.hasError ||
     fnameRef.value.hasError ||
-    lnameRef.value.hasError
+    lnameRef.value.hasError ||
+    SlctUservalidate.value.hasError
   ) {
     // form has error
   } else {
@@ -646,7 +663,7 @@ const CreateUser = () => {
           state.username = "";
           state.password = "";
           state.confirmpassword = "";
-          state.acclevel = "";
+          acclevel.value = "";
           fixed.value = false;
           showCustom();
         } else {
@@ -710,7 +727,6 @@ const showedit = (props) => {
   state.upfirstname = props.row.fname;
   state.uplastname = props.row.lname;
   state.upusername = props.row.username;
-  state.upacclevel = props.row.access_level;
   state.upid = props.row.id;
   var formData = new FormData();
   formData.append("userid", state.upid);
@@ -723,13 +739,15 @@ const UpdateUser = () => {
   upnameRef.value.validate();
   uppassRef.value.validate();
   upconfpassRef.value.validate();
+  upSlctUservalidate.value.validate();
 
   if (
     upfnameRef.value.hasError ||
     uplnameRef.value.hasError ||
     upnameRef.value.hasError ||
     uppassRef.value.hasError ||
-    upconfpassRef.value.hasError
+    upconfpassRef.value.hasError ||
+    upSlctUservalidate.value.hasError
   ) {
   } else {
     var formData = new FormData(document.getElementById("UpdateUserForm"));
@@ -741,7 +759,7 @@ const UpdateUser = () => {
     console.log(state.upid);
     formData.append("upusername", state.upusername);
     console.log(state.upusername);
-    formData.append("upacclevel", state.upacclevel);
+    formData.append("upacclevel", upacclevel.value);
     console.log(state.upacclevel);
     formData.append("uppassword", state.uppassword);
     console.log(state.uppassword);
