@@ -147,7 +147,7 @@ const LogSubmit = () => {
         location.reload();
       } else {
         showLoading();
-        router.push("/dash");
+        router.push("/stats");
       }
     });
   }

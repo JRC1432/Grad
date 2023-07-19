@@ -149,4 +149,45 @@ const readscholars = () => {
     rows.value = response.data;
   });
 };
+
+// Delete Scholars
+
+const showdelScholar = (props) => {
+  $q.dialog({
+    title: "Confirmation",
+    message: "Would you like to remove the scholar?",
+    cancel: true,
+    persistent: true,
+  })
+    .onOk(() => {
+      console.log(props.row.id);
+      var formData = new FormData();
+      formData.append("scholarid", props.row.id);
+
+      axios
+        .post("/delete.php?deleteScholar", formData)
+        .then(function (response) {
+          if (response.data == true) {
+            showdel.value = false;
+            alert();
+            readscholars();
+          } else {
+            $q.notify({
+              color: "red",
+              textColor: "white",
+              message: "User not deleted",
+            });
+          }
+        });
+    })
+    .onOk(() => {
+      // console.log('>>>> second OK catcher')
+    })
+    .onCancel(() => {
+      $q.dialog.close;
+    })
+    .onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    });
+};
 </script>

@@ -37,13 +37,20 @@
         "
       >
         <q-list padding>
+          <q-item clickable v-ripple tag="a" to="/stats">
+            <q-item-section avatar>
+              <IconChartPie :size="30" stroke-width="2" />
+            </q-item-section>
+
+            <q-item-section> Statistics </q-item-section>
+          </q-item>
           <q-item clickable v-ripple tag="a" to="/dash">
             <q-item-section avatar>
               <!-- <q-icon name="groups" /> -->
               <IconUsersGroup :size="30" stroke-width="2" />
             </q-item-section>
 
-            <q-item-section> User Profile </q-item-section>
+            <q-item-section> User Management </q-item-section>
           </q-item>
           <q-item clickable v-ripple tag="a" to="/newscholar">
             <q-item-section avatar>
@@ -58,13 +65,6 @@
             </q-item-section>
 
             <q-item-section> View Scholars </q-item-section>
-          </q-item>
-          <q-item clickable v-ripple tag="a" to="/stats">
-            <q-item-section avatar>
-              <IconChartPie :size="30" stroke-width="2" />
-            </q-item-section>
-
-            <q-item-section> Statistics </q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
