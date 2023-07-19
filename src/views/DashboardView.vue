@@ -127,7 +127,29 @@
 
           <q-card-section style="max-height: 60vh" class="scroll">
             <div class="q-pa-md">
-              <div class="row row_width q-col-gutter-sm">
+              <div class="row row_width q-col-gutter-xs">
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="fnameRef"
+                    rounded
+                    outlined
+                    v-model="state.firstname"
+                    name="firstname"
+                    label="First Name"
+                    :rules="inputRules"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="lnameRef"
+                    rounded
+                    outlined
+                    v-model="state.lastname"
+                    name="lastname"
+                    label="Last Name"
+                    :rules="inputRules"
+                  />
+                </div>
                 <div class="col-xs-12 col-sm-12">
                   <q-input
                     ref="nameRef"
@@ -149,7 +171,6 @@
                     name="password"
                     label="Password"
                     :rules="inputpassRules"
-                    :error="confirmpass"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -171,6 +192,7 @@
                     label="Confirm Password"
                     :rules="inputpassRules"
                     :error="confirmpass"
+                    color="green"
                   >
                     <template v-slot:append>
                       <q-icon
@@ -212,59 +234,108 @@
 
     <q-dialog v-model="editdialog" persistent>
       <q-card>
-        <form id="UpdateUserForm" @submit.prevent="UpdateUser">
+        <form id="UpdateUserForm" @submit.prevent.stop="UpdateUser">
           <q-card-section>
             <div class="text-h6">Edit User Account</div>
           </q-card-section>
 
           <q-separator />
 
-          <q-card-section style="max-height: 50vh" class="scroll">
-            <q-input
-              v-model="state.upusername"
-              name="upusername"
-              label="UserName"
-            />
-
-            <q-input
-              :type="isPwds ? 'password' : 'text'"
-              v-model="state.uppassword"
-              name="uppassword"
-              label="Password"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwds ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwds = !isPwds"
-                />
-              </template>
-            </q-input>
-            <q-input
-              :type="isPwd ? 'password' : 'text'"
-              v-model="state.upconfirmpassword"
-              name="upconfirmpassword"
-              label="Confirm Password"
-            >
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
-                />
-              </template>
-            </q-input>
-            <q-select
-              emit-value
-              map-options
-              label="User Access Level"
-              transition-show="flip-up"
-              transition-hide="flip-down"
-              v-model="state.upacclevel"
-              name="upacclevel"
-              :options="Acclevel"
-              style="width: 250px"
-            />
+          <q-card-section style="max-height: 60vh" class="scroll">
+            <div class="q-pa-md">
+              <div class="row row_width q-col-gutter-xs">
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="upfnameRef"
+                    rounded
+                    outlined
+                    v-model="state.upfirstname"
+                    name="upfirstname"
+                    label="Fisrt Name"
+                    :rules="inputRules"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="uplnameRef"
+                    rounded
+                    outlined
+                    v-model="state.uplastname"
+                    name="uplastname"
+                    label="Last Name"
+                    :rules="inputRules"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="upnameRef"
+                    rounded
+                    outlined
+                    v-model="state.upusername"
+                    name="upusername"
+                    label="UserName"
+                    :rules="inputRules"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="uppassRef"
+                    rounded
+                    outlined
+                    :type="isPwds ? 'password' : 'text'"
+                    v-model="state.uppassword"
+                    name="uppassword"
+                    label="Password"
+                    :rules="inputpassRules"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwds ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwds = !isPwds"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-input
+                    ref="upconfpassRef"
+                    rounded
+                    outlined
+                    :type="isPwd ? 'password' : 'text'"
+                    v-model="state.upconfirmpassword"
+                    name="upconfirmpassword"
+                    label="Confirm Password"
+                    :rules="inputpassRules"
+                    :error="upconfirmpass"
+                    color="green"
+                  >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwd = !isPwd"
+                      />
+                    </template>
+                  </q-input>
+                </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-select
+                    rounded
+                    outlined
+                    emit-value
+                    map-options
+                    label="User Access Level"
+                    transition-show="flip-up"
+                    transition-hide="flip-down"
+                    v-model="state.upacclevel"
+                    name="upacclevel"
+                    :options="Acclevel"
+                    style="width: 250px"
+                  />
+                </div>
+              </div>
+            </div>
           </q-card-section>
 
           <q-separator />
@@ -294,6 +365,14 @@ const $q = useQuasar();
 const nameRef = ref(null);
 const passRef = ref(null);
 const confpassRef = ref(null);
+const lnameRef = ref(null);
+const fnameRef = ref(null);
+
+const upfnameRef = ref(null);
+const uplnameRef = ref(null);
+const upnameRef = ref(null);
+const uppassRef = ref(null);
+const upconfpassRef = ref(null);
 
 const filter = ref("");
 const fixed = ref("false");
@@ -309,11 +388,15 @@ const admincount = ref();
 const usercounting = ref();
 
 const state = reactive({
+  firstname: "",
+  lastname: "",
   username: "",
   password: "",
   confirmpassword: "",
   acclevel: "User Account",
 
+  upfirstname: "",
+  uplastname: "",
   upusername: "",
   uppassword: "",
   upconfirmpassword: "",
@@ -332,8 +415,27 @@ const inputpassRules = [
 ];
 
 const confirmpass = computed(() => state.password !== state.confirmpassword);
+const upconfirmpass = computed(
+  () => state.uppassword !== state.upconfirmpassword
+);
 
 const columns = [
+  {
+    name: "fname",
+    required: true,
+    label: "First Name",
+    align: "center",
+    field: "fname",
+    sortable: true,
+  },
+  {
+    name: "lname",
+    required: true,
+    label: "Last Name",
+    align: "center",
+    field: "lname",
+    sortable: true,
+  },
   {
     name: "username",
     required: true,
@@ -520,11 +622,18 @@ const countusers = () => {
 // Create New Users
 
 const CreateUser = () => {
+  fnameRef.value.validate();
+  lnameRef.value.validate();
   nameRef.value.validate();
   passRef.value.validate();
   confpassRef.value.validate();
 
-  if (nameRef.value.hasError || passRef.value.hasError) {
+  if (
+    nameRef.value.hasError ||
+    passRef.value.hasError ||
+    fnameRef.value.hasError ||
+    lnameRef.value.hasError
+  ) {
     // form has error
   } else {
     var formData = new FormData(document.getElementById("UserForm"));
@@ -598,6 +707,8 @@ const showdel = (props) => {
 
 const showedit = (props) => {
   editdialog.value = true;
+  state.upfirstname = props.row.fname;
+  state.uplastname = props.row.lname;
   state.upusername = props.row.username;
   state.upacclevel = props.row.access_level;
   state.upid = props.row.id;
@@ -607,28 +718,47 @@ const showedit = (props) => {
 };
 
 const UpdateUser = () => {
-  var formData = new FormData(document.getElementById("UpdateUserForm"));
-  formData.append("userid", state.upid);
-  console.log(state.upid);
-  formData.append("upusername", state.upusername);
-  console.log(state.upusername);
-  formData.append("upacclevel", state.upacclevel);
-  console.log(state.upacclevel);
-  formData.append("uppassword", state.uppassword);
-  console.log(state.uppassword);
-  axios
-    .post("http://localhost/backdbase/update.php?updateuser", formData)
-    .then(function (response) {
-      if (response.data == true) {
-        showCustomedit();
-        editdialog.value = false;
-      } else {
-        $q.notify({
-          color: "red",
-          textColor: "white",
-          message: "User not updated",
-        });
-      }
-    });
+  upfnameRef.value.validate();
+  uplnameRef.value.validate();
+  upnameRef.value.validate();
+  uppassRef.value.validate();
+  upconfpassRef.value.validate();
+
+  if (
+    upfnameRef.value.hasError ||
+    uplnameRef.value.hasError ||
+    upnameRef.value.hasError ||
+    uppassRef.value.hasError ||
+    upconfpassRef.value.hasError
+  ) {
+  } else {
+    var formData = new FormData(document.getElementById("UpdateUserForm"));
+    formData.append("upfirstname", state.upfirstname);
+    console.log(state.upfirstname);
+    formData.append("uplastname", state.uplastname);
+    console.log(state.uplastname);
+    formData.append("userid", state.upid);
+    console.log(state.upid);
+    formData.append("upusername", state.upusername);
+    console.log(state.upusername);
+    formData.append("upacclevel", state.upacclevel);
+    console.log(state.upacclevel);
+    formData.append("uppassword", state.uppassword);
+    console.log(state.uppassword);
+    axios
+      .post("http://localhost/backdbase/update.php?updateuser", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          showCustomedit();
+          editdialog.value = false;
+        } else {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            message: "User not updated",
+          });
+        }
+      });
+  }
 };
 </script>
