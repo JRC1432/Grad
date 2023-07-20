@@ -22,11 +22,17 @@
             <q-card-section class="q-pt-none">
               <div class="col-xs-12 col-sm-6">
                 <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12 col-sm-6 col-md-6">
+                  <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="text-h6">Male Scholars</div>
                     <div class="text-h6">Count: {{ malecounts }}</div>
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <div class="text-center text-h6">Total Scholars</div>
+                    <div class="text-center text-h6">
+                      Count: {{ malecounts + femalecounts }}
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="text-right text-h6">Female Scholars</div>
                     <div class="text-right text-h6">
                       Count: {{ femalecounts }}
@@ -59,7 +65,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject, toRaw } from "vue";
+import { ref, reactive, onMounted, inject, computed, toRaw } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import {
   Chart as ChartJS,
@@ -119,20 +125,22 @@ const countfemale = () => {
     // array.push(femalecounts.value);
   });
 };
-console.log(array);
+// console.log(array);
 
 // Pie Data
 
-const data = {
-  labels: ["Male", "Female"],
-  datasets: [
-    {
-      backgroundColor: ["#2ea0c4", "#F59E8C"],
-      data: ["1", "2"],
-      // data: toRaw(array),
-    },
-  ],
-};
+const data = computed(() => {
+  return {
+    labels: ["Male", "Female"],
+    datasets: [
+      {
+        backgroundColor: ["#2ea0c4", "#F59E8C"],
+        data: [malecounts.value, femalecounts.value],
+        // data: toRaw(array),
+      },
+    ],
+  };
+});
 
 const options = {
   responsive: true,
