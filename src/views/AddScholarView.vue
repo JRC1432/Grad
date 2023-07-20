@@ -20,6 +20,8 @@
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.spasid"
                   label="SPAS ID:"
                   style="max-width: 200px"
@@ -30,6 +32,8 @@
 
               <div class="col-md-3">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.lastname"
                   label="Last Name"
                   name="lastname"
@@ -37,6 +41,8 @@
               </div>
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.firstname"
                   label="First Name"
                   name="firstname"
@@ -44,6 +50,8 @@
               </div>
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.midname"
                   label="Middle Name"
                   name="midname"
@@ -51,6 +59,8 @@
               </div>
               <div class="col-xs-12 col-sm-2 col-md-2">
                 <q-select
+                  rounded
+                  outlined
                   label="Suffix Name"
                   transition-show="flip-up"
                   transition-hide="flip-down"
@@ -62,6 +72,8 @@
 
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.birthdate"
                   name="birthdate"
                   type="date"
@@ -71,6 +83,8 @@
 
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-select
+                  rounded
+                  outlined
                   label="Gender"
                   transition-show="flip-up"
                   transition-hide="flip-down"
@@ -81,6 +95,8 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.emailadd"
                   name="emailadd"
                   label="E-mail Address"
@@ -89,6 +105,8 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.contact"
                   name="contact"
                   label="Phone"
@@ -114,6 +132,8 @@
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12 col-sm-4 col-md-8">
                 <q-select
+                  rounded
+                  outlined
                   v-model="state.province"
                   name="province"
                   emit-value
@@ -138,6 +158,8 @@
 
               <div class="col-xs-12 col-sm-8 col-md-4">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.housenum"
                   name="housenum"
                   label="Block Lot/House No."
@@ -145,21 +167,35 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.street"
                   name="street"
                   label="Compound/Street/Phase/Purok"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.subdivision"
                   name="subdivision"
                   label="Subdivision/Village"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.barangay"
                   name="barangay"
                   label="Barangay"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   readonly
                   v-model="state.district"
                   name="district"
@@ -169,18 +205,28 @@
 
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.region"
                   readonly
                   name="region"
                   label="Region"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.municipality"
                   readonly
                   name="municipality"
                   label="Municipality"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   readonly
                   v-model="state.provincecity"
                   name="provincecity"
@@ -209,32 +255,52 @@
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.course"
                   name="course"
                   label="Previous Course"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.school"
                   name="school"
                   label="Previous School"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-select
+                  rounded
+                  outlined
                   label="Entry Type"
                   transition-show="flip-up"
                   transition-hide="flip-down"
                   v-model="state.entry"
                   name="entry"
                   :options="entryType"
-                  style="width: 250px"
                 />
               </div>
+
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
+                  rounded
+                  outlined
                   v-model="state.yraward"
                   name="yraward"
                   label="Year of Award"
                 />
-                <q-input v-model="state.batch" name="batch" label="Batch" />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  rounded
+                  outlined
+                  v-model="state.batch"
+                  name="batch"
+                  label="Batch"
+                />
               </div>
             </div>
           </div>
@@ -313,9 +379,9 @@ const suffix = [
 const genders = ["Male", "Female"];
 
 const entryType = [
-  { label: "New", value: "New" },
-  { label: "Lateral", value: "Lateral" },
-  { label: "Residential", value: "Residential" },
+  { label: "NEW", value: "NEW" },
+  { label: "LATERAL", value: "LATERAL" },
+  { label: "RESIDENTIAL", value: "RESIDENTIAL" },
 ];
 
 // Show Loading State in Create
