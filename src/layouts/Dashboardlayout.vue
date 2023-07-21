@@ -42,7 +42,7 @@
               <IconChartPie :size="30" stroke-width="2" />
             </q-item-section>
 
-            <q-item-section> Statistics </q-item-section>
+            <q-item-section> Dashboard </q-item-section>
           </q-item>
           <q-item clickable v-ripple tag="a" to="/dash">
             <q-item-section avatar>
@@ -115,3 +115,5 @@ const logOut = () => {
   });
 };
 </script>
+
+<style scope></style>

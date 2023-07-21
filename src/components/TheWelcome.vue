@@ -1,16 +1,16 @@
 <template>
   <div class="row">
     <div
-      class="col-lg-7 col-md-7 col-sm-7"
+      class="col-lg-8 col-md-8 col-sm-8"
       v-if="q$.screen.gt.xs"
       style="background: radial-gradient(circle, #b7d3eb 0%, #6face0 100%)"
     >
       <Vue3Lottie
         animationLink="https://assets7.lottiefiles.com/packages/lf20_xY418y0j6x.json"
-        :height="655"
+        style="height: calc(100vh)"
       />
     </div>
-    <div class="col-12 col-lg-5 col-md-5 col-sm-5 q-pa-sm">
+    <div class="col-12 col-lg-4 col-md-4 col-sm-4 q-pa-sm">
       <div class="justify-center">
         <div class="text-h5 text-center text-bold q-pt-xl q-mt-xl">
           <q-avatar size="70px" class="q-mb-sm">
@@ -55,7 +55,6 @@
             </q-input>
             <div class="q-pa-sm">
               <q-btn
-                outline
                 rounded
                 color="primary"
                 label="Log In"

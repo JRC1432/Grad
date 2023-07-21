@@ -1,49 +1,4 @@
 <template>
-  <!-- Q Cards Start Here -->
-  <div class="q-pa-md">
-    <div class="col-xs-12 col-sm-6">
-      <div class="q-col-gutter-md row items-start">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section class="q-pr-lg">
-              <div class="text-h6">Administrator Accounts</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ admincount }}</div>
-            </q-card-section>
-          </q-card>
-        </div>
-
-        <div class="col-xs-12 col-sm-6 col-md-6">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section>
-              <div class="text-h6">User Accounts</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ usercounting }}</div>
-            </q-card-section>
-          </q-card>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Q Cards Ends Here -->
-
   <!-- Table Starts Here -->
   <div class="q-pa-md">
     <q-card
@@ -387,10 +342,6 @@ const rows = ref([]);
 const isPwd = ref(true);
 const isPwds = ref(true);
 
-// Declared Variable
-const admincount = ref();
-const usercounting = ref();
-
 //Select Declarations
 const acclevel = ref(null);
 const upacclevel = ref(null);
@@ -603,34 +554,6 @@ const readusers = () => {
     .get("http://localhost/backdbase/read.php?readuser")
     .then(function (response) {
       rows.value = response.data;
-    });
-};
-
-// Count Admin
-
-onMounted(() => {
-  countadmins();
-});
-
-const countadmins = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?countadmin")
-    .then(function (response) {
-      admincount.value = response.data.admincount;
-    });
-};
-
-// Count Users
-
-onMounted(() => {
-  countusers();
-});
-
-const countusers = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?countuser")
-    .then(function (response) {
-      usercounting.value = response.data.usercount;
     });
 };
 
