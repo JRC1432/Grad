@@ -66,7 +66,7 @@
       <q-separator />
 
       <q-card-section class="scroll">
-        <form id="scholarForm" @submit.prevent="submitScholar">
+        <form id="editscholarForm" @submit.prevent="editScholar">
           <div class="q-pa-md">
             <!-- Step 1 -->
 
@@ -566,6 +566,7 @@ const showdelScholar = (props) => {
         .then(function (response) {
           if (response.data == true) {
             showdel.value = false;
+            readscholars();
             alert();
             readscholars();
           } else {
@@ -682,6 +683,47 @@ const showeditScholar = (props) => {
     state.upbatch = response.data.batch;
 
     console.log(response.data.current_course);
+  });
+};
+
+const editScholar = () => {
+  var formData = new FormData(document.getElementById("editscholarForm"));
+  console.log(saddressid.value);
+
+  formData.append("editScholarID", saddressid.value);
+
+  formData.append("upspasid", state.upspasid);
+  formData.append("uplastname", state.uplastname);
+  formData.append("upfirstname", state.upfirstname);
+  formData.append("upmidname", state.upmidname);
+  formData.append("upsuffixname", state.upsuffixname);
+  formData.append("upbirthdate", state.upbirthdate);
+  formData.append("upgender", state.upgender);
+  formData.append("upemailadd", state.upemailadd);
+  formData.append("upcontact", state.upcontact);
+
+  formData.append("upprovince", state.upprovince);
+  formData.append("uphousenum", state.uphousenum);
+  formData.append("upstreet", state.upstreet);
+  formData.append("upsubdivision", state.upsubdivision);
+  formData.append("upbarangay", state.upbarangay);
+  formData.append("updistrict", state.updistrict);
+  formData.append("upregion", state.upregion);
+  formData.append("upmunicipality", state.upmunicipality);
+  formData.append("upprovincecity", state.upprovincecity);
+
+  // formData.append("upcourse", state.upcourse);
+  // formData.append("upschool", state.upschool);
+  // formData.append("upentry", state.upentry);
+  // formData.append("upyraward", state.upyraward);
+  // formData.append("upbatch", state.upbatch);
+
+  axios.post("/update.php?updatesholar", formData).then(function (response) {
+    if (response.data == true) {
+      alert("Success");
+    } else {
+      alert("Failed");
+    }
   });
 };
 </script>
