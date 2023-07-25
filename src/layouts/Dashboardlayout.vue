@@ -71,7 +71,7 @@
 
       <q-img
         class="absolute-top"
-        src="http://localhost/backdbase/pic/Blue.jpg "
+        src="http://localhost/backdbase/pic/pink.jpg "
         style="height: 200px"
       >
         <!-- http://localhost/backdbase/pic/Blue.jpg -->

@@ -1,13 +1,10 @@
 <template>
   <!-- Table Starts Here -->
   <div class="q-pa-md">
-    <q-card
-      class="my-card text-white"
-      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
-    >
+    <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6">Users Control Panel</div>
-        <div class="text-subtitle2">Users Table</div>
+        <div class="text-h6 text-primary">Users Control Panel</div>
+        <div class="text-subtitle2 text-primary">Users Table</div>
         <div class="row justify-end">
           <q-btn
             class="q-pr-none"
@@ -483,7 +480,7 @@ const showCustom = () => {
       countusers();
       countadmins();
     }
-  }, 500);
+  }, 100);
 };
 
 // Show Loading State in Edit
@@ -522,7 +519,7 @@ const showCustomedit = () => {
       });
       readusers();
     }
-  }, 500);
+  }, 100);
 };
 
 // Deleted Alert
@@ -703,3 +700,12 @@ const UpdateUser = () => {
   }
 };
 </script>
+
+<style>
+.card-body {
+  background-color: #ffd1da;
+}
+.font-color {
+  color: #d61f5d;
+}
+</style>

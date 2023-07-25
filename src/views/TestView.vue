@@ -1,83 +1,41 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Default progress" color="primary" @click="showDefault" />
-    <q-btn label="Custom progress" color="primary" @click="showCustom" />
-  </div>
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated class="bg-primary text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+          </q-avatar>
+          Title
+        </q-toolbar-title>
+
+        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+      <!-- drawer content -->
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
-import { useQuasar, QSpinnerGears } from "quasar";
+import { ref } from "vue";
 
 export default {
   setup() {
-    const $q = useQuasar();
+    const rightDrawerOpen = ref(false);
 
-    function showDefault() {
-      const dialog = $q.dialog({
-        message: "Uploading... 0%",
-        progress: true, // we enable default settings
-        persistent: true, // we want the user to not be able to close it
-        ok: false, // we want the user to not be able to close it
-      });
-
-      // we simulate some progress here...
-      let percentage = 0;
-      const interval = setInterval(() => {
-        percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-        // we update the dialog
-        dialog.update({
-          message: `Uploading... ${percentage}%`,
-        });
-
-        // if we are done, we're gonna close it
-        if (percentage === 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            dialog.hide();
-          }, 350);
-        }
-      }, 500);
-    }
-
-    function showCustom() {
-      const dialog = $q.dialog({
-        title: "Uploading...",
-        dark: true,
-        message: "0%",
-        progress: {
-          spinner: QSpinnerGears,
-          color: "amber",
-        },
-        persistent: true, // we want the user to not be able to close it
-        ok: false, // we want the user to not be able to close it
-      });
-
-      // we simulate some progress here...
-      let percentage = 0;
-      const interval = setInterval(() => {
-        percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-        // we update the dialog
-        dialog.update({
-          message: `${percentage}%`,
-        });
-
-        // if we are done...
-        if (percentage === 100) {
-          clearInterval(interval);
-
-          dialog.update({
-            title: "Done!",
-            message: "Upload completed successfully",
-            progress: false,
-            ok: true,
-          });
-        }
-      }, 100);
-    }
-
-    return { showDefault, showCustom };
+    return {
+      rightDrawerOpen,
+      toggleRightDrawer() {
+        rightDrawerOpen.value = !rightDrawerOpen.value;
+      },
+    };
   },
 };
 </script>

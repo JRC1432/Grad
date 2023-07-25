@@ -3,56 +3,34 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-4 col-md-4">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section class="q-pr-lg">
+          <q-card class="my-card text-primary">
+            <q-card-section class="flex">
               <div class="text-h6">Administrator Accounts</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ admincount }}</div>
+              <q-space />
+              <div class="text-right text-h6 text-bold">{{ admincount }}</div>
             </q-card-section>
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section>
+          <q-card class="my-card text-primary">
+            <q-card-section class="flex">
               <div class="text-h6">Total User Accounts</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">
-                Count: {{ usercounting + admincount }}
+              <q-space />
+              <div class="text-right text-h6 text-bold">
+                {{ usercounting + admincount }}
               </div>
             </q-card-section>
           </q-card>
         </div>
 
         <div class="col-xs-12 col-sm-4 col-md-4">
-          <q-card
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-            "
-          >
-            <q-card-section>
+          <q-card class="my-card text-primary">
+            <q-card-section class="flex">
               <div class="text-h6">User Accounts</div>
-              <div class="text-subtitle2"></div>
-            </q-card-section>
-
-            <q-card-section class="q-pt-none">
-              <div class="text-right text-h6">Count: {{ usercounting }}</div>
+              <q-space />
+              <div class="text-right text-h6 text-bold">
+                {{ usercounting }}
+              </div>
             </q-card-section>
           </q-card>
         </div>
@@ -64,15 +42,15 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12">
-          <q-card class="my-card text-white" style="background: #69aae4">
+          <q-card class="text-primary">
             <q-card-section>
               <div class="text-h6">Scholar Charts</div>
             </q-card-section>
             <q-card-section class="q-pa-md">
               <div class="q-pa-md">
-                <q-card class="my-card white text-white">
+                <q-card flat class="my-card white text-primary">
                   <q-card-section class="q-pr-lg">
-                    <Pie :data="data" :options="options" />
+                    <Doughnut :data="data" :options="options" />
                   </q-card-section>
                 </q-card>
               </div>
@@ -106,18 +84,9 @@
     </div>
   </div>
   <div class="q-pa-md">
-    <q-card
-      class="my-card text-white"
-      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
-    >
+    <q-card class="my-card text-primary">
       <q-card-section class="q-pa-md">
-        <div class="q-pa-md">
-          <q-card class="my-card bg-grey-3 text-white">
-            <q-card-section class="q-pr-lg">
-              <Line :data="linedata" :options="lineoptions" />
-            </q-card-section>
-          </q-card>
-        </div>
+        <Line :data="linedata" :options="lineoptions" style="height: 300px" />
       </q-card-section>
     </q-card>
   </div>
@@ -137,7 +106,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-import { Pie, Line } from "vue-chartjs";
+import { Pie, Line, Doughnut } from "vue-chartjs";
 
 const $q = useQuasar();
 
