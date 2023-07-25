@@ -58,18 +58,14 @@
                 />
               </div>
               <div class="col-xs-12 col-sm-2 col-md-2">
-                <q-select
+                <q-input
                   rounded
                   outlined
-                  label="Suffix Name"
-                  transition-show="flip-up"
-                  transition-hide="flip-down"
                   v-model="state.suffixname"
+                  label="Suffix Name"
                   name="suffixname"
-                  :options="suffix"
                 />
               </div>
-
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   rounded
@@ -78,19 +74,6 @@
                   name="birthdate"
                   type="date"
                   label="Birthday"
-                />
-              </div>
-
-              <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-select
-                  rounded
-                  outlined
-                  label="Gender"
-                  transition-show="flip-up"
-                  transition-hide="flip-down"
-                  v-model="state.gender"
-                  :options="genders"
-                  name="gender"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -102,6 +85,17 @@
                   label="E-mail Address"
                   type="email"
                 />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <label>SEX: </label>
+                <div class="row justify-start">
+                  <q-option-group
+                    :options="sexoptions"
+                    type="radio"
+                    v-model="state.gender"
+                    name="gender"
+                  />
+                </div>
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
@@ -259,7 +253,7 @@
                   outlined
                   v-model="state.course"
                   name="course"
-                  label="Previous Course"
+                  label="Course"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -268,7 +262,7 @@
                   outlined
                   v-model="state.school"
                   name="school"
-                  label="Previous School"
+                  label="School"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -342,7 +336,7 @@ const state = reactive({
   emailadd: "",
   birthdate: "",
   contact: "",
-  gender: "",
+  gender: "M",
 
   province: "",
   housenum: "",
@@ -361,22 +355,10 @@ const state = reactive({
   batch: "",
 });
 
-const suffix = [
-  "JR.",
-  "SR.",
-  "I",
-  "II",
-  "III",
-  "IV",
-  "V",
-  "VI",
-  "VII",
-  "VIII",
-  "IX",
-  "X",
+const sexoptions = [
+  { label: "Male", value: "M", color: "green" },
+  { label: "Female", value: "F", color: "green" },
 ];
-
-const genders = ["Male", "Female"];
 
 const entryType = [
   { label: "NEW", value: "NEW" },
