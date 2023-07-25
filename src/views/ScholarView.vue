@@ -125,15 +125,12 @@
                       />
                     </div>
                     <div class="col-xs-12 col-sm-2 col-md-2">
-                      <q-select
+                      <q-input
                         rounded
                         outlined
-                        label="Suffix Name"
-                        transition-show="flip-up"
-                        transition-hide="flip-down"
                         v-model="state.upsuffixname"
+                        label="Suffix Name"
                         name="upsuffixname"
-                        :options="suffix"
                       />
                     </div>
 
@@ -149,18 +146,6 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-select
-                        rounded
-                        outlined
-                        label="Gender"
-                        transition-show="flip-up"
-                        transition-hide="flip-down"
-                        v-model="state.upgender"
-                        :options="genders"
-                        name="upgender"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
                         rounded
                         outlined
@@ -169,6 +154,19 @@
                         label="E-mail Address"
                         type="email"
                       />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label>SEX: </label>
+                        <div class="row justify-start">
+                          <q-option-group
+                            :options="sexoptions"
+                            type="radio"
+                            v-model="state.upgender"
+                            name="upgender"
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
@@ -391,8 +389,7 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat label="Decline" color="primary" v-close-popup />
-        <q-btn flat label="Accept" color="primary" v-close-popup />
+        <q-btn flat label="Cancel" color="primary" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -446,23 +443,10 @@ const state = reactive({
   upbatch: "",
 });
 
-const suffix = [
-  "JR.",
-  "SR.",
-  "I",
-  "II",
-  "III",
-  "IV",
-  "V",
-  "VI",
-  "VII",
-  "VIII",
-  "IX",
-  "X",
+const sexoptions = [
+  { label: "Male", value: "M", color: "green" },
+  { label: "Female", value: "F", color: "green" },
 ];
-
-const genders = ["Male", "Female"];
-
 const entryType = [
   { label: "NEW", value: "NEW" },
   { label: "LATERAL", value: "LATERAL" },
@@ -535,6 +519,44 @@ const columns = [
   },
 ];
 
+// Show Loading State in Edit
+const showCustom = () => {
+  const dialog = $q.dialog({
+    title: "Updatinf Scholar Details",
+    dark: true,
+    message: "0%",
+    progress: {
+      spinner: QSpinnerGears,
+      color: "amber",
+    },
+    persistent: true, // we want the user to not be able to close it
+    ok: false, // we want the user to not be able to close it
+  });
+
+  // we simulate some progress here...
+  let percentage = 0;
+  const interval = setInterval(() => {
+    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
+
+    // we update the dialog
+    dialog.update({
+      message: `${percentage}%`,
+    });
+
+    // if we are done...
+    if (percentage === 100) {
+      clearInterval(interval);
+
+      dialog.update({
+        title: "Done!",
+        message: "Scholar Profile Details Has Been Updated.",
+        progress: false,
+        ok: true,
+      });
+    }
+  }, 100);
+};
+
 // Read Scholars
 
 onMounted(() => {
@@ -565,10 +587,8 @@ const showdelScholar = (props) => {
         .post("/delete.php?deleteScholar", formData)
         .then(function (response) {
           if (response.data == true) {
+            readscholars();
             showdel.value = false;
-            readscholars();
-            alert();
-            readscholars();
           } else {
             $q.notify({
               color: "red",
@@ -720,7 +740,8 @@ const editScholar = () => {
 
   axios.post("/update.php?updatesholar", formData).then(function (response) {
     if (response.data == true) {
-      alert("Success");
+      showCustom();
+      readscholars();
     } else {
       alert("Failed");
     }

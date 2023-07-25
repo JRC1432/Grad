@@ -401,7 +401,7 @@ const showCustom = () => {
         ok: true,
       });
     }
-  }, 500);
+  }, 100);
 };
 
 // Showing Province
