@@ -3,7 +3,7 @@
     <div
       class="col-lg-8 col-md-8 col-sm-8"
       v-if="q$.screen.gt.xs"
-      style="background: radial-gradient(circle, #ebb7da 0%, #de356d 100%)"
+      style="background: radial-gradient(circle, #f8bbe4 0%, #f988ae 100%)"
     >
       <Vue3Lottie
         animationLink="https://assets7.lottiefiles.com/packages/lf20_xY418y0j6x.json"

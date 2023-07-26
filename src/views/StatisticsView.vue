@@ -50,7 +50,11 @@
               <div class="q-pa-md">
                 <q-card flat class="my-card white text-primary">
                   <q-card-section class="q-pr-lg">
-                    <Doughnut :data="data" :options="options" />
+                    <Doughnut
+                      :data="data"
+                      :options="options"
+                      style="height: 400px"
+                    />
                   </q-card-section>
                 </q-card>
               </div>
@@ -191,7 +195,7 @@ const data = computed(() => {
     labels: ["Male", "Female"],
     datasets: [
       {
-        backgroundColor: ["#2ea0c4", "#F59E8C"],
+        backgroundColor: ["#ADD8E6", "#FFD1DA"],
         data: [malecounts.value, femalecounts.value],
         // data: toRaw(array),
       },
