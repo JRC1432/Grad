@@ -90,6 +90,13 @@
   <div class="q-pa-md">
     <q-card class="my-card text-primary">
       <q-card-section class="q-pa-md">
+        <Bar :data="bardata" :options="baroptions" style="height: 500px" />
+      </q-card-section>
+    </q-card>
+  </div>
+  <div class="q-pa-md">
+    <q-card class="my-card text-primary">
+      <q-card-section class="q-pa-md">
         <Line :data="linedata" :options="lineoptions" style="height: 300px" />
       </q-card-section>
     </q-card>
@@ -106,17 +113,19 @@ import {
   Legend,
   Title,
   CategoryScale,
+  BarElement,
   LinearScale,
   PointElement,
   LineElement,
 } from "chart.js";
-import { Pie, Line, Doughnut } from "vue-chartjs";
+import { Pie, Line, Doughnut, Bar } from "vue-chartjs";
 
 const $q = useQuasar();
 
 const axios = inject("$axios");
 const user = inject("$user");
 const array = reactive([]);
+
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -125,6 +134,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title
 );
 
@@ -197,7 +207,6 @@ const data = computed(() => {
       {
         backgroundColor: ["#ADD8E6", "#FFD1DA"],
         data: [malecounts.value, femalecounts.value],
-        // data: toRaw(array),
       },
     ],
   };
@@ -229,12 +238,43 @@ const linedata = {
     {
       label: "Applied Scholars",
       backgroundColor: "#f87979",
-      data: [40, 39, 10, 40, 39, 80, 40, 45, 50, 67, 90, 56],
+      data: [40, 39, 10, 150, 39, 80, 100, 45, 50, 67, 200, 56],
     },
   ],
 };
 
 const lineoptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
+
+// Bar Data
+
+const bardata = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  datasets: [
+    {
+      label: "Applied Scholars",
+      backgroundColor: "#f87979",
+      data: [56000, 20000, 12000, 39, 10, 40, 39, 80, 55900, 20, 12, 11],
+    },
+  ],
+};
+
+const baroptions = {
   responsive: true,
   maintainAspectRatio: false,
 };

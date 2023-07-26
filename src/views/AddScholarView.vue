@@ -356,8 +356,8 @@ const state = reactive({
 });
 
 const sexoptions = [
-  { label: "Male", value: "M", color: "green" },
-  { label: "Female", value: "F", color: "green" },
+  { label: "Male", value: "M", color: "primary" },
+  { label: "Female", value: "F", color: "primary" },
 ];
 
 const entryType = [
