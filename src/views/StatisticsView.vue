@@ -89,8 +89,29 @@
   </div>
   <div class="q-pa-md">
     <q-card class="my-card text-primary">
+      <q-select
+        filled
+        behavior="menu"
+        emit-value
+        map-options
+        use-input
+        mask="####"
+        input-debounce="0"
+        label="Select Year"
+        v-model="state.yearselect"
+        name="yearselect"
+        :options="yrsoptions"
+        @filter="filteryrs"
+        @update:model-value="populateyears"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> No results </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
       <q-card-section class="q-pa-md">
-        <Bar :data="bardata" :options="baroptions" style="height: 500px" />
+        <Bar :data="bardata" :options="baroptions" style="height: 400px" />
       </q-card-section>
     </q-card>
   </div>
@@ -104,7 +125,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject, computed, onUnmounted } from "vue";
+import { ref, reactive, onMounted, inject, computed } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import {
   Chart as ChartJS,
@@ -141,6 +162,10 @@ ChartJS.register(
 // Declared Variable
 const admincount = ref();
 const usercounting = ref();
+
+const state = reactive({
+  yearselect: new Date().getFullYear(),
+});
 
 // Count Male Section
 
@@ -248,31 +273,81 @@ const lineoptions = {
   maintainAspectRatio: false,
 };
 
+// Showing Years
+var yrsoptions2 = [];
+const yrsoptions = ref(yrsoptions2);
+
+onMounted(() => {
+  populateyrs();
+});
+
+const populateyrs = () => {
+  axios.get("/read.php?years").then((response) => {
+    yrsoptions2 = response.data;
+  });
+};
+
+const filteryrs = (val, update) => {
+  if (val === "") {
+    update(() => {
+      yrsoptions.value = yrsoptions2;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    yrsoptions.value = yrsoptions2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
+  });
+};
+
+//Showing Years to Bar Graph
+
+onMounted(() => {
+  populateyears();
+});
+
+const populateyears = () => {
+  var formData = new FormData();
+  formData.append("years", state.yearselect);
+
+  axios.post("/read.php?yrselect", formData).then(function (response) {
+    julval.value = response.data;
+    console.log(julval.value);
+  });
+};
+
 // Bar Data
 
-const bardata = {
-  labels: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ],
-  datasets: [
-    {
-      label: "Applied Scholars",
-      backgroundColor: "#f87979",
-      data: [56000, 20000, 12000, 39, 10, 40, 39, 80, 55900, 20, 12, 11],
-    },
-  ],
-};
+const julval = ref();
+
+const bardata = computed(() => {
+  return {
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    datasets: [
+      {
+        label: "Applied Scholars",
+        backgroundColor: "#f87979",
+        data: julval.value,
+      },
+    ],
+  };
+});
 
 const baroptions = {
   responsive: true,
