@@ -239,6 +239,8 @@ const data = computed(() => {
 
 const options = {
   responsive: true,
+  cutout: 150,
+
   maintainAspectRatio: false,
 };
 
