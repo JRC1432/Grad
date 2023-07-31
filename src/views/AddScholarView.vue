@@ -1,5 +1,5 @@
 <template>
-  <form id="scholarForm" @submit.prevent="submitScholar">
+  <form id="scholarForm" @submit.prevent.stop="submitScholar">
     <div class="q-pa-md">
       <!-- Step 1 -->
 
@@ -313,6 +313,7 @@
                   v-model="state.yraward"
                   name="yraward"
                   label="Year of Award"
+                  mask="####"
                   :rules="inputRules"
                 />
               </div>

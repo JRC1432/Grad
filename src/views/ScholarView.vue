@@ -63,7 +63,7 @@
       <q-separator />
 
       <q-card-section class="scroll">
-        <form id="editscholarForm" @submit.prevent="editScholar">
+        <form id="editscholarForm" @submit.prevent.stop="editScholar">
           <div class="q-pa-md">
             <!-- Step 1 -->
 
@@ -84,6 +84,7 @@
                   <div class="q-col-gutter-md row items-start">
                     <div class="col-xs-12">
                       <q-input
+                        ref="refspas"
                         rounded
                         outlined
                         v-model="state.upspasid"
@@ -91,34 +92,41 @@
                         style="max-width: 200px"
                         name="upspasid"
                         mask="A - #### - ## - #####"
+                        :rules="inputRules"
                       />
                     </div>
 
                     <div class="col-md-3">
                       <q-input
+                        ref="reflname"
                         rounded
                         outlined
                         v-model="state.uplastname"
                         label="Last Name"
                         name="uplastname"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-3 col-md-3">
                       <q-input
+                        ref="reffname"
                         rounded
                         outlined
                         v-model="state.upfirstname"
                         label="First Name"
                         name="upfirstname"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-3 col-md-3">
                       <q-input
+                        ref="refmname"
                         rounded
                         outlined
                         v-model="state.upmidname"
                         label="Middle Name"
                         name="upmidname"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-2 col-md-2">
@@ -133,23 +141,27 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refbirth"
                         rounded
                         outlined
                         v-model="state.upbirthdate"
                         name="upbirthdate"
                         type="date"
                         label="Birthday"
+                        :rules="inputRules"
                       />
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refmail"
                         rounded
                         outlined
                         v-model="state.upemailadd"
                         name="upemailadd"
                         label="E-mail Address"
                         type="email"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -167,18 +179,20 @@
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refcontact"
                         rounded
                         outlined
                         v-model="state.upcontact"
                         name="upcontact"
                         label="Phone"
                         mask="(####) ### - ####"
+                        :rules="inputRules"
                       />
                     </div>
                   </div>
                 </div>
                 <q-stepper-navigation>
-                  <q-btn @click="step = 2" color="primary" label="Continue" />
+                  <q-btn @click="step2" color="primary" label="Continue" />
                 </q-stepper-navigation>
               </q-step>
               <!-- Step 2 -->
@@ -194,9 +208,10 @@
                   <div class="q-col-gutter-md row items-start">
                     <div class="col-xs-12 col-sm-4 col-md-8">
                       <q-select
+                        ref="refzip"
                         rounded
                         outlined
-                        v-model="state.upprovince"
+                        v-model="upprovince"
                         name="upprovince"
                         emit-value
                         map-options
@@ -207,6 +222,7 @@
                         @filter="filterFnp"
                         behavior="menu"
                         @update:model-value="populateaddress"
+                        :rules="[myRule]"
                       >
                         <template v-slot:no-option>
                           <q-item>
@@ -220,20 +236,24 @@
 
                     <div class="col-xs-12 col-sm-8 col-md-4">
                       <q-input
+                        ref="refhousenum"
                         rounded
                         outlined
                         v-model="state.uphousenum"
                         name="uphousenum"
                         label="Block Lot/House No."
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refstreet"
                         rounded
                         outlined
                         v-model="state.upstreet"
                         name="upstreet"
                         label="Compound/Street/Phase/Purok"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -299,7 +319,7 @@
                 </div>
 
                 <q-stepper-navigation>
-                  <q-btn @click="step = 3" color="primary" label="Continue" />
+                  <q-btn @click="step3" color="primary" label="Continue" />
                   <q-btn
                     flat
                     @click="step = 1"
@@ -317,50 +337,61 @@
                   <div class="q-col-gutter-md row items-start">
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refcourse"
                         rounded
                         outlined
                         v-model="state.upcourse"
                         name="upcourse"
                         label="Previous Course"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refschool"
                         rounded
                         outlined
                         v-model="state.upschool"
                         name="upschool"
                         label="Previous School"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-select
+                        ref="refentry"
                         rounded
                         outlined
                         label="Entry Type"
                         transition-show="flip-up"
                         transition-hide="flip-down"
-                        v-model="state.upentry"
+                        v-model="upentry"
                         name="upentry"
                         :options="entryType"
+                        :rules="[myRule]"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="rfyraward"
                         rounded
                         outlined
-                        v-model="state.upyraward"
+                        v-model="state.upyearaward"
                         name="upyraward"
                         label="Year of Award"
+                        mask="####"
+                        :rules="inputRules"
                       />
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
                       <q-input
+                        ref="refbatch"
                         rounded
                         outlined
                         v-model="state.upbatch"
                         name="upbatch"
                         label="Batch"
+                        :rules="inputRules"
                       />
                     </div>
                   </div>
@@ -412,6 +443,42 @@ const fixed = ref(false);
 const step = ref(1);
 const saddressid = ref();
 
+// Rules & Validations
+const inputRules = [
+  (val) => (val && val.length > 0) || "Please type something",
+];
+
+const myRule = (val) => {
+  if (val === null) {
+    return "You must make a selection!";
+  }
+  return true;
+};
+
+// Validation Declarations
+const refspas = ref(null);
+const reflname = ref(null);
+const reffname = ref(null);
+const refmname = ref(null);
+const refbirth = ref(null);
+const refmail = ref(null);
+const refcontact = ref(null);
+
+const refzip = ref(null);
+const refhousenum = ref(null);
+const refstreet = ref(null);
+
+const refcourse = ref(null);
+const refschool = ref(null);
+const refentry = ref(null);
+const rfyraward = ref(null);
+const refbatch = ref(null);
+
+// Select Validation declaration Variables
+
+const upprovince = ref("");
+const upentry = ref("");
+
 const state = reactive({
   upspasid: "",
   uplastname: "",
@@ -423,7 +490,6 @@ const state = reactive({
   upemailadd: "",
   upcontact: "",
 
-  upprovince: "",
   uphousenum: "",
   upstreet: "",
   upsubdivision: "",
@@ -435,8 +501,7 @@ const state = reactive({
 
   upcourse: "",
   upschool: "",
-  upentry: "",
-  upyraward: "",
+  upyearaward: "",
   upbatch: "",
 });
 
@@ -515,6 +580,44 @@ const columns = [
     sortable: true,
   },
 ];
+
+const step2 = () => {
+  refspas.value.validate();
+  reflname.value.validate();
+  reffname.value.validate();
+  refmname.value.validate();
+  refbirth.value.validate();
+  refmail.value.validate();
+  refcontact.value.validate();
+
+  if (
+    refspas.value.hasError ||
+    reflname.value.hasError ||
+    reffname.value.hasError ||
+    refmname.value.hasError ||
+    refbirth.value.hasError ||
+    refmail.value.hasError ||
+    refcontact.value.hasError
+  ) {
+  } else {
+    step.value = 2;
+  }
+};
+
+const step3 = () => {
+  refzip.value.validate();
+  refhousenum.value.validate();
+  refstreet.value.validate();
+
+  if (
+    refzip.value.hasError ||
+    refhousenum.value.hasError ||
+    refstreet.value.hasError
+  ) {
+  } else {
+    step.value = 3;
+  }
+};
 
 // Show Loading State in Edit
 const showCustom = () => {
@@ -644,8 +747,7 @@ onMounted(() => {
 
 const populateaddress = () => {
   var formData = new FormData();
-  formData.append("province", state.upprovince);
-  console.log(state.upprovince);
+  formData.append("province", upprovince.value);
 
   axios.post("/read.php?addressid", formData).then(function (response) {
     state.upmunicipality = response.data.zmun;
@@ -679,7 +781,7 @@ const showeditScholar = (props) => {
   console.log(saddressid.value);
 
   axios.post("/read.php?scholarAddressid", formData).then(function (response) {
-    state.upprovince = response.data.zipcode;
+    upprovince.value = response.data.zipcode;
     state.uphousenum = response.data.house_number;
     state.upstreet = response.data.street;
     state.upsubdivision = response.data.subdivision;
@@ -695,8 +797,13 @@ const showeditScholar = (props) => {
   axios.post("/read.php?shoolsID", formData).then(function (response) {
     state.upcourse = response.data.current_course;
     state.upschool = response.data.current_school;
-    state.upentry = response.data.entry_level;
-    state.upyraward = response.data.year;
+    upentry.value = response.data.entry_level;
+    state.upyearaward = response.data.year + "";
+    console.log(
+      state.upyearaward,
+      state.upyearaward.length,
+      typeof state.upyearaward
+    );
     state.upbatch = response.data.batch;
 
     console.log(response.data.current_course);
@@ -704,44 +811,53 @@ const showeditScholar = (props) => {
 };
 
 const editScholar = () => {
-  var formData = new FormData(document.getElementById("editscholarForm"));
-  console.log(saddressid.value);
+  refcourse.value.validate();
+  refschool.value.validate();
+  refentry.value.validate();
+  rfyraward.value.validate();
+  refbatch.value.validate();
 
-  formData.append("editScholarID", saddressid.value);
+  if (
+    refcourse.value.hasError ||
+    refschool.value.hasError ||
+    refentry.value.hasError ||
+    rfyraward.value.hasError ||
+    refbatch.value.hasError
+  ) {
+  } else {
+    var formData = new FormData(document.getElementById("editscholarForm"));
+    console.log(saddressid.value);
 
-  formData.append("upspasid", state.upspasid);
-  formData.append("uplastname", state.uplastname);
-  formData.append("upfirstname", state.upfirstname);
-  formData.append("upmidname", state.upmidname);
-  formData.append("upsuffixname", state.upsuffixname);
-  formData.append("upbirthdate", state.upbirthdate);
-  formData.append("upgender", state.upgender);
-  formData.append("upemailadd", state.upemailadd);
-  formData.append("upcontact", state.upcontact);
+    formData.append("editScholarID", saddressid.value);
 
-  formData.append("upprovince", state.upprovince);
-  formData.append("uphousenum", state.uphousenum);
-  formData.append("upstreet", state.upstreet);
-  formData.append("upsubdivision", state.upsubdivision);
-  formData.append("upbarangay", state.upbarangay);
-  formData.append("updistrict", state.updistrict);
-  formData.append("upregion", state.upregion);
-  formData.append("upmunicipality", state.upmunicipality);
-  formData.append("upprovincecity", state.upprovincecity);
+    formData.append("upspasid", state.upspasid);
+    formData.append("uplastname", state.uplastname);
+    formData.append("upfirstname", state.upfirstname);
+    formData.append("upmidname", state.upmidname);
+    formData.append("upsuffixname", state.upsuffixname);
+    formData.append("upbirthdate", state.upbirthdate);
+    formData.append("upgender", state.upgender);
+    formData.append("upemailadd", state.upemailadd);
+    formData.append("upcontact", state.upcontact);
 
-  // formData.append("upcourse", state.upcourse);
-  // formData.append("upschool", state.upschool);
-  // formData.append("upentry", state.upentry);
-  // formData.append("upyraward", state.upyraward);
-  // formData.append("upbatch", state.upbatch);
+    formData.append("upprovince", upprovince.value);
+    formData.append("uphousenum", state.uphousenum);
+    formData.append("upstreet", state.upstreet);
+    formData.append("upsubdivision", state.upsubdivision);
+    formData.append("upbarangay", state.upbarangay);
+    formData.append("updistrict", state.updistrict);
+    formData.append("upregion", state.upregion);
+    formData.append("upmunicipality", state.upmunicipality);
+    formData.append("upprovincecity", state.upprovincecity);
 
-  axios.post("/update.php?updatesholar", formData).then(function (response) {
-    if (response.data == true) {
-      showCustom();
-      readscholars();
-    } else {
-      alert("Failed");
-    }
-  });
+    axios.post("/update.php?updatesholar", formData).then(function (response) {
+      if (response.data == true) {
+        showCustom();
+        readscholars();
+      } else {
+        alert("Failed");
+      }
+    });
+  }
 };
 </script>
