@@ -380,8 +380,8 @@ const rfschool = ref(null);
 const rfcourse = ref(null);
 
 // Select Declaration
-const province = ref(null);
-const entry = ref(null);
+const province = ref("");
+const entry = ref("");
 
 const state = reactive({
   spasid: "",
@@ -552,7 +552,7 @@ onMounted(() => {
 
 const populateaddress = () => {
   var formData = new FormData();
-  formData.append("province", state.province);
+  formData.append("province", province.value);
   console.log(state.province);
 
   axios.post("/read.php?addressid", formData).then(function (response) {
@@ -591,7 +591,7 @@ const submitScholar = () => {
     formData.append("contact", state.contact);
     formData.append("gender", state.gender);
 
-    formData.append("province", state.province);
+    formData.append("province", province.value);
     formData.append("housenum", state.housenum);
     formData.append("street", state.street);
     formData.append("municipality", state.municipality);
@@ -600,6 +600,8 @@ const submitScholar = () => {
     formData.append("provincecity", state.provincecity);
     formData.append("district", state.district);
     formData.append("region", state.region);
+
+    formData.append("usercreator", user.username);
 
     axios.post("/create.php?createScholar", formData).then(function (response) {
       if (response.data == true) {
