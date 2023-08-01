@@ -2,34 +2,48 @@
   <div class="q-pa-md">
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
-        <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="col-xs-12 col-sm-3 col-md-3">
           <q-card class="my-card text-primary">
             <q-card-section class="flex">
-              <div class="text-h6">Administrator Accounts</div>
+              <div class="text-h6">Total Number of Scholars:</div>
               <q-space />
-              <div class="text-right text-h6 text-bold">{{ admincount }}</div>
+              <div class="text-right text-h6 text-bold">
+                {{ ongoingscholars + gradscholars + termscholars }}
+              </div>
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="col-xs-12 col-sm-3 col-md-3">
           <q-card class="my-card text-primary">
             <q-card-section class="flex">
-              <div class="text-h6">Total User Accounts</div>
+              <div class="text-h6">Ongoing Scholars:</div>
               <q-space />
               <div class="text-right text-h6 text-bold">
-                {{ usercounting + admincount }}
+                {{ ongoingscholars }}
               </div>
             </q-card-section>
           </q-card>
         </div>
 
-        <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="col-xs-12 col-sm-3 col-md-3">
           <q-card class="my-card text-primary">
             <q-card-section class="flex">
-              <div class="text-h6">User Accounts</div>
+              <div class="text-h6">Graduated Scholars:</div>
               <q-space />
               <div class="text-right text-h6 text-bold">
-                {{ usercounting }}
+                {{ gradscholars }}
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <q-card class="my-card text-primary">
+            <q-card-section class="flex">
+              <div class="text-h6">Terminated Scholars:</div>
+              <q-space />
+              <div class="text-right text-h6 text-bold">
+                {{ termscholars }}
               </div>
             </q-card-section>
           </q-card>
@@ -160,8 +174,9 @@ ChartJS.register(
 );
 
 // Declared Variable
-const admincount = ref();
-const usercounting = ref();
+const ongoingscholars = ref();
+const gradscholars = ref();
+const termscholars = ref();
 
 const state = reactive({
   yearselect: new Date().getFullYear(),
@@ -195,31 +210,45 @@ const countfemale = () => {
   });
 };
 
-// Count Admin
+// Count Ongoing Scholars
 
 onMounted(() => {
-  countadmins();
+  countOnScholars();
 });
 
-const countadmins = () => {
+const countOnScholars = () => {
   axios
-    .get("http://localhost/backdbase/read.php?countadmin")
+    .get("http://localhost/backdbase/read.php?OnScholars")
     .then(function (response) {
-      admincount.value = response.data.admincount;
+      ongoingscholars.value = response.data.ongoingscholar;
     });
 };
 
-// Count Users
+// Count Graduated Scholars
 
 onMounted(() => {
-  countusers();
+  countGradScholars();
 });
 
-const countusers = () => {
+const countGradScholars = () => {
   axios
-    .get("http://localhost/backdbase/read.php?countuser")
+    .get("http://localhost/backdbase/read.php?GradScholars")
     .then(function (response) {
-      usercounting.value = response.data.usercount;
+      gradscholars.value = response.data.gradscholar;
+    });
+};
+
+// Count Terminated Scholars
+
+onMounted(() => {
+  counttermScholars();
+});
+
+const counttermScholars = () => {
+  axios
+    .get("http://localhost/backdbase/read.php?TermScholars")
+    .then(function (response) {
+      termscholars.value = response.data.termscholar;
     });
 };
 
