@@ -311,6 +311,7 @@
 import { ref, onMounted, reactive, inject, computed } from "vue";
 import axios from "axios";
 import { useQuasar, QSpinnerGears } from "quasar";
+import Swal from "sweetalert2";
 
 const user = inject("$user");
 const $q = useQuasar();
@@ -442,102 +443,72 @@ const Acclevel = [
   { label: "User Account", value: "0" },
 ];
 
-// Show Loading State in Create
-const showCustom = () => {
-  const dialog = $q.dialog({
-    title: "Creating New User...",
-    dark: true,
-    message: "0%",
-    progress: {
-      spinner: QSpinnerGears,
-      color: "amber",
+// Sweet Alert (Create) Code Here
+
+const showalert = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Creating New User Account!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
     },
-    persistent: true, // we want the user to not be able to close it
-    ok: false, // we want the user to not be able to close it
-  });
-
-  // we simulate some progress here...
-  let percentage = 0;
-  const interval = setInterval(() => {
-    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-    // we update the dialog
-    dialog.update({
-      message: `${percentage}%`,
-    });
-
-    // if we are done...
-    if (percentage === 100) {
-      clearInterval(interval);
-
-      dialog.update({
-        title: "Done!",
-        message: "User Created Successfully",
-        progress: false,
-        ok: true,
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "The new user has been added successfully",
+        showConfirmButton: false,
+        timer: 1500,
       });
       readusers();
-      countusers();
-      countadmins();
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
     }
-  }, 100);
+  });
 };
 
-// Show Loading State in Edit
-const showCustomedit = () => {
-  const dialog = $q.dialog({
-    title: "Updating User Profile...",
-    dark: true,
-    message: "0%",
-    progress: {
-      spinner: QSpinnerGears,
-      color: "amber",
+// Sweet Alert (Edit) Code Here
+
+const showEditalert = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Updating User Account Details!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
     },
-    persistent: true, // we want the user to not be able to close it
-    ok: false, // we want the user to not be able to close it
-  });
-
-  // we simulate some progress here...
-  let percentage = 0;
-  const interval = setInterval(() => {
-    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-    // we update the dialog
-    dialog.update({
-      message: `${percentage}%`,
-    });
-
-    // if we are done...
-    if (percentage === 100) {
-      clearInterval(interval);
-
-      dialog.update({
-        title: "Done!",
-        message: "Updated Successfully",
-        progress: false,
-        ok: true,
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "The user is now updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
       });
       readusers();
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
     }
-  }, 100);
-};
-
-// Deleted Alert
-
-const alert = () => {
-  $q.dialog({
-    title: "Deleted",
-    message: "The user has been deleted",
-  })
-    .onOk(() => {
-      // console.log('OK')
-    })
-    .onCancel(() => {
-      // console.log('Cancel')
-    })
-    .onDismiss(() => {
-      // console.log('I am triggered on both OK and Cancel')
-    });
+  });
 };
 
 // Read Users
@@ -585,7 +556,7 @@ const CreateUser = () => {
           state.confirmpassword = "";
           acclevel.value = "";
           fixed.value = false;
-          showCustom();
+          showalert();
         } else {
           $q.notify({
             color: "red",
@@ -600,23 +571,24 @@ const CreateUser = () => {
 // Delete Users
 
 const showdel = (props) => {
-  $q.dialog({
-    title: "Confirmation",
-    message: "Would you like to delete the user account?",
-    cancel: true,
-    persistent: true,
-  })
-    .onOk(() => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire("Deleted!", "Your file has been deleted.", "success");
       console.log(props.row.id);
       var formData = new FormData();
       formData.append("userid", props.row.id);
-
       axios
         .post("http://localhost/backdbase/delete.php?deleteuser", formData)
         .then(function (response) {
           if (response.data == true) {
-            showdel.value = false;
-            alert();
             readusers();
             countusers();
             countadmins();
@@ -628,16 +600,8 @@ const showdel = (props) => {
             });
           }
         });
-    })
-    .onOk(() => {
-      // console.log('>>>> second OK catcher')
-    })
-    .onCancel(() => {
-      $q.dialog.close;
-    })
-    .onDismiss(() => {
-      // console.log('I am triggered on both OK and Cancel')
-    });
+    }
+  });
 };
 
 // Edit User
@@ -687,7 +651,7 @@ const UpdateUser = () => {
       .post("http://localhost/backdbase/update.php?updateuser", formData)
       .then(function (response) {
         if (response.data == true) {
-          showCustomedit();
+          showEditalert();
           editdialog.value = false;
         } else {
           $q.notify({

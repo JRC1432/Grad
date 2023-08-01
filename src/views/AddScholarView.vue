@@ -350,6 +350,7 @@
 <script setup>
 import { ref, reactive, onMounted, inject } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
+import Swal from "sweetalert2";
 import router from "../router";
 
 const $q = useQuasar();
@@ -481,7 +482,7 @@ const step3 = () => {
 const showCustom = () => {
   const dialog = $q.dialog({
     title: "Adding New Scholar...",
-    dark: true,
+    dark: false,
     message: "0%",
     progress: {
       spinner: QSpinnerGears,

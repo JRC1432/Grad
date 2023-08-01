@@ -622,8 +622,8 @@ const step3 = () => {
 // Show Loading State in Edit
 const showCustom = () => {
   const dialog = $q.dialog({
-    title: "Updatinf Scholar Details",
-    dark: true,
+    title: "Updating Scholar Details",
+    dark: false,
     message: "0%",
     progress: {
       spinner: QSpinnerGears,
