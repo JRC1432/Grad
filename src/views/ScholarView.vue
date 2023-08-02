@@ -7,49 +7,188 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-table
-          flat
-          bordered
-          title="Scholar Profile Details"
-          :rows="rows"
-          :columns="columns"
-          row-key="name"
-          separator="cell"
-          :filter="filter"
-        >
-          <template v-slot:top-right>
-            <q-input
-              borderless
-              dense
-              debounce="300"
-              v-model="filter"
-              placeholder="Search"
-            >
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-          </template>
+        <q-card>
+          <q-tabs
+            v-model="tab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab name="oscholars" label="Ongoing Scholars" />
+            <q-tab name="gradscholars" label="Graduated Scholars" />
+            <q-tab name="termscholars" label="Terminated Scholars" />
+          </q-tabs>
 
-          <template v-slot:body-cell-actions="props">
-            <q-td :props="props">
-              <q-btn
-                class="bi bi-info-circle"
-                color="blue-11"
-                @click="showeditScholar(props)"
+          <q-separator />
+
+          <!-- Ongoing Scholars -->
+
+          <q-tab-panels v-model="tab" animated>
+            <q-tab-panel name="oscholars">
+              <q-table
+                flat
+                bordered
+                title="Ongoing Scholars"
+                :rows="rows"
+                :columns="columns"
+                row-key="name"
+                separator="cell"
+                :filter="filter"
               >
-                <IconListDetails :size="30" stroke-width="2" />
-              </q-btn>
-              <q-btn
-                class="bi bi-info-circle"
-                color="red-5"
-                @click="showdelScholar(props)"
+                <template v-slot:top-right>
+                  <q-input
+                    dense
+                    debounce="300"
+                    v-model="filter"
+                    placeholder="Search"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </template>
+
+                <template v-slot:body-cell-stats="props">
+                  <q-td :props="props">
+                    <div>
+                      <q-badge color="light-green-4" :label="props.value" />
+                    </div>
+                  </q-td>
+                </template>
+
+                <template v-slot:body-cell-actions="props">
+                  <q-td :props="props">
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="blue-11"
+                      @click="showeditScholar(props)"
+                    >
+                      <IconListDetails :size="30" stroke-width="2" />
+                    </q-btn>
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="red-5"
+                      @click="showdelScholar(props)"
+                    >
+                      <IconTrash :size="30" stroke-width="2" />
+                    </q-btn>
+                  </q-td>
+                </template>
+              </q-table>
+            </q-tab-panel>
+
+            <!-- Graduate Scholars -->
+
+            <q-tab-panel name="gradscholars">
+              <q-table
+                flat
+                bordered
+                title="Graduated Scholars"
+                :rows="grows"
+                :columns="columns"
+                row-key="name"
+                :filter="gfilter"
+                separator="cell"
               >
-                <IconTrash :size="30" stroke-width="2" />
-              </q-btn>
-            </q-td>
-          </template>
-        </q-table>
+                <template v-slot:top-right>
+                  <q-input
+                    dense
+                    debounce="300"
+                    v-model="gfilter"
+                    placeholder="Search"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </template>
+
+                <template v-slot:body-cell-stats="props">
+                  <q-td :props="props">
+                    <div>
+                      <q-badge color="blue-4" :label="props.value" />
+                    </div>
+                  </q-td>
+                </template>
+
+                <template v-slot:body-cell-actions="props">
+                  <q-td :props="props">
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="blue-11"
+                      @click="showeditScholar(props)"
+                    >
+                      <IconListDetails :size="30" stroke-width="2" />
+                    </q-btn>
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="red-5"
+                      @click="showdelScholar(props)"
+                    >
+                      <IconTrash :size="30" stroke-width="2" />
+                    </q-btn>
+                  </q-td>
+                </template>
+              </q-table>
+            </q-tab-panel>
+
+            <q-tab-panel name="termscholars">
+              <q-table
+                flat
+                bordered
+                title="Terminated Scholars"
+                :rows="trows"
+                :columns="columns"
+                row-key="name"
+                :filter="tfilter"
+                separator="cell"
+              >
+                <template v-slot:top-right>
+                  <q-input
+                    dense
+                    debounce="300"
+                    v-model="tfilter"
+                    placeholder="Search"
+                  >
+                    <template v-slot:append>
+                      <q-icon name="search" />
+                    </template>
+                  </q-input>
+                </template>
+
+                <template v-slot:body-cell-stats="props">
+                  <q-td :props="props">
+                    <div>
+                      <q-badge color="red-4" :label="props.value" />
+                    </div>
+                  </q-td>
+                </template>
+
+                <template v-slot:body-cell-actions="props">
+                  <q-td :props="props">
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="blue-11"
+                      @click="showeditScholar(props)"
+                    >
+                      <IconListDetails :size="30" stroke-width="2" />
+                    </q-btn>
+                    <q-btn
+                      class="bi bi-info-circle"
+                      color="red-5"
+                      @click="showdelScholar(props)"
+                    >
+                      <IconTrash :size="30" stroke-width="2" />
+                    </q-btn>
+                  </q-td>
+                </template>
+              </q-table>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
       </q-card-section>
     </q-card>
   </div>
@@ -426,16 +565,23 @@
 import { ref, onMounted, reactive, inject } from "vue";
 import { IconListDetails, IconTrash } from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears } from "quasar";
+import Swal from "sweetalert2";
 
 const $q = useQuasar();
 // const axios = inject("$axios");
 const user = inject("$user");
 const axios = inject("$axios");
 
+const tab = ref("oscholars");
+
 // Items Variables
 
 const filter = ref("");
+const gfilter = ref("");
+const tfilter = ref("");
 const rows = ref([]);
+const grows = ref([]);
+const trows = ref([]);
 const fixed = ref(false);
 
 // Edit modal
@@ -541,35 +687,19 @@ const columns = [
     sortable: true,
   },
   {
-    name: "mname",
+    name: "stats",
     required: true,
-    label: "Middle Name",
+    label: "Status",
     align: "center",
-    field: "mname",
+    field: "school_grad_status",
     sortable: true,
   },
   {
-    name: "suffix",
+    name: "substats",
     required: true,
-    label: "Suffix",
+    label: "Secondary Status",
     align: "center",
-    field: "suffix",
-    sortable: true,
-  },
-  {
-    name: "email",
-    required: true,
-    label: "E-mail",
-    align: "center",
-    field: "email",
-    sortable: true,
-  },
-  {
-    name: "contact",
-    required: true,
-    label: "Contact",
-    align: "center",
-    field: "contact",
+    field: "sub_status",
     sortable: true,
   },
   {
@@ -622,8 +752,8 @@ const step3 = () => {
 // Show Loading State in Edit
 const showCustom = () => {
   const dialog = $q.dialog({
-    title: "Updating Scholar Details",
-    dark: false,
+    title: "Updatinf Scholar Details",
+    dark: true,
     message: "0%",
     progress: {
       spinner: QSpinnerGears,
@@ -660,25 +790,49 @@ const showCustom = () => {
 // Read Scholars
 
 onMounted(() => {
-  readscholars();
+  readOnscholars();
 });
 
-const readscholars = () => {
+const readOnscholars = () => {
   axios.get("/read.php?readscholar").then(function (response) {
     rows.value = response.data;
+  });
+};
+
+onMounted(() => {
+  readGradscholars();
+});
+
+const readGradscholars = () => {
+  axios.get("/read.php?readgraduatescholar").then(function (response) {
+    grows.value = response.data;
+  });
+};
+
+onMounted(() => {
+  readTermscholars();
+});
+
+const readTermscholars = () => {
+  axios.get("/read.php?readtermscholar").then(function (response) {
+    trows.value = response.data;
   });
 };
 
 // Delete Scholars
 
 const showdelScholar = (props) => {
-  $q.dialog({
-    title: "Confirmation",
-    message: "Would you like to remove the scholar?",
-    cancel: true,
-    persistent: true,
-  })
-    .onOk(() => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire("Deleted!", "Your file has been deleted.", "success");
       console.log(props.row.id);
       var formData = new FormData();
       formData.append("scholarid", props.row.id);
@@ -687,7 +841,9 @@ const showdelScholar = (props) => {
         .post("/delete.php?deleteScholar", formData)
         .then(function (response) {
           if (response.data == true) {
-            readscholars();
+            readOnscholars();
+            readGradscholars();
+            readTermscholars();
             showdel.value = false;
           } else {
             $q.notify({
@@ -697,16 +853,27 @@ const showdelScholar = (props) => {
             });
           }
         });
-    })
-    .onOk(() => {
-      // console.log('>>>> second OK catcher')
-    })
-    .onCancel(() => {
-      $q.dialog.close;
-    })
-    .onDismiss(() => {
-      // console.log('I am triggered on both OK and Cancel')
-    });
+    }
+  });
+
+  // $q.dialog({
+  //   title: "Confirmation",
+  //   message: "Would you like to remove the scholar?",
+  //   cancel: true,
+  //   persistent: true,
+  // })
+  //   .onOk(() => {
+  //
+  //   })
+  //   .onOk(() => {
+  //     // console.log('>>>> second OK catcher')
+  //   })
+  //   .onCancel(() => {
+  //     $q.dialog.close;
+  //   })
+  //   .onDismiss(() => {
+  //     // console.log('I am triggered on both OK and Cancel')
+  //   });
 };
 
 // Showing Province
@@ -853,7 +1020,7 @@ const editScholar = () => {
     axios.post("/update.php?updatesholar", formData).then(function (response) {
       if (response.data == true) {
         showCustom();
-        readscholars();
+        readOnscholars();
       } else {
         alert("Failed");
       }
@@ -861,3 +1028,14 @@ const editScholar = () => {
   }
 };
 </script>
+
+<style scoped>
+.my-table-details {
+  font-size: 0.85em;
+  font-style: italic;
+  max-width: 500px;
+  white-space: normal;
+  color: #555;
+  margin-top: 4px;
+}
+</style>
