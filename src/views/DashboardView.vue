@@ -45,18 +45,20 @@
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn
+                flat
                 class="bi bi-info-circle"
                 color="blue-11"
                 @click="showedit(props)"
-                icon="edit_square"
               >
+                <IconUserEdit :size="30" stroke-width="2" />
               </q-btn>
               <q-btn
+                flat
                 class="bi bi-info-circle"
                 color="red-5"
                 @click="showdel(props)"
-                icon="person_remove"
               >
+                <IconUserMinus :size="30" stroke-width="2" />
               </q-btn>
             </q-td>
           </template>
@@ -71,8 +73,12 @@
     <q-dialog v-model="fixed" persistent>
       <q-card>
         <form id="UserForm" @submit.prevent.stop="CreateUser">
-          <q-card-section>
+          <q-card-section class="q-gutter-md">
             <div class="text-h6">Add New User</div>
+            <q-space />
+            <q-btn flat color="primary" v-close-popup>
+              <IconSquareRoundedX :size="30" stroke-width="2" />
+            </q-btn>
           </q-card-section>
 
           <q-separator />
@@ -176,7 +182,6 @@
           <q-separator />
 
           <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
             <q-btn flat label="Submit" color="primary" type="submit" />
           </q-card-actions>
         </form>
@@ -188,8 +193,12 @@
     <q-dialog v-model="editdialog" persistent>
       <q-card>
         <form id="UpdateUserForm" @submit.prevent.stop="UpdateUser">
-          <q-card-section>
+          <q-card-section class="q-gutter-md">
             <div class="text-h6">Edit User Account</div>
+            <q-space />
+            <q-btn flat color="primary" v-close-popup>
+              <IconSquareRoundedX :size="30" stroke-width="2" />
+            </q-btn>
           </q-card-section>
 
           <q-separator />
@@ -295,7 +304,6 @@
           <q-separator />
 
           <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
             <q-btn flat label="Update" color="primary" type="submit" />
           </q-card-actions>
         </form>
@@ -310,6 +318,12 @@
 <script setup>
 import { ref, onMounted, reactive, inject, computed } from "vue";
 import axios from "axios";
+import {
+  IconUserEdit,
+  IconUserCancel,
+  IconUserMinus,
+  IconSquareRoundedX,
+} from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
 
@@ -671,5 +685,10 @@ const UpdateUser = () => {
 }
 .font-color {
   color: #d61f5d;
+}
+.q-gutter-md {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

@@ -7,22 +7,22 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-card>
+        <q-card flat>
           <q-tabs
             v-model="tab"
             dense
             class="text-grey"
             active-color="primary"
             indicator-color="primary"
-            align="justify"
+            align="left"
             narrow-indicator
           >
-            <q-tab name="oscholars" label="Ongoing Scholars" />
-            <q-tab name="gradscholars" label="Graduated Scholars" />
-            <q-tab name="termscholars" label="Terminated Scholars" />
+            <q-tab name="oscholars" label="Ongoing" />
+            <q-tab name="gradscholars" label="Graduated" />
+            <q-tab name="termscholars" label="Terminated" />
           </q-tabs>
 
-          <q-separator />
+          <!-- <q-separator /> -->
 
           <!-- Ongoing Scholars -->
 
@@ -62,19 +62,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -117,19 +119,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -170,19 +174,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -195,8 +201,13 @@
 
   <q-dialog v-model="fixed" persistent>
     <q-card style="min-width: 1000px; width: 1000px">
-      <q-card-section>
+      <q-card-section class="q-gutter-md">
         <div class="text-h6">Edit Scholar Details</div>
+        <q-space />
+
+        <q-btn flat color="primary" v-close-popup>
+          <IconSquareRoundedX :size="30" stroke-width="2" />
+        </q-btn>
       </q-card-section>
 
       <q-separator />
@@ -225,7 +236,7 @@
             <form id="editSinfoForm" @submit.prevent.stop="editSinfo">
               <div class="col-xs-12 col-sm-6">
                 <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12">
+                  <div class="col-xs-12 col-sm-4 col-md-4">
                     <q-input
                       ref="refspas"
                       rounded
@@ -238,8 +249,36 @@
                       :rules="inputRules"
                     />
                   </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <q-select
+                      ref="refstats"
+                      rounded
+                      outlined
+                      label="Status"
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upstats"
+                      name="upstats"
+                      :options="statsoptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <q-select
+                      ref="refsubstats"
+                      rounded
+                      outlined
+                      label="Remarks"
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upsubstats"
+                      name="upsubstats"
+                      :options="subsoptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
 
-                  <div class="col-md-3">
+                  <div class="col-xs-12 col-sm-3 col-md-3">
                     <q-input
                       ref="reflname"
                       rounded
@@ -311,6 +350,9 @@
                 </div>
               </div>
               <div class="row justify-end">
+                <q-btn flat color="primary" @click="generatePDF" label="Print">
+                  <IconFileTypePdf :size="30" stroke-width="2" />
+                </q-btn>
                 <q-btn type="submit" color="primary" label="Update" />
               </div>
             </form>
@@ -542,16 +584,17 @@
       </q-card>
 
       <q-separator />
-
-      <q-card-actions align="right">
-        <q-btn flat label="Close" color="primary" v-close-popup />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 <script setup>
 import { ref, onMounted, reactive, inject } from "vue";
-import { IconListDetails, IconTrash } from "@tabler/icons-vue";
+import {
+  IconListDetails,
+  IconTrash,
+  IconSquareRoundedX,
+  IconFileTypePdf,
+} from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
 
@@ -590,6 +633,8 @@ const myRule = (val) => {
 };
 
 // Validation Declarations
+const refstats = ref(null);
+const refsubstats = ref(null);
 const refspas = ref(null);
 const reflname = ref(null);
 const reffname = ref(null);
@@ -612,6 +657,8 @@ const refbatch = ref(null);
 
 const upprovince = ref("");
 const upentry = ref("");
+const upstats = ref("");
+const upsubstats = ref("");
 
 const state = reactive({
   upspasid: "",
@@ -638,6 +685,16 @@ const state = reactive({
   upyearaward: "",
   upbatch: "",
 });
+
+const statsoptions = [
+  { label: "Ongoing", value: "Ongoing", color: "primary" },
+  { label: "Graduate", value: "Graduate", color: "primary" },
+  { label: "Terminated", value: "Terminated", color: "primary" },
+];
+const subsoptions = [
+  { label: "Suspended", value: "Suspended", color: "primary" },
+  { label: "Completed", value: "Completed", color: "primary" },
+];
 
 const sexoptions = [
   { label: "Male", value: "M", color: "primary" },
@@ -699,42 +756,38 @@ const columns = [
   },
 ];
 
-// Show Loading State in Edit
-const showCustom = () => {
-  const dialog = $q.dialog({
-    title: "Updatinf Scholar Details",
-    dark: true,
-    message: "0%",
-    progress: {
-      spinner: QSpinnerGears,
-      color: "amber",
+// Sweet Alert (Edit) Code Here
+
+const showEditalert = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Updating Scholar Information Details!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
     },
-    persistent: true, // we want the user to not be able to close it
-    ok: false, // we want the user to not be able to close it
-  });
-
-  // we simulate some progress here...
-  let percentage = 0;
-  const interval = setInterval(() => {
-    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-    // we update the dialog
-    dialog.update({
-      message: `${percentage}%`,
-    });
-
-    // if we are done...
-    if (percentage === 100) {
-      clearInterval(interval);
-
-      dialog.update({
-        title: "Done!",
-        message: "Scholar Profile Details Has Been Updated.",
-        progress: false,
-        ok: true,
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "Updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
       });
+      readOnscholars();
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
     }
-  }, 100);
+  });
 };
 
 // Read Scholars
@@ -861,6 +914,8 @@ const populateaddress = () => {
 const showeditScholar = (props) => {
   fixed.value = true;
   state.upspasid = props.row.spas_id;
+  upstats.value = props.row.school_grad_status;
+  upsubstats.value = props.row.sub_status;
   state.uplastname = props.row.lname;
   state.upfirstname = props.row.fname;
   state.upmidname = props.row.mname;
@@ -926,7 +981,22 @@ const editSinfo = () => {
   ) {
     //Error
   } else {
-    // Axios Here
+    var formData = new FormData(document.getElementById("editSinfoForm"));
+    formData.append("editScholarID", saddressid.value);
+
+    axios
+      .post("/update.php?updateScholarinfo", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
   }
 };
 
@@ -938,7 +1008,6 @@ const editScontact = () => {
   refzip.value.validate();
   refhousenum.value.validate();
   refstreet.value.validate();
-
   if (
     refmail.value.hasError ||
     refcontact.value.hasError ||
@@ -948,20 +1017,25 @@ const editScontact = () => {
   ) {
     // Error Here
   } else {
+    // Back End Starts Here
     var formData = new FormData(document.getElementById("editScontactForm"));
     console.log(saddressid.value);
     formData.append("editScholarID", saddressid.value);
-
     axios
       .post("/update.php?updatescholarAddress", formData)
       .then(function (response) {
         if (response.data == true) {
-          showCustom();
+          fixed.value = false;
+          showEditalert();
           readOnscholars();
+          readGradscholars();
+          readTermscholars();
         } else {
           alert("Failed");
         }
       });
+
+    // Back End Ends Here
   }
 };
 
@@ -983,8 +1057,40 @@ const editSchool = () => {
   ) {
     //Errors
   } else {
-    //Axios Here
+    // Back End Starts Here
+    var formData = new FormData(document.getElementById("editSchoolForm"));
+    console.log(saddressid.value);
+    formData.append("editScholarID", saddressid.value);
+    axios
+      .post("/update.php?updateScholarschool", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    // Back End Ends Here
   }
+};
+
+const generatePDF = () => {
+  var formData = new FormData();
+  formData.append("editScholarID", saddressid.value);
+  console.log(saddressid.value);
+
+  axios
+    .post("/update.php?printPDF", formData, { responseType: "blob" })
+    .then(function (response) {
+      var file = new Blob([response.data], { type: "application/pdf" });
+      var fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    });
 };
 </script>
 
@@ -996,5 +1102,10 @@ const editSchool = () => {
   white-space: normal;
   color: #555;
   margin-top: 4px;
+}
+.q-gutter-md {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

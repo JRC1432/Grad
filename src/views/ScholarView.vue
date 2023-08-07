@@ -7,22 +7,22 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-card>
+        <q-card flat>
           <q-tabs
             v-model="tab"
             dense
             class="text-grey"
             active-color="primary"
             indicator-color="primary"
-            align="justify"
+            align="left"
             narrow-indicator
           >
-            <q-tab name="oscholars" label="Ongoing Scholars" />
-            <q-tab name="gradscholars" label="Graduated Scholars" />
-            <q-tab name="termscholars" label="Terminated Scholars" />
+            <q-tab name="oscholars" label="Ongoing" />
+            <q-tab name="gradscholars" label="Graduated" />
+            <q-tab name="termscholars" label="Terminated" />
           </q-tabs>
 
-          <q-separator />
+          <!-- <q-separator /> -->
 
           <!-- Ongoing Scholars -->
 
@@ -62,19 +62,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -117,19 +119,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -170,19 +174,21 @@
                 <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
                     <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="blue-11"
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
-                    <q-btn
+                    <!-- <q-btn
+                      flat
                       class="bi bi-info-circle"
                       color="red-5"
                       @click="showdelScholar(props)"
                     >
                       <IconTrash :size="30" stroke-width="2" />
-                    </q-btn>
+                    </q-btn> -->
                   </q-td>
                 </template>
               </q-table>
@@ -195,375 +201,400 @@
 
   <q-dialog v-model="fixed" persistent>
     <q-card style="min-width: 1000px; width: 1000px">
-      <q-card-section>
+      <q-card-section class="q-gutter-md">
         <div class="text-h6">Edit Scholar Details</div>
+        <q-space />
+
+        <q-btn flat color="primary" v-close-popup>
+          <IconSquareRoundedX :size="30" stroke-width="2" />
+        </q-btn>
       </q-card-section>
 
       <q-separator />
 
-      <q-card-section class="scroll">
-        <form id="editscholarForm" @submit.prevent.stop="editScholar">
-          <div class="q-pa-md">
-            <!-- Step 1 -->
+      <q-card>
+        <q-tabs
+          v-model="edittab"
+          dense
+          class="text-grey"
+          active-color="primary"
+          indicator-color="primary"
+          align="justify"
+          narrow-indicator
+        >
+          <q-tab name="sinfo" label="Scholar Information" />
+          <q-tab name="cinfo" label="Contact Information" />
+          <q-tab name="scinfo" label="School Information" />
+        </q-tabs>
 
-            <q-stepper
-              v-model="step"
-              ref="stepper"
-              alternative-labels
-              color="primary"
-              animated
-            >
-              <q-step
-                :name="1"
-                title="Personal Informations"
-                icon="person"
-                :done="step > 1"
-              >
-                <div class="col-xs-12 col-sm-6">
-                  <div class="q-col-gutter-md row items-start">
-                    <div class="col-xs-12">
-                      <q-input
-                        ref="refspas"
-                        rounded
-                        outlined
-                        v-model="state.upspasid"
-                        label="SPAS ID:"
-                        style="max-width: 200px"
-                        name="upspasid"
-                        mask="A - #### - ## - #####"
-                        :rules="inputRules"
-                      />
-                    </div>
+        <q-separator />
 
-                    <div class="col-md-3">
-                      <q-input
-                        ref="reflname"
-                        rounded
-                        outlined
-                        v-model="state.uplastname"
-                        label="Last Name"
-                        name="uplastname"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-3">
-                      <q-input
-                        ref="reffname"
-                        rounded
-                        outlined
-                        v-model="state.upfirstname"
-                        label="First Name"
-                        name="upfirstname"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-3 col-md-3">
-                      <q-input
-                        ref="refmname"
-                        rounded
-                        outlined
-                        v-model="state.upmidname"
-                        label="Middle Name"
-                        name="upmidname"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-2 col-md-2">
-                      <q-input
-                        rounded
-                        outlined
-                        v-model="state.upsuffixname"
-                        label="Suffix Name"
-                        name="upsuffixname"
-                      />
-                    </div>
+        <!-- Edit Scholar Info -->
 
+        <q-tab-panels v-model="edittab" animated>
+          <q-tab-panel name="sinfo">
+            <form id="editSinfoForm" @submit.prevent.stop="editSinfo">
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <q-input
+                      ref="refspas"
+                      rounded
+                      outlined
+                      v-model="state.upspasid"
+                      label="SPAS ID:"
+                      style="max-width: 200px"
+                      name="upspasid"
+                      mask="A - #### - ## - #####"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <q-select
+                      ref="refstats"
+                      rounded
+                      outlined
+                      label="Status"
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upstats"
+                      name="upstats"
+                      :options="statsoptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-4 col-md-4">
+                    <q-select
+                      ref="refsubstats"
+                      rounded
+                      outlined
+                      label="Remarks"
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upsubstats"
+                      name="upsubstats"
+                      :options="subsoptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
+
+                  <div class="col-xs-12 col-sm-3 col-md-3">
+                    <q-input
+                      ref="reflname"
+                      rounded
+                      outlined
+                      v-model="state.uplastname"
+                      label="Last Name"
+                      name="uplastname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-3 col-md-3">
+                    <q-input
+                      ref="reffname"
+                      rounded
+                      outlined
+                      v-model="state.upfirstname"
+                      label="First Name"
+                      name="upfirstname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-3 col-md-3">
+                    <q-input
+                      ref="refmname"
+                      rounded
+                      outlined
+                      v-model="state.upmidname"
+                      label="Middle Name"
+                      name="upmidname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-2 col-md-2">
+                    <q-input
+                      rounded
+                      outlined
+                      v-model="state.upsuffixname"
+                      label="Suffix Name"
+                      name="upsuffixname"
+                    />
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refbirth"
+                      rounded
+                      outlined
+                      v-model="state.upbirthdate"
+                      name="upbirthdate"
+                      type="date"
+                      label="Birthday"
+                      :rules="inputRules"
+                    />
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refbirth"
-                        rounded
-                        outlined
-                        v-model="state.upbirthdate"
-                        name="upbirthdate"
-                        type="date"
-                        label="Birthday"
-                        :rules="inputRules"
-                      />
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refmail"
-                        rounded
-                        outlined
-                        v-model="state.upemailadd"
-                        name="upemailadd"
-                        label="E-mail Address"
-                        type="email"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <div class="col-xs-12 col-sm-6 col-md-6">
-                        <label>SEX: </label>
-                        <div class="row justify-start">
-                          <q-option-group
-                            :options="sexoptions"
-                            type="radio"
-                            v-model="state.upgender"
-                            name="upgender"
-                          />
-                        </div>
+                      <label>SEX: </label>
+                      <div class="row justify-start">
+                        <q-option-group
+                          :options="sexoptions"
+                          type="radio"
+                          v-model="state.upgender"
+                          name="upgender"
+                        />
                       </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refcontact"
-                        rounded
-                        outlined
-                        v-model="state.upcontact"
-                        name="upcontact"
-                        label="Phone"
-                        mask="(####) ### - ####"
-                        :rules="inputRules"
-                      />
-                    </div>
                   </div>
                 </div>
-                <q-stepper-navigation>
-                  <q-btn @click="step2" color="primary" label="Continue" />
-                </q-stepper-navigation>
-              </q-step>
-              <!-- Step 2 -->
+              </div>
+              <div class="row justify-end">
+                <q-btn flat color="primary" @click="generatePDF" label="Print">
+                  <IconFileTypePdf :size="30" stroke-width="2" />
+                </q-btn>
+                <q-btn type="submit" color="primary" label="Update" />
+              </div>
+            </form>
+          </q-tab-panel>
 
-              <q-step
-                :name="2"
-                title="Location"
-                caption="Address Details"
-                icon="map"
-                :done="step > 2"
-              >
-                <div class="col-xs-12 col-sm-6">
-                  <div class="q-col-gutter-md row items-start">
-                    <div class="col-xs-12 col-sm-4 col-md-8">
-                      <q-select
-                        ref="refzip"
-                        rounded
-                        outlined
-                        v-model="upprovince"
-                        name="upprovince"
-                        emit-value
-                        map-options
-                        use-input
-                        input-debounce="0"
-                        label="Select Zip Code"
-                        :options="provinceoptions"
-                        @filter="filterFnp"
-                        behavior="menu"
-                        @update:model-value="populateaddress"
-                        :rules="[myRule]"
-                      >
-                        <template v-slot:no-option>
-                          <q-item>
-                            <q-item-section class="text-grey">
-                              No results
-                            </q-item-section>
-                          </q-item>
-                        </template>
-                      </q-select>
-                    </div>
+          <!-- Edit Contact Info -->
 
-                    <div class="col-xs-12 col-sm-8 col-md-4">
-                      <q-input
-                        ref="refhousenum"
-                        rounded
-                        outlined
-                        v-model="state.uphousenum"
-                        name="uphousenum"
-                        label="Block Lot/House No."
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refstreet"
-                        rounded
-                        outlined
-                        v-model="state.upstreet"
-                        name="upstreet"
-                        label="Compound/Street/Phase/Purok"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        v-model="state.upsubdivision"
-                        name="upsubdivision"
-                        label="Subdivision/Village"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        v-model="state.upbarangay"
-                        name="upbarangay"
-                        label="Barangay"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        readonly
-                        v-model="state.updistrict"
-                        name="updistrict"
-                        label="District"
-                      />
-                    </div>
+          <q-tab-panel name="cinfo">
+            <form id="editScontactForm" @submit.prevent.stop="editScontact">
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refmail"
+                      rounded
+                      outlined
+                      v-model="state.upemailadd"
+                      name="upemailadd"
+                      label="E-mail Address"
+                      type="email"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refcontact"
+                      rounded
+                      outlined
+                      v-model="state.upcontact"
+                      name="upcontact"
+                      label="Phone"
+                      mask="(####) ### - ####"
+                      :rules="inputRules"
+                    />
+                  </div>
 
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        v-model="state.upregion"
-                        readonly
-                        name="upregion"
-                        label="Region"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        v-model="state.upmunicipality"
-                        readonly
-                        name="upmunicipality"
-                        label="Municipality"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        rounded
-                        outlined
-                        readonly
-                        v-model="state.upprovincecity"
-                        name="upprovincecity"
-                        label="Province"
-                      />
-                    </div>
+                  <div class="col-xs-12 col-sm-4 col-md-8">
+                    <q-select
+                      ref="refzip"
+                      rounded
+                      outlined
+                      v-model="upprovince"
+                      name="upprovince"
+                      emit-value
+                      map-options
+                      use-input
+                      input-debounce="0"
+                      label="Select Zip Code"
+                      :options="provinceoptions"
+                      @filter="filterFnp"
+                      behavior="menu"
+                      @update:model-value="populateaddress"
+                      :rules="[myRule]"
+                    >
+                      <template v-slot:no-option>
+                        <q-item>
+                          <q-item-section class="text-grey">
+                            No results
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                    </q-select>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-8 col-md-4">
+                    <q-input
+                      ref="refhousenum"
+                      rounded
+                      outlined
+                      v-model="state.uphousenum"
+                      name="uphousenum"
+                      label="Block Lot/House No."
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refstreet"
+                      rounded
+                      outlined
+                      v-model="state.upstreet"
+                      name="upstreet"
+                      label="Compound/Street/Phase/Purok"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      v-model="state.upsubdivision"
+                      name="upsubdivision"
+                      label="Subdivision/Village"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      v-model="state.upbarangay"
+                      name="upbarangay"
+                      label="Barangay"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      readonly
+                      v-model="state.updistrict"
+                      name="updistrict"
+                      label="District"
+                    />
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      v-model="state.upregion"
+                      readonly
+                      name="upregion"
+                      label="Region"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      v-model="state.upmunicipality"
+                      readonly
+                      name="upmunicipality"
+                      label="Municipality"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      rounded
+                      outlined
+                      readonly
+                      v-model="state.upprovincecity"
+                      name="upprovincecity"
+                      label="Province"
+                    />
                   </div>
                 </div>
+              </div>
 
-                <q-stepper-navigation>
-                  <q-btn @click="step3" color="primary" label="Continue" />
-                  <q-btn
-                    flat
-                    @click="step = 1"
-                    color="primary"
-                    label="Back"
-                    class="q-ml-sm"
-                  />
-                </q-stepper-navigation>
-              </q-step>
+              <div class="row justify-end">
+                <q-btn type="submit" color="primary" label="Update" />
+              </div>
+            </form>
+          </q-tab-panel>
 
-              <!-- Step 3 -->
+          <!-- Edit School Info -->
 
-              <q-step :name="3" title="School" icon="workspace_premium">
-                <div class="col-xs-12 col-sm-6">
-                  <div class="q-col-gutter-md row items-start">
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refcourse"
-                        rounded
-                        outlined
-                        v-model="state.upcourse"
-                        name="upcourse"
-                        label="Previous Course"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refschool"
-                        rounded
-                        outlined
-                        v-model="state.upschool"
-                        name="upschool"
-                        label="Previous School"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-select
-                        ref="refentry"
-                        rounded
-                        outlined
-                        label="Entry Type"
-                        transition-show="flip-up"
-                        transition-hide="flip-down"
-                        v-model="upentry"
-                        name="upentry"
-                        :options="entryType"
-                        :rules="[myRule]"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="rfyraward"
-                        rounded
-                        outlined
-                        v-model="state.upyearaward"
-                        name="upyraward"
-                        label="Year of Award"
-                        mask="####"
-                        :rules="inputRules"
-                      />
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
-                      <q-input
-                        ref="refbatch"
-                        rounded
-                        outlined
-                        v-model="state.upbatch"
-                        name="upbatch"
-                        label="Batch"
-                        :rules="inputRules"
-                      />
-                    </div>
+          <q-tab-panel name="scinfo">
+            <form id="editSchoolForm" @submit.prevent.stop="editSchool">
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refschool"
+                      rounded
+                      outlined
+                      v-model="state.upschool"
+                      name="upschool"
+                      label="School"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refcourse"
+                      rounded
+                      outlined
+                      v-model="state.upcourse"
+                      name="upcourse"
+                      label="Course"
+                      :rules="inputRules"
+                    />
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-select
+                      ref="refentry"
+                      rounded
+                      outlined
+                      label="Entry Type"
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upentry"
+                      name="upentry"
+                      :options="entryType"
+                      :rules="[myRule]"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="rfyraward"
+                      rounded
+                      outlined
+                      v-model="state.upyearaward"
+                      name="upyraward"
+                      label="Year of Award"
+                      mask="####"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="refbatch"
+                      rounded
+                      outlined
+                      v-model="state.upbatch"
+                      name="upbatch"
+                      label="Batch"
+                      :rules="inputRules"
+                    />
                   </div>
                 </div>
-
-                <q-stepper-navigation>
-                  <q-btn color="primary" label="Submit" type="submit" />
-
-                  <q-btn
-                    flat
-                    @click="step = 2"
-                    color="primary"
-                    label="Back"
-                    class="q-ml-sm"
-                  />
-                </q-stepper-navigation>
-              </q-step>
-            </q-stepper>
-          </div>
-        </form>
-      </q-card-section>
+              </div>
+              <div class="row justify-end">
+                <q-btn type="submit" color="primary" label="Update" />
+              </div>
+            </form>
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-card>
 
       <q-separator />
-
-      <q-card-actions align="right">
-        <q-btn flat label="Cancel" color="primary" v-close-popup />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 <script setup>
 import { ref, onMounted, reactive, inject } from "vue";
-import { IconListDetails, IconTrash } from "@tabler/icons-vue";
+import {
+  IconListDetails,
+  IconTrash,
+  IconSquareRoundedX,
+  IconFileTypePdf,
+} from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
 
@@ -573,6 +604,7 @@ const user = inject("$user");
 const axios = inject("$axios");
 
 const tab = ref("oscholars");
+const edittab = ref("sinfo");
 
 // Items Variables
 
@@ -586,7 +618,6 @@ const fixed = ref(false);
 
 // Edit modal
 
-const step = ref(1);
 const saddressid = ref();
 
 // Rules & Validations
@@ -602,6 +633,8 @@ const myRule = (val) => {
 };
 
 // Validation Declarations
+const refstats = ref(null);
+const refsubstats = ref(null);
 const refspas = ref(null);
 const reflname = ref(null);
 const reffname = ref(null);
@@ -624,6 +657,8 @@ const refbatch = ref(null);
 
 const upprovince = ref("");
 const upentry = ref("");
+const upstats = ref("");
+const upsubstats = ref("");
 
 const state = reactive({
   upspasid: "",
@@ -650,6 +685,16 @@ const state = reactive({
   upyearaward: "",
   upbatch: "",
 });
+
+const statsoptions = [
+  { label: "Ongoing", value: "Ongoing", color: "primary" },
+  { label: "Graduate", value: "Graduate", color: "primary" },
+  { label: "Terminated", value: "Terminated", color: "primary" },
+];
+const subsoptions = [
+  { label: "Suspended", value: "Suspended", color: "primary" },
+  { label: "Completed", value: "Completed", color: "primary" },
+];
 
 const sexoptions = [
   { label: "Male", value: "M", color: "primary" },
@@ -711,80 +756,38 @@ const columns = [
   },
 ];
 
-const step2 = () => {
-  refspas.value.validate();
-  reflname.value.validate();
-  reffname.value.validate();
-  refmname.value.validate();
-  refbirth.value.validate();
-  refmail.value.validate();
-  refcontact.value.validate();
+// Sweet Alert (Edit) Code Here
 
-  if (
-    refspas.value.hasError ||
-    reflname.value.hasError ||
-    reffname.value.hasError ||
-    refmname.value.hasError ||
-    refbirth.value.hasError ||
-    refmail.value.hasError ||
-    refcontact.value.hasError
-  ) {
-  } else {
-    step.value = 2;
-  }
-};
-
-const step3 = () => {
-  refzip.value.validate();
-  refhousenum.value.validate();
-  refstreet.value.validate();
-
-  if (
-    refzip.value.hasError ||
-    refhousenum.value.hasError ||
-    refstreet.value.hasError
-  ) {
-  } else {
-    step.value = 3;
-  }
-};
-
-// Show Loading State in Edit
-const showCustom = () => {
-  const dialog = $q.dialog({
-    title: "Updatinf Scholar Details",
-    dark: true,
-    message: "0%",
-    progress: {
-      spinner: QSpinnerGears,
-      color: "amber",
+const showEditalert = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Updating Scholar Information Details!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
     },
-    persistent: true, // we want the user to not be able to close it
-    ok: false, // we want the user to not be able to close it
-  });
-
-  // we simulate some progress here...
-  let percentage = 0;
-  const interval = setInterval(() => {
-    percentage = Math.min(100, percentage + Math.floor(Math.random() * 22));
-
-    // we update the dialog
-    dialog.update({
-      message: `${percentage}%`,
-    });
-
-    // if we are done...
-    if (percentage === 100) {
-      clearInterval(interval);
-
-      dialog.update({
-        title: "Done!",
-        message: "Scholar Profile Details Has Been Updated.",
-        progress: false,
-        ok: true,
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "Updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
       });
+      readOnscholars();
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
     }
-  }, 100);
+  });
 };
 
 // Read Scholars
@@ -855,25 +858,6 @@ const showdelScholar = (props) => {
         });
     }
   });
-
-  // $q.dialog({
-  //   title: "Confirmation",
-  //   message: "Would you like to remove the scholar?",
-  //   cancel: true,
-  //   persistent: true,
-  // })
-  //   .onOk(() => {
-  //
-  //   })
-  //   .onOk(() => {
-  //     // console.log('>>>> second OK catcher')
-  //   })
-  //   .onCancel(() => {
-  //     $q.dialog.close;
-  //   })
-  //   .onDismiss(() => {
-  //     // console.log('I am triggered on both OK and Cancel')
-  //   });
 };
 
 // Showing Province
@@ -930,6 +914,8 @@ const populateaddress = () => {
 const showeditScholar = (props) => {
   fixed.value = true;
   state.upspasid = props.row.spas_id;
+  upstats.value = props.row.school_grad_status;
+  upsubstats.value = props.row.sub_status;
   state.uplastname = props.row.lname;
   state.upfirstname = props.row.fname;
   state.upmidname = props.row.mname;
@@ -977,7 +963,85 @@ const showeditScholar = (props) => {
   });
 };
 
-const editScholar = () => {
+// Edit Scholar Information
+
+const editSinfo = () => {
+  refspas.value.validate();
+  reflname.value.validate();
+  reffname.value.validate();
+  refmname.value.validate();
+  refbirth.value.validate();
+
+  if (
+    refspas.value.hasError ||
+    reflname.value.hasError ||
+    reffname.value.hasError ||
+    refmname.value.hasError ||
+    refbirth.value.hasError
+  ) {
+    //Error
+  } else {
+    var formData = new FormData(document.getElementById("editSinfoForm"));
+    formData.append("editScholarID", saddressid.value);
+
+    axios
+      .post("/update.php?updateScholarinfo", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+  }
+};
+
+// Edit Scholar Contact information
+
+const editScontact = () => {
+  refmail.value.validate();
+  refcontact.value.validate();
+  refzip.value.validate();
+  refhousenum.value.validate();
+  refstreet.value.validate();
+  if (
+    refmail.value.hasError ||
+    refcontact.value.hasError ||
+    refzip.value.hasError ||
+    refhousenum.value.hasError ||
+    refstreet.value.hasError
+  ) {
+    // Error Here
+  } else {
+    // Back End Starts Here
+    var formData = new FormData(document.getElementById("editScontactForm"));
+    console.log(saddressid.value);
+    formData.append("editScholarID", saddressid.value);
+    axios
+      .post("/update.php?updatescholarAddress", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    // Back End Ends Here
+  }
+};
+
+// Edit Scholar School Information
+
+const editSchool = () => {
   refcourse.value.validate();
   refschool.value.validate();
   refentry.value.validate();
@@ -991,41 +1055,42 @@ const editScholar = () => {
     rfyraward.value.hasError ||
     refbatch.value.hasError
   ) {
+    //Errors
   } else {
-    var formData = new FormData(document.getElementById("editscholarForm"));
+    // Back End Starts Here
+    var formData = new FormData(document.getElementById("editSchoolForm"));
     console.log(saddressid.value);
-
     formData.append("editScholarID", saddressid.value);
+    axios
+      .post("/update.php?updateScholarschool", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
 
-    formData.append("upspasid", state.upspasid);
-    formData.append("uplastname", state.uplastname);
-    formData.append("upfirstname", state.upfirstname);
-    formData.append("upmidname", state.upmidname);
-    formData.append("upsuffixname", state.upsuffixname);
-    formData.append("upbirthdate", state.upbirthdate);
-    formData.append("upgender", state.upgender);
-    formData.append("upemailadd", state.upemailadd);
-    formData.append("upcontact", state.upcontact);
-
-    formData.append("upprovince", upprovince.value);
-    formData.append("uphousenum", state.uphousenum);
-    formData.append("upstreet", state.upstreet);
-    formData.append("upsubdivision", state.upsubdivision);
-    formData.append("upbarangay", state.upbarangay);
-    formData.append("updistrict", state.updistrict);
-    formData.append("upregion", state.upregion);
-    formData.append("upmunicipality", state.upmunicipality);
-    formData.append("upprovincecity", state.upprovincecity);
-
-    axios.post("/update.php?updatesholar", formData).then(function (response) {
-      if (response.data == true) {
-        showCustom();
-        readOnscholars();
-      } else {
-        alert("Failed");
-      }
-    });
+    // Back End Ends Here
   }
+};
+
+const generatePDF = () => {
+  var formData = new FormData();
+  formData.append("editScholarID", saddressid.value);
+  console.log(saddressid.value);
+
+  axios
+    .post("/update.php?printPDF", formData, { responseType: "blob" })
+    .then(function (response) {
+      var file = new Blob([response.data], { type: "application/pdf" });
+      var fileURL = URL.createObjectURL(file);
+      window.open(fileURL);
+    });
 };
 </script>
 
@@ -1033,9 +1098,14 @@ const editScholar = () => {
 .my-table-details {
   font-size: 0.85em;
   font-style: italic;
-  max-width: 500px;
+  max-width: 200px;
   white-space: normal;
   color: #555;
   margin-top: 4px;
+}
+.q-gutter-md {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
