@@ -318,6 +318,7 @@
                       v-model="state.upsuffixname"
                       label="Suffix Name"
                       name="upsuffixname"
+                      mask="AAAA"
                     />
                   </div>
 

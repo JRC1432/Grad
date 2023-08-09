@@ -73,6 +73,7 @@
                   v-model="state.suffixname"
                   label="Suffix Name"
                   name="suffixname"
+                  mask="AAAA"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -270,23 +271,23 @@
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  ref="rfcourse"
-                  rounded
-                  outlined
-                  v-model="state.course"
-                  name="course"
-                  label="Course"
-                  :rules="inputRules"
-                />
-              </div>
-              <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-input
                   ref="rfschool"
                   rounded
                   outlined
                   v-model="state.school"
                   name="school"
                   label="School"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfcourse"
+                  rounded
+                  outlined
+                  v-model="state.course"
+                  name="course"
+                  label="Course"
                   :rules="inputRules"
                 />
               </div>

@@ -53,16 +53,17 @@
   </div>
 
   <div class="q-pa-md">
-    <div class="col-xs-12 col-sm-6">
-      <div class="q-col-gutter-md row items-start">
-        <div class="col-xs-12">
-          <q-card class="text-primary">
-            <q-card-section>
-              <div class="text-h6">Scholar Charts</div>
-            </q-card-section>
-            <q-card-section class="q-pa-md">
-              <div class="q-pa-md">
-                <q-card flat class="my-card white text-primary">
+    <q-card class="text-primary">
+      <q-card-section>
+        <div class="text-h6">Scholar Charts</div>
+      </q-card-section>
+
+      <q-card-section class="q-pa-md">
+        <div class="q-pa-md">
+          <q-card flat class="my-card white text-primary">
+            <div class="q-pa-md">
+              <div class="q-col-gutter-md row items-start">
+                <div class="col-xs-12 col-sm-6 col-md-6">
                   <q-card-section class="q-pr-lg">
                     <Doughnut
                       :data="data"
@@ -70,37 +71,41 @@
                       style="height: 400px"
                     />
                   </q-card-section>
-                </q-card>
-              </div>
-            </q-card-section>
+                </div>
 
-            <q-card-section class="q-pt-none">
-              <div class="col-xs-12 col-sm-6">
-                <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="text-h6">Female Scholars</div>
-                    <div class="text-h6">Count: {{ femalecounts }}</div>
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="text-center text-h6">Total Scholars</div>
-                    <div class="text-center text-h6">
-                      Count: {{ malecounts + femalecounts }}
-                    </div>
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <div class="text-right text-h6">Male Scholars</div>
-                    <div class="text-right text-h6">
-                      Count: {{ malecounts }}
-                    </div>
-                  </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                  <q-card-section class="q-pr-lg">
+                    <Doughnut
+                      :data="datas"
+                      :options="doptions"
+                      style="height: 400px"
+                    />
+                  </q-card-section>
                 </div>
               </div>
-            </q-card-section>
+            </div>
           </q-card>
         </div>
-      </div>
-    </div>
+
+        <div class="col-xs-12 col-sm-6">
+          <div class="q-col-gutter-md row items-start">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <div class="text-h6">Female Count: {{ femalecounts }}</div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <div class="text-center text-h6">
+                Total Count: {{ malecounts + femalecounts }}
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <div class="text-right text-h6">Male Count: {{ malecounts }}</div>
+            </div>
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
   </div>
+
   <div class="q-pa-md">
     <q-card class="my-card text-primary">
       <q-select
@@ -252,7 +257,7 @@ const counttermScholars = () => {
     });
 };
 
-// Pie Data
+// Pie Data for Gender Scholars
 
 const data = computed(() => {
   return {
@@ -269,7 +274,26 @@ const data = computed(() => {
 const options = {
   responsive: true,
   cutout: 150,
+  maintainAspectRatio: false,
+};
 
+// Pie Data for All Scholars
+
+const datas = computed(() => {
+  return {
+    labels: ["Ongoing", "Graduated", "Terminated"],
+    datasets: [
+      {
+        backgroundColor: ["#80C487", "#EDCBD2", "#E3856B"],
+        data: [ongoingscholars.value, gradscholars.value, termscholars.value],
+      },
+    ],
+  };
+});
+
+const doptions = {
+  responsive: true,
+  cutout: 150,
   maintainAspectRatio: false,
 };
 

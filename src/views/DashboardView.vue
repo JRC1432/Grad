@@ -1,5 +1,6 @@
 <template>
   <!-- Table Starts Here -->
+
   <div class="q-pa-md">
     <q-card class="my-card">
       <q-card-section>
@@ -175,6 +176,23 @@
                     :rules="[myRule]"
                   />
                 </div>
+                <div class="col-xs-12 col-sm-12">
+                  <q-file
+                    rounded
+                    outlined
+                    v-model="state.pic"
+                    name="pic"
+                    id="pic"
+                    label="Upload Picture"
+                    accept=".jpg, image/*"
+                    @rejected="onRejected"
+                    counter
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="attach_file" />
+                    </template>
+                  </q-file>
+                </div>
               </div>
             </div>
           </q-card-section>
@@ -324,7 +342,7 @@ import {
   IconUserMinus,
   IconSquareRoundedX,
 } from "@tabler/icons-vue";
-import { useQuasar, QSpinnerGears } from "quasar";
+import { useQuasar, QSpinnerGears, Notify } from "quasar";
 import Swal from "sweetalert2";
 
 const user = inject("$user");
@@ -364,6 +382,7 @@ const state = reactive({
   username: "",
   password: "",
   confirmpassword: "",
+  pic: "",
 
   upfirstname: "",
   uplastname: "",
@@ -397,6 +416,18 @@ const myRule = (val) => {
     return "You must make a selection!";
   }
 };
+
+const onRejected = (rejectedFiles) => {
+  rejectedFiles.forEach((rejectedFile) => {
+    if (rejectedFile.failedPropValidation) {
+      Notify.create({
+        message: "Only Image are Allowed",
+        type: "negative",
+      });
+    }
+  });
+};
+
 const columns = [
   {
     name: "fname",
@@ -559,7 +590,9 @@ const CreateUser = () => {
     // form has error
   } else {
     var formData = new FormData(document.getElementById("UserForm"));
+
     formData.append("creator", user.username);
+    formData.append("authid", user.id);
 
     axios
       .post("http://localhost/backdbase/create.php?createuser", formData)

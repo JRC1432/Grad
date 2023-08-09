@@ -5,12 +5,20 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <!-- <q-avatar class="justify-end">
-            <img src="http://localhost/backdbase/pic/admin.png" />
-          </q-avatar> -->
           <!-- Administrator View -->
         </q-toolbar-title>
-        <q-btn-dropdown flat round dense icon="person" :label="user.username">
+        <q-btn-dropdown flat round dense>
+          <template v-slot:label>
+            <div class="row items-center no-wrap">
+              <div class="text-center">
+                <label>{{ user.username }} &nbsp;</label>
+                <q-avatar size="42px">
+                  <!-- <label>{{ user.username }}</label> -->
+                  <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
+                </q-avatar>
+              </div>
+            </div>
+          </template>
           <q-list>
             <q-item clickable v-close-popup @click="logOut">
               <q-item-section>
@@ -77,10 +85,14 @@
         <!-- http://localhost/backdbase/pic/Blue.jpg -->
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="70px" class="q-mb-sm">
-            <img src="http://localhost/backdbase/pic/download.jpg" />
+            <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
           </q-avatar>
-          <div class="text-weight-bold">Administrator Dashboard</div>
-          <div>@DOST-SEI</div>
+          <div class="text-weight-bold">
+            {{ user.fname }}&nbsp;{{ user.lname }}
+          </div>
+          <div class="container">
+            <h7>@DOST</h7>
+          </div>
         </div>
       </q-img>
     </q-drawer>
