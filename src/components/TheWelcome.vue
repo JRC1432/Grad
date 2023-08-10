@@ -78,6 +78,7 @@
 import { useQuasar } from "quasar";
 import { ref, reactive, inject, onBeforeUnmount } from "vue";
 import { RouterLink, RouterView } from "vue-router";
+import { useReCaptcha } from "vue-recaptcha-v3";
 
 import { isTemplateNode } from "@vue/compiler-core";
 import router from "../router";
@@ -91,6 +92,8 @@ const q$ = useQuasar();
 const $q = useQuasar();
 const nameRef = ref(null);
 const passRef = ref(null);
+
+const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
 
 let timer;
 
@@ -126,7 +129,15 @@ const showLoading = () => {
   }, 3000);
 };
 
-const LogSubmit = () => {
+const LogSubmit = async () => {
+  // (optional) Wait until recaptcha has been loaded.
+  await recaptchaLoaded();
+
+  // Execute reCAPTCHA with action "login".
+  const token = await executeRecaptcha("login");
+
+  // Do stuff with the received token.
+  console.log({ token });
   nameRef.value.validate();
   passRef.value.validate();
 

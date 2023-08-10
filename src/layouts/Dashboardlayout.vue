@@ -7,26 +7,22 @@
         <q-toolbar-title>
           <!-- Administrator View -->
         </q-toolbar-title>
-        <q-btn-dropdown flat round dense>
-          <template v-slot:label>
-            <div class="row items-center no-wrap">
-              <div class="text-center">
-                <label>{{ user.username }} &nbsp;</label>
-                <q-avatar size="42px">
-                  <!-- <label>{{ user.username }}</label> -->
-                  <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
-                </q-avatar>
-              </div>
-            </div>
-          </template>
-          <q-list>
-            <q-item clickable v-close-popup @click="logOut">
-              <q-item-section>
-                <q-item-label>Log Out</q-item-label>
-              </q-item-section>
+        <label>{{ user.username }}&nbsp;&nbsp;&nbsp;</label>
+        <q-btn round>
+          <q-avatar size="42px">
+            <img :src="'http://localhost/backdbase/' + regpic" />
+          </q-avatar>
+          <q-menu>
+            <q-item clickable v-close-popup>
+              <q-item-section @click="showPic = true"
+                >Upload Photo</q-item-section
+              >
             </q-item>
-          </q-list>
-        </q-btn-dropdown>
+            <q-item clickable v-close-popup @click="logOut">
+              <q-item-section>Log out</q-item-section>
+            </q-item>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -85,7 +81,8 @@
         <!-- http://localhost/backdbase/pic/Blue.jpg -->
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="70px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
+            <!-- <img src="https://cdn.quasar.dev/img/avatar2.jpg" /> -->
+            <img :src="'http://localhost/backdbase/' + regpic" />
           </q-avatar>
           <div class="text-weight-bold">
             {{ user.fname }}&nbsp;{{ user.lname }}
@@ -100,10 +97,54 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-dialog v-model="showPic" persistent>
+      <q-card class="my-card" flat bordered>
+        <form id="picForm" @submit.prevent="upload">
+          <q-card-section horizontal>
+            <q-card-section class="q-pt-xs">
+              <div class="text-overline">Upload Your Profile Photo Here...</div>
+              <div class="text-h5 q-mt-sm q-mb-xs"></div>
+              <div class="text-caption text-grey">
+                <q-file
+                  style="max-width: 400px"
+                  v-model="state.pic"
+                  name="pic"
+                  rounded
+                  outlined
+                  label="Image Attach Here"
+                  multiple
+                  accept=".jpg, image/*"
+                  @rejected="onRejected"
+                  counter
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="attach_file" />
+                  </template>
+                </q-file>
+              </div>
+            </q-card-section>
+
+            <q-card-section class="col-5 flex flex-center">
+              <q-avatar size="100px" class="row justify-center">
+                <img :src="'http://localhost/backdbase/' + regpic" />
+              </q-avatar>
+            </q-card-section>
+          </q-card-section>
+
+          <q-separator />
+
+          <q-card-actions>
+            <q-btn flat v-close-popup> Cancel </q-btn>
+            <q-btn flat color="primary" @click="upload"> Save Changes </q-btn>
+          </q-card-actions>
+        </form>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 <script setup>
-import { ref, inject } from "vue";
+import { ref, inject, reactive } from "vue";
 import {
   IconSchool,
   IconUserPlus,
@@ -111,11 +152,19 @@ import {
   IconChartPie,
 } from "@tabler/icons-vue";
 import router from "../router";
+import Swal from "sweetalert2";
 
 const axios = inject("$axios");
 const user = inject("$user");
 
+const regpic = ref(user.pic);
+const showPic = ref(false);
+
 const leftDrawerOpen = ref(false);
+
+const state = reactive({
+  pic: "",
+});
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -126,6 +175,69 @@ const logOut = () => {
     router.push("/");
   });
 };
+
+// Sweet Alert (PhotoUpdate) Code Here
+
+const showPicalert = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Updating Your Profile Photo!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "Updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
+    }
+  });
+};
+
+const onRejected = (rejectedFiles) => {
+  rejectedFiles.forEach((rejectedFile) => {
+    if (rejectedFile.failedPropValidation) {
+      Notify.create({
+        message: "Only Image are Allowed",
+        type: "negative",
+      });
+    }
+  });
+};
+
+const upload = () => {
+  var formData = new FormData(document.getElementById("picForm"));
+  formData.append("authid", user.id);
+  formData.append("username", user.username);
+
+  axios.post("/update.php?updatePic", formData).then(function (response) {
+    if (response.data == true) {
+      showPic.value = false;
+      showPicalert();
+    } else {
+      alert("Error");
+    }
+  });
+};
 </script>
 
-<style scope></style>
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  max-width: 350px
+</style>

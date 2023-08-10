@@ -5,6 +5,7 @@ import { Quasar, Notify, Loading, Dialog } from "quasar";
 import router from "./router";
 import "./assets/base.css";
 import axiosMain from "axios";
+import { VueReCaptcha } from "vue-recaptcha-v3";
 
 import Vue3Lottie from "vue3-lottie";
 
@@ -66,6 +67,10 @@ myApp.use(Vue3Lottie);
 
 myApp.use(Quasar, {
   plugins: { Notify, Loading, Dialog }, // import Quasar plugins and add here
+});
+
+myApp.use(VueReCaptcha, {
+  siteKey: "6LfwPJUnAAAAAIe2G4j-VmxwN27GnrB4DAJ4Kt_Z",
 });
 
 // Assumes you have a <div id="app"></div> in your index.html
