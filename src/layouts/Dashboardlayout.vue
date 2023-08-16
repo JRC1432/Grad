@@ -1,54 +1,88 @@
 <template>
-  <q-layout view="lHr lpR lFf">
-    <q-header reveal elevated class="blue-7 text-white">
+  <q-layout view="hHh lpR fFf" class="bg-grey-1">
+    <q-header elevated class="primary" height-hint="58">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          @click="toggleLeftDrawer"
+          aria-label="Menu"
+          icon="menu"
+        />
 
-        <q-toolbar-title>
-          <!-- Administrator View -->
-        </q-toolbar-title>
-        <label>{{ user.username }}&nbsp;&nbsp;&nbsp;</label>
-        <q-btn round>
-          <q-avatar size="42px">
-            <img :src="'http://localhost/backdbase/' + regpic" />
+        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
+          <q-avatar size="28px">
+            <img src="http://localhost/backdbase/pic/download.jpg" />
           </q-avatar>
-          <q-menu>
-            <q-item clickable v-close-popup>
-              <q-item-section @click="showPic = true"
-                >Upload Photo</q-item-section
-              >
-            </q-item>
-            <q-item clickable v-close-popup @click="logOut">
-              <q-item-section>Log out</q-item-section>
-            </q-item>
-          </q-menu>
+          <q-toolbar-title shrink class="text-weight-bold">
+            DOST - SEI
+          </q-toolbar-title>
         </q-btn>
+
+        <q-space />
+
+        <q-space />
+
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round flat>
+            <q-avatar size="35px">
+              <img :src="'http://localhost/backdbase/' + regpic" />
+            </q-avatar>
+            <q-menu>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="showPic = true"
+                  >Upload Photo</q-item-section
+                >
+              </q-item>
+              <q-item clickable v-close-popup @click="logOut">
+                <q-item-section>Log out</q-item-section>
+              </q-item>
+            </q-menu>
+            <q-tooltip>Account</q-tooltip>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
     <q-drawer
-      show-if-above
       v-model="leftDrawerOpen"
-      side="left"
+      show-if-above
       bordered
-      :width="250"
+      class="q-pa-md white"
+      :width="240"
     >
-      <q-scroll-area
-        style="
-          height: calc(70% - 150px);
-          margin-top: 200px;
-          border-right: 1px solid #ddd;
-        "
-      >
+      <q-scroll-area class="fit">
         <q-list padding>
-          <q-item clickable v-ripple tag="a" to="/stats">
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/stats"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
             <q-item-section avatar>
               <IconChartPie :size="30" stroke-width="2" />
             </q-item-section>
 
             <q-item-section> Dashboard </q-item-section>
           </q-item>
-          <q-item clickable v-ripple tag="a" to="/dash">
+
+          <!-- <q-separator class="q-my-md" /> -->
+
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/dash"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
             <q-item-section avatar>
               <!-- <q-icon name="groups" /> -->
               <IconUsersGroup :size="30" stroke-width="2" />
@@ -56,14 +90,31 @@
 
             <q-item-section> User Management </q-item-section>
           </q-item>
-          <q-item clickable v-ripple tag="a" to="/newscholar">
+
+          <q-separator class="q-mt-md q-mb-xs" />
+
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/newscholar"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
             <q-item-section avatar>
               <IconUserPlus :size="30" stroke-width="2" />
             </q-item-section>
 
             <q-item-section> Add New Scholars </q-item-section>
           </q-item>
-          <q-item clickable v-ripple tag="a" to="/viewscholar">
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/viewscholar"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
             <q-item-section avatar>
               <IconSchool :size="30" stroke-width="2" />
             </q-item-section>
@@ -72,31 +123,7 @@
           </q-item>
         </q-list>
       </q-scroll-area>
-
-      <q-img
-        class="absolute-top"
-        src="http://localhost/backdbase/pic/pink.jpg "
-        style="height: 200px"
-      >
-        <!-- http://localhost/backdbase/pic/Blue.jpg -->
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="70px" class="q-mb-sm">
-            <!-- <img src="https://cdn.quasar.dev/img/avatar2.jpg" /> -->
-            <img :src="'http://localhost/backdbase/' + regpic" />
-          </q-avatar>
-          <div class="text-weight-bold">
-            {{ user.fname }}&nbsp;{{ user.lname }}
-          </div>
-          <div class="container">
-            <h7>@DOST</h7>
-          </div>
-        </div>
-      </q-img>
     </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
 
     <q-dialog v-model="showPic" persistent>
       <q-card class="my-card" flat bordered>
@@ -104,30 +131,32 @@
           <q-card-section horizontal>
             <q-card-section class="q-pt-xs">
               <div class="text-overline">Upload Your Profile Photo Here...</div>
-              <div class="text-h5 q-mt-sm q-mb-xs"></div>
-              <div class="text-caption text-grey">
-                <q-file
-                  style="max-width: 400px"
-                  v-model="state.pic"
-                  name="pic"
-                  rounded
-                  outlined
-                  label="Image Attach Here"
-                  multiple
-                  accept=".jpg, image/*"
-                  @rejected="onRejected"
-                  counter
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="attach_file" />
-                  </template>
-                </q-file>
+              <div class="text-h5 q-mt-sm q-mb-xs">
+                <div class="text-caption text-grey">
+                  <q-file
+                    style="max-width: 400px"
+                    v-model="state.pic"
+                    name="pic"
+                    rounded
+                    outlined
+                    label="Image Attach Here"
+                    accept=".jpg, image/*"
+                    @rejected="onRejected"
+                    counter
+                    @change="changePic"
+                    @update:model-value="onFileChange"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="attach_file" />
+                    </template>
+                  </q-file>
+                </div>
               </div>
             </q-card-section>
 
             <q-card-section class="col-5 flex flex-center">
               <q-avatar size="100px" class="row justify-center">
-                <img :src="'http://localhost/backdbase/' + regpic" />
+                <img :src="url" spinner-color="white" v-if="url" />
               </q-avatar>
             </q-card-section>
           </q-card-section>
@@ -136,7 +165,9 @@
 
           <q-card-actions>
             <q-btn flat v-close-popup> Cancel </q-btn>
-            <q-btn flat color="primary" @click="upload"> Save Changes </q-btn>
+            <q-btn push flat color="primary" @click="upload">
+              Save Changes
+            </q-btn>
           </q-card-actions>
         </form>
       </q-card>
@@ -145,6 +176,7 @@
 </template>
 <script setup>
 import { ref, inject, reactive } from "vue";
+import { fabYoutube } from "@quasar/extras/fontawesome-v6";
 import {
   IconSchool,
   IconUserPlus,
@@ -162,12 +194,63 @@ const showPic = ref(false);
 
 const leftDrawerOpen = ref(false);
 
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+
+const url = ref("http://localhost/backdbase/" + user.pic);
+
 const state = reactive({
   pic: "",
 });
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+const links1 = [
+  { icon: "home", text: "Home" },
+  { icon: "whatshot", text: "Trending" },
+  { icon: "subscriptions", text: "Subscriptions" },
+];
+
+const links2 = [
+  { icon: "folder", text: "Library" },
+  { icon: "restore", text: "History" },
+  { icon: "watch_later", text: "Watch later" },
+  { icon: "thumb_up_alt", text: "Liked videos" },
+];
+
+const links3 = [
+  { icon: fabYoutube, text: "YouTube Premium" },
+  { icon: "local_movies", text: "Movies & Shows" },
+  { icon: "videogame_asset", text: "Gaming" },
+  { icon: "live_tv", text: "Live" },
+];
+
+const links4 = [
+  { icon: "settings", text: "Settings" },
+  { icon: "flag", text: "Report history" },
+  { icon: "help", text: "Help" },
+  { icon: "feedback", text: "Send feedback" },
+];
+
+const buttons1 = [
+  { text: "About" },
+  { text: "Press" },
+  { text: "Copyright" },
+  { text: "Contact us" },
+  { text: "Creators" },
+  { text: "Advertise" },
+  { text: "Developers" },
+];
+
+const buttons2 = [
+  { text: "Terms" },
+  { text: "Privacy" },
+  { text: "Policy & Safety" },
+  { text: "Test new features" },
+];
+
+const onFileChange = () => {
+  const file = state.pic;
+  url.value = URL.createObjectURL(file);
 };
 
 const logOut = () => {
@@ -224,9 +307,9 @@ const upload = () => {
   var formData = new FormData(document.getElementById("picForm"));
   formData.append("authid", user.id);
   formData.append("username", user.username);
-
   axios.post("/update.php?updatePic", formData).then(function (response) {
     if (response.data == true) {
+      url.value = "http://localhost/backdbase/" + user.pic;
       showPic.value = false;
       showPicalert();
     } else {
@@ -237,7 +320,11 @@ const upload = () => {
 </script>
 
 <style lang="sass" scoped>
-.my-card
+
+.my-menu-link
+  color: white
+  background: #d61f5d
+  .my-card
   width: 100%
   max-width: 350px
 </style>

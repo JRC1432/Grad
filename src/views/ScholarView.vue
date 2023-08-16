@@ -19,6 +19,7 @@
           >
             <q-tab name="oscholars" label="Ongoing" />
             <q-tab name="gradscholars" label="Graduated" />
+
             <q-tab name="termscholars" label="Terminated" />
           </q-tabs>
 
@@ -68,6 +69,14 @@
                       @click="showeditScholar(props)"
                     >
                       <IconListDetails :size="30" stroke-width="2" />
+                    </q-btn>
+                    <q-btn
+                      flat
+                      class="bi bi-info-circle"
+                      color="amber-5"
+                      @click="showDocx(props)"
+                    >
+                      <IconFileSearch :size="30" stroke-width="2" />
                     </q-btn>
                     <!-- <q-btn
                       flat
@@ -126,6 +135,14 @@
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
+                    <q-btn
+                      flat
+                      class="bi bi-info-circle"
+                      color="amber-5"
+                      @click="showDocx(props)"
+                    >
+                      <IconFileSearch :size="30" stroke-width="2" />
+                    </q-btn>
                     <!-- <q-btn
                       flat
                       class="bi bi-info-circle"
@@ -181,6 +198,15 @@
                     >
                       <IconListDetails :size="30" stroke-width="2" />
                     </q-btn>
+                    <q-btn
+                      flat
+                      class="bi bi-info-circle"
+                      color="amber-5"
+                      @click="showDocx(props)"
+                    >
+                      <IconFileSearch :size="30" stroke-width="2" />
+                    </q-btn>
+
                     <!-- <q-btn
                       flat
                       class="bi bi-info-circle"
@@ -205,7 +231,7 @@
         <div class="text-h6">Edit Scholar Details</div>
         <q-space />
 
-        <q-btn flat color="primary" v-close-popup>
+        <q-btn flat color="primary" @click="close">
           <IconSquareRoundedX :size="30" stroke-width="2" />
         </q-btn>
       </q-card-section>
@@ -225,6 +251,7 @@
           <q-tab name="sinfo" label="Scholar Information" />
           <q-tab name="cinfo" label="Contact Information" />
           <q-tab name="scinfo" label="School Information" />
+          <q-tab name="scdocu" label="Document Upload" />
         </q-tabs>
 
         <q-separator />
@@ -581,10 +608,144 @@
               </div>
             </form>
           </q-tab-panel>
+
+          <!-- Document Section -->
+
+          <q-tab-panel name="scdocu">
+            <form id="editDocuForm" @submit.prevent.stop="editDocu">
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-card class="my-card">
+                      <q-card-section class="bg-primary text-white">
+                        <div class="text-h6">Upload Your Files Here</div>
+                        <div class="text-subtitle2">
+                          Only PDF Documents are Allowed
+                        </div>
+                      </q-card-section>
+
+                      <q-separator />
+
+                      <div class="q-pa-md">
+                        <q-file
+                          ref="reffile"
+                          v-model="files"
+                          name="files"
+                          label="*PDF Only"
+                          clearable
+                          filled
+                          counter
+                          @update:model-value="handleFileChange"
+                          :rules="[fileRules]"
+                        >
+                          <template v-slot:prepend>
+                            <q-icon name="attach_file" />
+                          </template>
+                        </q-file>
+                      </div>
+                    </q-card>
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-select
+                      ref="refFiletype"
+                      rounded
+                      outlined
+                      label="Select File Types"
+                      v-model="filetypes"
+                      name="filetypes"
+                      map-options
+                      :options="optionsFile"
+                      :rules="[myRule]"
+                    />
+                    <div class="q-pa-sm">
+                      <q-input
+                        ref="refDesc"
+                        v-model="state.filedesc"
+                        name="filedesc"
+                        filled
+                        type="textarea"
+                        label="Descriptions"
+                        :rules="inputRules"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-end">
+                <q-btn type="submit" color="primary" label="Upload" />
+              </div>
+            </form>
+          </q-tab-panel>
         </q-tab-panels>
       </q-card>
 
       <q-separator />
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="Docx" persistent>
+    <q-card style="min-width: 1000px; width: 1000px">
+      <q-card-section class="q-gutter-md">
+        <div class="text-h6">View Documents</div>
+        <q-space />
+
+        <q-btn flat color="primary" @click="CloseDocx">
+          <IconSquareRoundedX :size="30" stroke-width="2" />
+        </q-btn>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-section style="max-height: 50vh" class="scroll">
+        <q-table
+          flat
+          bordered
+          title="List of Documents"
+          :rows="Doxrows"
+          :columns="DocxColumns"
+          row-key="name"
+          separator="cell"
+          :filter="filter"
+        >
+          <template v-slot:top-right>
+            <q-input dense debounce="300" v-model="filter" placeholder="Search">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+
+          <template v-slot:body-cell-stats="props">
+            <q-td :props="props">
+              <div>
+                <q-badge color="light-green-4" :label="props.value" />
+              </div>
+            </q-td>
+          </template>
+
+          <template v-slot:body-cell-actions="props">
+            <q-td :props="props">
+              <q-btn
+                flat
+                class="bi bi-info-circle"
+                color="amber-5"
+                @click="ViewDocx(props)"
+                :href="'http://localhost/backdbase/upload/' + filePath"
+                target="_blank"
+              >
+                <IconFiles :size="30" stroke-width="2" />
+              </q-btn>
+            </q-td>
+          </template>
+        </q-table>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions align="right">
+        <q-btn flat label="Show Files" color="primary" @click="DocFiles" />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -592,9 +753,10 @@
 import { ref, onMounted, reactive, inject } from "vue";
 import {
   IconListDetails,
-  IconTrash,
   IconSquareRoundedX,
   IconFileTypePdf,
+  IconFileSearch,
+  IconFiles,
 } from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
@@ -615,7 +777,11 @@ const tfilter = ref("");
 const rows = ref([]);
 const grows = ref([]);
 const trows = ref([]);
+const Doxrows = ref([]);
 const fixed = ref(false);
+const Docx = ref(false);
+
+const filePath = ref("");
 
 // Edit modal
 
@@ -623,12 +789,36 @@ const saddressid = ref();
 
 // Rules & Validations
 const inputRules = [
-  (val) => (val && val.length > 0) || "Please type something",
+  (val) => (val && val.length > 0) || "Please input something",
 ];
 
 const myRule = (val) => {
   if (val === null) {
     return "You must make a selection!";
+  }
+  return true;
+};
+
+const handleFileChange = (event) => {
+  console.log(event);
+  const file = files.value;
+  if (file) {
+    if (file.type === "application/pdf") {
+      // Handle the selected PDF file
+      console.log("Selected PDF file:", file.name);
+    } else {
+      $q.notify({
+        color: "negative",
+        message: "Please select a PDF file.",
+      });
+      files.value = null;
+    }
+  }
+};
+
+const fileRules = (val) => {
+  if (val === null) {
+    return "Please Select a File!";
   }
   return true;
 };
@@ -654,12 +844,20 @@ const refentry = ref(null);
 const rfyraward = ref(null);
 const refbatch = ref(null);
 
+const refFiletype = ref(null);
+const refDesc = ref(null);
+const reffile = ref(null);
+
 // Select Validation declaration Variables
 
-const upprovince = ref("");
-const upentry = ref("");
-const upstats = ref("");
-const upsubstats = ref("");
+const upprovince = ref(null);
+const upentry = ref(null);
+const upstats = ref(null);
+const upsubstats = ref(null);
+const filetypes = ref(null);
+
+// file Validation
+const files = ref(null);
 
 const state = reactive({
   upspasid: "",
@@ -685,6 +883,8 @@ const state = reactive({
   upschool: "",
   upyearaward: "",
   upbatch: "",
+
+  filedesc: "",
 });
 
 const statsoptions = [
@@ -706,6 +906,8 @@ const entryType = [
   { label: "LATERAL", value: "LATERAL" },
   { label: "RESIDENTIAL", value: "RESIDENTIAL" },
 ];
+
+// Column Sections
 
 const columns = [
   {
@@ -757,6 +959,49 @@ const columns = [
   },
 ];
 
+const DocxColumns = [
+  {
+    name: "file_type",
+    required: true,
+    label: "File Type",
+    align: "center",
+    field: "file_type",
+    sortable: true,
+  },
+  {
+    name: "file_description",
+    required: true,
+    label: "File Description",
+    align: "center",
+    field: "file_description",
+    sortable: true,
+  },
+  {
+    name: "file_name",
+    required: true,
+    label: "File Name",
+    align: "center",
+    field: "file_name",
+    sortable: true,
+  },
+  {
+    name: "added_on",
+    required: true,
+    label: "Date Added",
+    align: "center",
+    field: "added_on",
+    sortable: true,
+  },
+
+  {
+    name: "actions",
+    align: "center",
+    label: "Action Buttons",
+    field: "",
+    sortable: true,
+  },
+];
+
 // Sweet Alert (Edit) Code Here
 
 const showEditalert = () => {
@@ -789,6 +1034,13 @@ const showEditalert = () => {
       console.log("I was closed by the timer");
     }
   });
+};
+
+// Close button
+
+const close = () => {
+  fixed.value = false;
+  edittab.value = "sinfo";
 };
 
 // Read Scholars
@@ -837,7 +1089,7 @@ const showdelScholar = (props) => {
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      console.log(props.row.id);
+
       var formData = new FormData();
       formData.append("scholarid", props.row.id);
 
@@ -928,11 +1180,8 @@ const showeditScholar = (props) => {
   state.upcontact = props.row.contact;
   saddressid.value = props.row.id;
 
-  console.log(saddressid.value);
-
   var formData = new FormData();
   formData.append("saddressid", saddressid.value);
-  console.log(saddressid.value);
 
   axios.post("/read.php?scholarAddressid", formData).then(function (response) {
     upprovince.value = response.data.zipcode;
@@ -944,8 +1193,6 @@ const showeditScholar = (props) => {
     state.upregion = response.data.h_region;
     state.upmunicipality = response.data.town;
     state.upprovincecity = response.data.province;
-
-    console.log(response.data.province);
   });
 
   axios.post("/read.php?shoolsID", formData).then(function (response) {
@@ -959,8 +1206,6 @@ const showeditScholar = (props) => {
       typeof state.upyearaward
     );
     state.upbatch = response.data.batch;
-
-    console.log(response.data.current_course);
   });
 };
 
@@ -1020,7 +1265,7 @@ const editScontact = () => {
   } else {
     // Back End Starts Here
     var formData = new FormData(document.getElementById("editScontactForm"));
-    console.log(saddressid.value);
+
     formData.append("editScholarID", saddressid.value);
     axios
       .post("/update.php?updatescholarAddress", formData)
@@ -1060,7 +1305,7 @@ const editSchool = () => {
   } else {
     // Back End Starts Here
     var formData = new FormData(document.getElementById("editSchoolForm"));
-    console.log(saddressid.value);
+
     formData.append("editScholarID", saddressid.value);
     axios
       .post("/update.php?updateScholarschool", formData)
@@ -1083,7 +1328,6 @@ const editSchool = () => {
 const generatePDF = () => {
   var formData = new FormData();
   formData.append("editScholarID", saddressid.value);
-  console.log(saddressid.value);
 
   axios
     .post("/update.php?printPDF", formData, { responseType: "blob" })
@@ -1092,6 +1336,79 @@ const generatePDF = () => {
       var fileURL = URL.createObjectURL(file);
       window.open(fileURL);
     });
+};
+
+const optionsFile = ref();
+const fileID = ref("");
+
+onMounted(() => {
+  populatefiletypes();
+});
+
+const populatefiletypes = () => {
+  axios.get("/read.php?populatefiles").then(function (response) {
+    optionsFile.value = response.data;
+    fileID.value = response.data.id;
+  });
+};
+
+const editDocu = () => {
+  refFiletype.value.validate();
+  refDesc.value.validate();
+  reffile.value.validate();
+
+  if (
+    refFiletype.value.hasError ||
+    refDesc.value.hasError ||
+    reffile.value.hasError
+  ) {
+    // Error Here
+  } else {
+    var formData = new FormData(document.getElementById("editDocuForm"));
+    formData.append("filetypeid", filetypes.value.val_id);
+    formData.append("filetype", filetypes.value.value);
+    formData.append("spasid", state.upspasid);
+    formData.append("scholarLastname", state.uplastname);
+    formData.append("username", user.username);
+    formData.append("scholarids", saddressid.value);
+    axios.post("/create.php?insertDocx", formData).then(function (response) {
+      if (response.data == true) {
+        fixed.value = false;
+        showEditalert();
+      } else {
+        alert("Error");
+      }
+    });
+  }
+};
+
+// Read Document of Scholar
+
+const currentProps = ref();
+
+const showDocx = (props) => {
+  Docx.value = true;
+  currentProps.value = props;
+  console.log(currentProps.value.row.spas_id);
+};
+
+const DocFiles = () => {
+  console.log(currentProps.value.row.spas_id);
+  var formData = new FormData();
+  formData.append("spasid", currentProps.value.row.spas_id);
+  axios.post("/read.php?docuID", formData).then(function (response) {
+    Doxrows.value = response.data;
+    console.log(Doxrows.value);
+  });
+};
+
+const CloseDocx = () => {
+  Docx.value = false;
+  location.reload();
+};
+
+const ViewDocx = (props) => {
+  filePath.value = props.row.file_name;
 };
 </script>
 

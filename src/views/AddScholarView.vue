@@ -383,8 +383,8 @@ const rfschool = ref(null);
 const rfcourse = ref(null);
 
 // Select Declaration
-const province = ref("");
-const entry = ref("");
+const province = ref(null);
+const entry = ref(null);
 
 const state = reactive({
   spasid: "",
