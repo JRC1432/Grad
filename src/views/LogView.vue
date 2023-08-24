@@ -4,15 +4,15 @@
   <div class="q-pa-md">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6 text-primary">Action Log</div>
-        <div class="text-subtitle2 text-primary">Action Log Table</div>
+        <div class="text-h6 text-primary">Activity Log</div>
+        <div class="text-subtitle2 text-primary">Activity Log Table</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
         <q-table
           flat
           bordered
-          title="Action Log Lists"
+          title="Activity Log Lists"
           :rows="rows"
           :columns="columns"
           row-key="name"

@@ -1217,12 +1217,14 @@ const editSinfo = () => {
   reffname.value.validate();
   refmname.value.validate();
   refbirth.value.validate();
+  refsubstats.value.validate();
 
   if (
     refspas.value.hasError ||
     reflname.value.hasError ||
     reffname.value.hasError ||
     refmname.value.hasError ||
+    refsubstats.value.hasError ||
     refbirth.value.hasError
   ) {
     //Error
@@ -1293,6 +1295,19 @@ const editScontact = () => {
         }
       });
 
+    formData.append("authname", user.username);
+    formData.append("upspasid", state.upspasid);
+
+    axios.post("/create.php?ContactLog", formData).then(function (response) {
+      if (response.data == true) {
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
+
     // Back End Ends Here
   }
 };
@@ -1319,6 +1334,7 @@ const editSchool = () => {
     var formData = new FormData(document.getElementById("editSchoolForm"));
 
     formData.append("editScholarID", saddressid.value);
+
     axios
       .post("/update.php?updateScholarschool", formData)
       .then(function (response) {
@@ -1332,6 +1348,19 @@ const editSchool = () => {
           alert("Failed");
         }
       });
+
+    formData.append("authname", user.username);
+    formData.append("upspasid", state.upspasid);
+
+    axios.post("/create.php?SchoolInfoLog", formData).then(function (response) {
+      if (response.data == true) {
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
 
     // Back End Ends Here
   }
