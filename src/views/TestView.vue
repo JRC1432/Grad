@@ -1243,6 +1243,18 @@ const editSinfo = () => {
           alert("Failed");
         }
       });
+
+    formData.append("authname", user.username);
+
+    axios.post("/create.php?InsertLog", formData).then(function (response) {
+      if (response.data == true) {
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
   }
 };
 

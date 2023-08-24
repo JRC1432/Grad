@@ -25,6 +25,7 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
+          <label>{{ user.username }}</label>
           <q-btn round flat>
             <q-avatar size="35px">
               <img :src="'http://localhost/backdbase/' + regpic" />
@@ -121,6 +122,20 @@
 
             <q-item-section> View Scholars </q-item-section>
           </q-item>
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/log"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <IconFileInfo :size="30" stroke-width="2" />
+            </q-item-section>
+
+            <q-item-section> Logs </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -182,6 +197,7 @@ import {
   IconUserPlus,
   IconUsersGroup,
   IconChartPie,
+  IconFileInfo,
 } from "@tabler/icons-vue";
 import router from "../router";
 import Swal from "sweetalert2";
@@ -203,50 +219,6 @@ const url = ref("http://localhost/backdbase/" + user.pic);
 const state = reactive({
   pic: "",
 });
-
-const links1 = [
-  { icon: "home", text: "Home" },
-  { icon: "whatshot", text: "Trending" },
-  { icon: "subscriptions", text: "Subscriptions" },
-];
-
-const links2 = [
-  { icon: "folder", text: "Library" },
-  { icon: "restore", text: "History" },
-  { icon: "watch_later", text: "Watch later" },
-  { icon: "thumb_up_alt", text: "Liked videos" },
-];
-
-const links3 = [
-  { icon: fabYoutube, text: "YouTube Premium" },
-  { icon: "local_movies", text: "Movies & Shows" },
-  { icon: "videogame_asset", text: "Gaming" },
-  { icon: "live_tv", text: "Live" },
-];
-
-const links4 = [
-  { icon: "settings", text: "Settings" },
-  { icon: "flag", text: "Report history" },
-  { icon: "help", text: "Help" },
-  { icon: "feedback", text: "Send feedback" },
-];
-
-const buttons1 = [
-  { text: "About" },
-  { text: "Press" },
-  { text: "Copyright" },
-  { text: "Contact us" },
-  { text: "Creators" },
-  { text: "Advertise" },
-  { text: "Developers" },
-];
-
-const buttons2 = [
-  { text: "Terms" },
-  { text: "Privacy" },
-  { text: "Policy & Safety" },
-  { text: "Test new features" },
-];
 
 const onFileChange = () => {
   const file = state.pic;

@@ -1243,6 +1243,18 @@ const editSinfo = () => {
           alert("Failed");
         }
       });
+
+    formData.append("authname", user.username);
+
+    axios.post("/create.php?InsertLog", formData).then(function (response) {
+      if (response.data == true) {
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
   }
 };
 
@@ -1374,6 +1386,14 @@ const editDocu = () => {
     axios.post("/create.php?insertDocx", formData).then(function (response) {
       if (response.data == true) {
         fixed.value = false;
+        showEditalert();
+      } else {
+        alert("Error");
+      }
+    });
+
+    axios.post("/create.php?DocxLog", formData).then(function (response) {
+      if (response.data == true) {
         showEditalert();
       } else {
         alert("Error");

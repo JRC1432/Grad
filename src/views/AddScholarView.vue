@@ -613,6 +613,13 @@ const submitScholar = () => {
         alert("failed");
       }
     });
+
+    axios.post("/create.php?NewScholarLog", formData).then(function (response) {
+      if (response.data == true) {
+      } else {
+        alert("failed");
+      }
+    });
   }
 };
 </script>
