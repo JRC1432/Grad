@@ -126,6 +126,20 @@
             clickable
             v-ripple
             tag="a"
+            to="/school"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <IconBuildingCommunity :size="30" stroke-width="2" />
+            </q-item-section>
+
+            <q-item-section> Schools </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
             to="/log"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
@@ -198,6 +212,7 @@ import {
   IconUsersGroup,
   IconChartPie,
   IconFileInfo,
+  IconBuildingCommunity,
 } from "@tabler/icons-vue";
 import router from "../router";
 import Swal from "sweetalert2";

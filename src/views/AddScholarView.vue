@@ -21,7 +21,6 @@
               <div class="col-xs-12">
                 <q-input
                   ref="rfspasid"
-                  rounded
                   outlined
                   v-model="state.spasid"
                   label="SPAS ID:"
@@ -35,7 +34,6 @@
               <div class="col-md-3">
                 <q-input
                   ref="rflname"
-                  rounded
                   outlined
                   v-model="state.lastname"
                   label="Last Name"
@@ -46,7 +44,6 @@
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
                   ref="rffname"
-                  rounded
                   outlined
                   v-model="state.firstname"
                   label="First Name"
@@ -57,7 +54,6 @@
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
                   ref="rfmname"
-                  rounded
                   outlined
                   v-model="state.midname"
                   label="Middle Name"
@@ -68,7 +64,6 @@
               <div class="col-xs-12 col-sm-2 col-md-2">
                 <q-input
                   ref="rfsname"
-                  rounded
                   outlined
                   v-model="state.suffixname"
                   label="Suffix Name"
@@ -79,7 +74,6 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfbirth"
-                  rounded
                   outlined
                   v-model="state.birthdate"
                   name="birthdate"
@@ -91,7 +85,6 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfemail"
-                  rounded
                   outlined
                   v-model="state.emailadd"
                   name="emailadd"
@@ -114,7 +107,6 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfcontact"
-                  rounded
                   outlined
                   v-model="state.contact"
                   name="contact"
@@ -143,7 +135,6 @@
               <div class="col-xs-12 col-sm-4 col-md-8">
                 <q-select
                   ref="rfprovince"
-                  rounded
                   outlined
                   v-model="province"
                   name="province"
@@ -171,7 +162,6 @@
               <div class="col-xs-12 col-sm-8 col-md-4">
                 <q-input
                   ref="rfhousenum"
-                  rounded
                   outlined
                   v-model="state.housenum"
                   name="housenum"
@@ -182,7 +172,6 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfstreet"
-                  rounded
                   outlined
                   v-model="state.street"
                   name="street"
@@ -192,7 +181,6 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   v-model="state.subdivision"
                   name="subdivision"
@@ -201,7 +189,6 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   v-model="state.barangay"
                   name="barangay"
@@ -210,7 +197,6 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   readonly
                   v-model="state.district"
@@ -221,7 +207,6 @@
 
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   v-model="state.region"
                   readonly
@@ -231,7 +216,6 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   v-model="state.municipality"
                   readonly
@@ -241,7 +225,6 @@
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
-                  rounded
                   outlined
                   readonly
                   v-model="state.provincecity"
@@ -266,35 +249,219 @@
 
         <!-- Step 3 -->
 
-        <q-step :name="3" title="School" icon="workspace_premium">
+        <q-step :name="3" title="School" icon="school" :done="step > 3">
           <div class="col-xs-12 col-sm-6">
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfschool"
-                  rounded
                   outlined
                   v-model="state.school"
                   name="school"
-                  label="School"
+                  label="Previous School"
                   :rules="inputRules"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfcourse"
-                  rounded
                   outlined
                   v-model="state.course"
                   name="course"
-                  label="Course"
+                  label="Previous Course"
                   :rules="inputRules"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-select
+                  ref="rfgradschool"
+                  outlined
+                  emit-value
+                  map-options
+                  use-input
+                  input-debounce="0"
+                  label="Select School"
+                  v-model="gradschool"
+                  name="gradschool"
+                  :options="gradschoolOptions"
+                  @filter="filterGradschool"
+                  behavior="menu"
+                  @update:model-value="populateschool"
+                  :rules="[myRule]"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        No results
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-select
+                  ref="rfgradcourse"
+                  emit-value
+                  map-options
+                  outlined
+                  label="Graduate Course"
+                  v-model="gradcourse"
+                  name="gradcourse"
+                  :options="gradcourseOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  outlined
+                  readonly
+                  v-model="state.schoolregion"
+                  name="schoolregion"
+                  label="School Region"
+                />
+              </div>
+            </div>
+          </div>
+          <q-stepper-navigation>
+            <q-btn @click="step4" color="primary" label="Continue" />
+
+            <q-btn
+              flat
+              @click="step = 2"
+              color="primary"
+              label="Back"
+              class="q-ml-sm"
+            />
+          </q-stepper-navigation>
+        </q-step>
+
+        <!-- Stepper 4 -->
+
+        <q-step
+          :name="4"
+          title="Thesis Details"
+          icon="menu_book"
+          :done="step > 4"
+        >
+          <div class="col-xs-12 col-sm-6">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-xs-12">
+                <q-input
+                  ref="rftitle"
+                  outlined
+                  v-model="state.title"
+                  name="title"
+                  label="Title of Research"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfstartdate"
+                  outlined
+                  v-model="state.startdate"
+                  name="startdate"
+                  type="date"
+                  label="Start Date"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfenddate"
+                  outlined
+                  v-model="state.enddate"
+                  name="enddate"
+                  type="date"
+                  label="End Date"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfduration"
+                  outlined
+                  v-model="state.duration"
+                  name="duration"
+                  label="Duration"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-select
+                  ref="rffield"
+                  emit-value
+                  map-options
+                  outlined
+                  label="Field"
+                  v-model="field"
+                  name="field"
+                  :options="fieldOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfobligation"
+                  outlined
+                  v-model="state.obligation"
+                  name="obligation"
+                  label="Service Obligation"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-select
+                  ref="rfundergrad"
+                  outlined
+                  emit-value
+                  map-options
+                  label="Undergraduate Scholar"
+                  v-model="undergrad"
+                  name="undergrad"
+                  :options="undergradOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+
+              <div class="col-xs-12">
+                <q-input
+                  ref="rfremarks"
+                  outlined
+                  v-model="state.remarks"
+                  name="remarks"
+                  label="Remarks"
+                  :rules="inputRules"
+                />
+              </div>
+            </div>
+          </div>
+          <q-stepper-navigation>
+            <q-btn @click="step5" color="primary" label="Continue" />
+
+            <q-btn
+              flat
+              @click="step = 2"
+              color="primary"
+              label="Back"
+              class="q-ml-sm"
+            />
+          </q-stepper-navigation>
+        </q-step>
+
+        <!-- Step 5 -->
+
+        <q-step
+          :name="5"
+          title="Scholarship Information"
+          icon="workspace_premium"
+        >
+          <div class="col-xs-12 col-sm-6">
+            <div class="q-col-gutter-md row items-start">
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
                   ref="rfentry"
-                  rounded
                   outlined
                   label="Entry Type"
                   transition-show="flip-up"
@@ -306,10 +473,9 @@
                 />
               </div>
 
-              <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="col-xs-12 col-sm-4 col-md-4">
                 <q-input
                   ref="rfyear"
-                  rounded
                   outlined
                   v-model="state.yraward"
                   name="yraward"
@@ -318,10 +484,9 @@
                   :rules="inputRules"
                 />
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="col-xs-12 col-sm-4 col-md-4">
                 <q-input
                   ref="rfbatch"
-                  rounded
                   outlined
                   v-model="state.batch"
                   name="batch"
@@ -329,14 +494,120 @@
                   :rules="inputRules"
                 />
               </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rfgrant"
+                  emit-value
+                  map-options
+                  outlined
+                  label="Grant"
+                  v-model="grant"
+                  name="grant"
+                  :options="grantOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rflvl"
+                  outlined
+                  label="Level"
+                  v-model="level"
+                  name="level"
+                  :options="LvlOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-input
+                  ref="rfcomp"
+                  outlined
+                  v-model="state.comp"
+                  name="comp"
+                  label="Comp"
+                  :rules="inputRules"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rfscholarprog"
+                  outlined
+                  label="Scholarship Program"
+                  v-model="scholarprog"
+                  name="scholarprog"
+                  :options="scholarprogOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rfcouncil"
+                  emit-value
+                  map-options
+                  outlined
+                  label="Council"
+                  v-model="council"
+                  name="council"
+                  :options="councilOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rfscholartype"
+                  outlined
+                  label="Scholar Type"
+                  v-model="scholartype"
+                  name="scholartype"
+                  :options="scholartypeOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-input
+                  ref="rfavailment"
+                  outlined
+                  v-model="state.availment"
+                  name="availment"
+                  label="Availment"
+                  :rules="inputRules"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-select
+                  ref="rfsem"
+                  outlined
+                  label="Semester"
+                  v-model="sem"
+                  name="sem"
+                  :options="semOptions"
+                  :rules="[myRule]"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4">
+                <q-input
+                  ref="rfay"
+                  outlined
+                  v-model="state.ay"
+                  name="ay"
+                  label="Academic Year"
+                  mask="#### - ####"
+                  hint="Year: #### - ####"
+                  :rules="inputRules"
+                />
+              </div>
             </div>
           </div>
+
           <q-stepper-navigation>
             <q-btn color="primary" label="Submit" type="submit" />
 
             <q-btn
               flat
-              @click="step = 2"
+              @click="step = 3"
               color="primary"
               label="Back"
               class="q-ml-sm"
@@ -381,10 +652,43 @@ const rfyear = ref(null);
 const rfentry = ref(null);
 const rfschool = ref(null);
 const rfcourse = ref(null);
+const rfgradcourse = ref(null);
+
+const rfgrant = ref(null);
+const rflvl = ref(null);
+const rfscholarprog = ref(null);
+const rfcouncil = ref(null);
+const rfgradschool = ref(null);
+const rfschoolregion = ref(null);
+const rfscholartype = ref(null);
+const rfsem = ref(null);
+const rfay = ref(null);
+const rfstartdate = ref(null);
+const rfenddate = ref(null);
+const rfduration = ref(null);
+const rffield = ref(null);
+const rfobligation = ref(null);
+const rfundergrad = ref(null);
+const rfcomp = ref(null);
+const rftitle = ref(null);
+const rfavailment = ref(null);
+const rfremarks = ref(null);
 
 // Select Declaration
 const province = ref(null);
 const entry = ref(null);
+const grant = ref(null);
+const level = ref(null);
+const scholarprog = ref(null);
+const council = ref(null);
+const gradcourse = ref(null);
+const gradschool = ref(null);
+
+const scholartype = ref(null);
+const sem = ref(null);
+
+const field = ref(null);
+const undergrad = ref(null);
 
 const state = reactive({
   spasid: "",
@@ -409,9 +713,21 @@ const state = reactive({
 
   course: "",
   school: "",
-
   yraward: "",
   batch: "",
+
+  schoolregion: "",
+
+  comp: "",
+
+  startdate: "",
+  enddate: "",
+  duration: "",
+  obligation: "",
+  title: "",
+  ay: "",
+  availment: "",
+  remarks: "",
 });
 
 const sexoptions = [
@@ -423,6 +739,50 @@ const entryType = [
   { label: "NEW", value: "NEW" },
   { label: "LATERAL", value: "LATERAL" },
   { label: "RESIDENTIAL", value: "RESIDENTIAL" },
+];
+
+const LvlOptions = [
+  { label: "MS", value: "MS" },
+  { label: "FACULTY", value: "FACULTY" },
+  { label: "PHD", value: "PHD" },
+];
+
+const scholarprogOptions = [
+  { label: "ASTHRDP", value: "ASTHRDP" },
+  { label: "SCI-ED CONSORTIUM", value: "SCI-ED CONSORTIUM" },
+  { label: "HRDP", value: "HRDP" },
+  { label: "SEC", value: "SEC" },
+  { label: "ASTHRDP-NSC", value: "ASTHRDP-NSC" },
+  { label: "ERDT", value: "ERDT" },
+  { label: "SCI-ED", value: "SCI-ED" },
+];
+
+const scholartypeOptions = [
+  { label: "FULL TIME", value: "FULL TIME" },
+  { label: "PART TIME", value: "PART TIME" },
+];
+
+const semOptions = [
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+  { label: "SUMMER", value: "SUMMER" },
+];
+
+const fieldOptions = [
+  { label: "APPLIED SCIENCES", value: "APPLIED SCIENCES" },
+  { label: "BASIC SCIENCES", value: "BASIC SCIENCES" },
+  { label: "ENGINEERING", value: "ENGINEERING" },
+  { label: "SCIENCE EDUCATION", value: "SCIENCE EDUCATION" },
+];
+
+const undergradOptions = [
+  { label: "RA 7687", value: "RA 7687" },
+  {
+    label: "OTHER UNDERGRAD SCHOLARSHIP",
+    value: "OTHER UNDERGRAD SCHOLARSHIP",
+  },
 ];
 
 // Rules & Validations
@@ -476,6 +836,48 @@ const step3 = () => {
   ) {
   } else {
     step.value = 3;
+  }
+};
+
+const step4 = () => {
+  rfgradschool.value.validate();
+  rfgradcourse.value.validate();
+  rfschool.value.validate();
+  rfcourse.value.validate();
+
+  if (
+    rfgradschool.value.hasError ||
+    rfgradcourse.value.hasError ||
+    rfschool.value.hasError ||
+    rfcourse.value.hasError
+  ) {
+  } else {
+    step.value = 4;
+  }
+};
+
+const step5 = () => {
+  rftitle.value.validate();
+  rfstartdate.value.validate();
+  rfenddate.value.validate();
+  rfduration.value.validate();
+  rffield.value.validate();
+  rfobligation.value.validate();
+  rfundergrad.value.validate();
+  rfremarks.value.validate();
+
+  if (
+    rftitle.value.hasError ||
+    rfstartdate.value.hasError ||
+    rfenddate.value.hasError ||
+    rfduration.value.hasError ||
+    rffield.value.hasError ||
+    rfobligation.value.hasError ||
+    rfundergrad.value.hasError ||
+    rfremarks.value.hasError
+  ) {
+  } else {
+    step.value = 5;
   }
 };
 
@@ -567,24 +969,128 @@ const populateaddress = () => {
   });
 };
 
+// Showing Grad School
+var gradschooloption2 = [];
+const gradschoolOptions = ref(gradschooloption2);
+
+onMounted(() => {
+  populategradSchool();
+});
+
+const populategradSchool = () => {
+  axios.get("/read.php?gradSchool").then((response) => {
+    gradschooloption2 = response.data;
+
+    console.log(response.data.school_region);
+  });
+};
+
+const filterGradschool = (val, update) => {
+  if (val === "") {
+    update(() => {
+      gradschoolOptions.value = gradschooloption2;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    gradschoolOptions.value = gradschooloption2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
+  });
+};
+
+// Showing GradSchool Data
+
+onMounted(() => {
+  populateschool();
+});
+
+const populateschool = () => {
+  var formData = new FormData();
+  formData.append("colleges", gradschool.value);
+  console.log(gradschool.value);
+
+  axios.post("/read.php?schoolIDS", formData).then(function (response) {
+    state.schoolregion = response.data.school_region;
+  });
+};
+
+// Showing GradSchool Courses
+
+const gradcourseOptions = ref();
+
+onMounted(() => {
+  populateschoolCourses();
+});
+
+const populateschoolCourses = () => {
+  axios.get("/read.php?gradSchoolCourses").then(function (response) {
+    gradcourseOptions.value = response.data;
+  });
+};
+
+// Showing GradSchool Courses
+
+const grantOptions = ref();
+
+onMounted(() => {
+  populategrants();
+});
+
+const populategrants = () => {
+  axios.get("/read.php?grant").then(function (response) {
+    grantOptions.value = response.data;
+  });
+};
+
+// Showing Council
+
+const councilOptions = ref();
+
+onMounted(() => {
+  populatecouncil();
+});
+
+const populatecouncil = () => {
+  axios.get("/read.php?council").then(function (response) {
+    councilOptions.value = response.data;
+  });
+};
+
 const submitScholar = () => {
-  rfbatch.value.validate();
-  rfyear.value.validate();
   rfentry.value.validate();
-  rfschool.value.validate();
-  rfcourse.value.validate();
+  rfyear.value.validate();
+  rfbatch.value.validate();
+  rfgrant.value.validate();
+  rflvl.value.validate();
+  rfcomp.value.validate();
+  rfscholarprog.value.validate();
+  rfcouncil.value.validate();
+  rfscholartype.value.validate();
+  rfsem.value.validate();
+  rfavailment.value.validate();
+  rfay.value.validate();
 
   if (
-    rfbatch.value.hasError ||
-    rfyear.value.hasError ||
     rfentry.value.hasError ||
-    rfschool.value.hasError ||
-    rfcourse.value.hasError
+    rfyear.value.hasError ||
+    rfbatch.value.hasError ||
+    rfgrant.value.hasError ||
+    rflvl.value.hasError ||
+    rfcomp.value.hasError ||
+    rfscholarprog.value.hasError ||
+    rfcouncil.value.hasError ||
+    rfscholartype.value.hasError ||
+    rfsem.value.hasError ||
+    rfavailment.value.hasError ||
+    rfay.value.hasError
   ) {
     // error
   } else {
     var formData = new FormData(document.getElementById("scholarForm"));
-    formData.append("spasid", state.spasid);
+
     formData.append("lastname", state.lastname);
     formData.append("firstname", state.firstname);
     formData.append("midname", state.midname);
@@ -604,6 +1110,22 @@ const submitScholar = () => {
     formData.append("district", state.district);
     formData.append("region", state.region);
 
+    formData.append("school", state.school);
+    formData.append("course", state.course);
+    formData.append("gradschool", gradschool.value);
+    formData.append("gradcourse", gradcourse.value);
+    formData.append("schoolregion", state.schoolregion);
+
+    formData.append("title", state.title);
+    formData.append("startdate", state.startdate);
+    formData.append("enddate", state.enddate);
+    formData.append("duration", state.duration);
+    formData.append("field", field.value);
+    formData.append("obligation", state.obligation);
+    formData.append("undergrad", undergrad.value);
+    formData.append("remarks", state.remarks);
+
+    formData.append("spasid", state.spasid);
     formData.append("usercreator", user.username);
 
     axios.post("/create.php?createScholar", formData).then(function (response) {
@@ -613,7 +1135,6 @@ const submitScholar = () => {
         alert("failed");
       }
     });
-
     axios.post("/create.php?NewScholarLog", formData).then(function (response) {
       if (response.data == true) {
       } else {

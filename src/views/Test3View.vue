@@ -228,7 +228,7 @@
   <q-dialog v-model="fixed" persistent>
     <q-card style="min-width: 1000px; width: 1000px">
       <q-card-section class="q-gutter-md">
-        <div class="text-h6">Update Scholar Details</div>
+        <div class="text-h6">Edit Scholar Details</div>
         <q-space />
 
         <q-btn flat color="primary" @click="close">
@@ -742,6 +742,10 @@
       </q-card-section>
 
       <q-separator />
+
+      <q-card-actions align="right">
+        <q-btn flat label="Show Files" color="primary" @click="DocFiles" />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>

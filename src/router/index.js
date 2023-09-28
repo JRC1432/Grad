@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import("../views/Test2View.vue"),
     },
     {
+      path: "/test3",
+      name: "test3",
+      component: () => import("../views/Test3View.vue"),
+    },
+    {
       path: "/dashboards",
       component: () => import("../layouts/Dashboardlayout.vue"),
       children: [
@@ -56,6 +61,11 @@ const router = createRouter({
           path: "/log",
           name: "log",
           component: () => import("../views/LogView.vue"),
+        },
+        {
+          path: "/school",
+          name: "school",
+          component: () => import("../views/SchoolView.vue"),
         },
       ],
     },
