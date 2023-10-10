@@ -685,7 +685,7 @@
   </q-dialog>
 
   <q-dialog v-model="Docx" persistent>
-    <q-card style="min-width: 1000px; width: 1000px">
+    <q-card style="min-width: 80%; min-height: auto">
       <q-card-section class="q-gutter-md">
         <div class="text-h6">View Documents</div>
         <q-space />
@@ -958,11 +958,19 @@ const columns = [
 
 const DocxColumns = [
   {
-    name: "file_type",
+    name: "file_name",
     required: true,
-    label: "File Type",
+    label: "File Name",
     align: "center",
-    field: "file_type",
+    field: "file_name",
+    sortable: true,
+  },
+  {
+    name: "descriptions",
+    required: true,
+    label: "Details",
+    align: "center",
+    field: "descriptions",
     sortable: true,
   },
   {
@@ -973,14 +981,7 @@ const DocxColumns = [
     field: "file_description",
     sortable: true,
   },
-  {
-    name: "file_name",
-    required: true,
-    label: "File Name",
-    align: "center",
-    field: "file_name",
-    sortable: true,
-  },
+
   {
     name: "added_on",
     required: true,
@@ -1404,6 +1405,7 @@ const editDocu = () => {
   } else {
     var formData = new FormData(document.getElementById("editDocuForm"));
     formData.append("filetypeid", filetypes.value.val_id);
+    formData.append("filedesc", state.filedesc);
     formData.append("filetype", filetypes.value.value);
     formData.append("spasid", state.upspasid);
     formData.append("scholarLastname", state.uplastname);

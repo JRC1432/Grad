@@ -228,7 +228,7 @@
   <q-dialog v-model="fixed" persistent>
     <q-card style="min-width: 1000px; width: 1000px">
       <q-card-section class="q-gutter-md">
-        <div class="text-h6">Edit Scholar Details</div>
+        <div class="text-h6">Update Scholar Details</div>
         <q-space />
 
         <q-btn flat color="primary" @click="close">
@@ -266,7 +266,6 @@
                   <div class="col-xs-12 col-sm-4 col-md-4">
                     <q-input
                       ref="refspas"
-                      rounded
                       outlined
                       v-model="state.upspasid"
                       label="SPAS ID:"
@@ -279,7 +278,6 @@
                   <div class="col-xs-12 col-sm-4 col-md-4">
                     <q-select
                       ref="refstats"
-                      rounded
                       outlined
                       label="Status"
                       transition-show="flip-up"
@@ -293,7 +291,6 @@
                   <div class="col-xs-12 col-sm-4 col-md-4">
                     <q-select
                       ref="refsubstats"
-                      rounded
                       outlined
                       label="Remarks"
                       transition-show="flip-up"
@@ -308,7 +305,6 @@
                   <div class="col-xs-12 col-sm-3 col-md-3">
                     <q-input
                       ref="reflname"
-                      rounded
                       outlined
                       v-model="state.uplastname"
                       label="Last Name"
@@ -319,7 +315,6 @@
                   <div class="col-xs-12 col-sm-3 col-md-3">
                     <q-input
                       ref="reffname"
-                      rounded
                       outlined
                       v-model="state.upfirstname"
                       label="First Name"
@@ -330,7 +325,6 @@
                   <div class="col-xs-12 col-sm-3 col-md-3">
                     <q-input
                       ref="refmname"
-                      rounded
                       outlined
                       v-model="state.upmidname"
                       label="Middle Name"
@@ -340,7 +334,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-2 col-md-2">
                     <q-input
-                      rounded
                       outlined
                       v-model="state.upsuffixname"
                       label="Suffix Name"
@@ -352,7 +345,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refbirth"
-                      rounded
                       outlined
                       v-model="state.upbirthdate"
                       name="upbirthdate"
@@ -395,7 +387,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refmail"
-                      rounded
                       outlined
                       v-model="state.upemailadd"
                       name="upemailadd"
@@ -407,7 +398,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refcontact"
-                      rounded
                       outlined
                       v-model="state.upcontact"
                       name="upcontact"
@@ -420,7 +410,6 @@
                   <div class="col-xs-12 col-sm-4 col-md-8">
                     <q-select
                       ref="refzip"
-                      rounded
                       outlined
                       v-model="upprovince"
                       name="upprovince"
@@ -448,7 +437,6 @@
                   <div class="col-xs-12 col-sm-8 col-md-4">
                     <q-input
                       ref="refhousenum"
-                      rounded
                       outlined
                       v-model="state.uphousenum"
                       name="uphousenum"
@@ -459,7 +447,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refstreet"
-                      rounded
                       outlined
                       v-model="state.upstreet"
                       name="upstreet"
@@ -469,7 +456,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       v-model="state.upsubdivision"
                       name="upsubdivision"
@@ -478,7 +464,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       v-model="state.upbarangay"
                       name="upbarangay"
@@ -487,7 +472,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       readonly
                       v-model="state.updistrict"
@@ -498,7 +482,6 @@
 
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       v-model="state.upregion"
                       readonly
@@ -508,7 +491,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       v-model="state.upmunicipality"
                       readonly
@@ -518,7 +500,6 @@
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
-                      rounded
                       outlined
                       readonly
                       v-model="state.upprovincecity"
@@ -544,7 +525,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refschool"
-                      rounded
                       outlined
                       v-model="state.upschool"
                       name="upschool"
@@ -555,7 +535,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refcourse"
-                      rounded
                       outlined
                       v-model="state.upcourse"
                       name="upcourse"
@@ -567,7 +546,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-select
                       ref="refentry"
-                      rounded
                       outlined
                       label="Entry Type"
                       transition-show="flip-up"
@@ -581,7 +559,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="rfyraward"
-                      rounded
                       outlined
                       v-model="state.upyearaward"
                       name="upyraward"
@@ -593,7 +570,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-input
                       ref="refbatch"
-                      rounded
                       outlined
                       v-model="state.upbatch"
                       name="upbatch"
@@ -649,7 +625,6 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-select
                       ref="refFiletype"
-                      rounded
                       outlined
                       label="Select File Types"
                       v-model="filetypes"
@@ -742,10 +717,6 @@
       </q-card-section>
 
       <q-separator />
-
-      <q-card-actions align="right">
-        <q-btn flat label="Show Files" color="primary" @click="DocFiles" />
-      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>

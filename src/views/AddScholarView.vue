@@ -276,7 +276,6 @@
                 <q-select
                   ref="rfgradschool"
                   outlined
-                  emit-value
                   map-options
                   use-input
                   input-debounce="0"
@@ -1008,13 +1007,7 @@ onMounted(() => {
 });
 
 const populateschool = () => {
-  var formData = new FormData();
-  formData.append("colleges", gradschool.value);
-  console.log(gradschool.value);
-
-  axios.post("/read.php?schoolIDS", formData).then(function (response) {
-    state.schoolregion = response.data.school_region;
-  });
+  state.schoolregion = gradschool.value?.school_region;
 };
 
 // Showing GradSchool Courses
@@ -1031,7 +1024,7 @@ const populateschoolCourses = () => {
   });
 };
 
-// Showing GradSchool Courses
+// Showing Grants Courses
 
 const grantOptions = ref();
 
@@ -1112,7 +1105,7 @@ const submitScholar = () => {
 
     formData.append("school", state.school);
     formData.append("course", state.course);
-    formData.append("gradschool", gradschool.value);
+    formData.append("gradschool", gradschool.value?.label);
     formData.append("gradcourse", gradcourse.value);
     formData.append("schoolregion", state.schoolregion);
 
