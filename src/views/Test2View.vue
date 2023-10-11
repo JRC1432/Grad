@@ -709,7 +709,7 @@
           <q-tab-panel name="scholarInfo">
             <form
               id="editscholarshipForm"
-              @submit.prevent.stop="editScholarship"
+              @submit.prevent.stop="editScholarshipsInfo"
             >
               <div class="col-xs-12 col-sm-6">
                 <div class="q-col-gutter-md row items-start">
@@ -1115,6 +1115,7 @@ const rfupentry = ref(null);
 const rfupyear = ref(null);
 const rfupbatch = ref(null);
 const rfupgrant = ref(null);
+const rfupcomp = ref(null);
 const rfuplvl = ref(null);
 const rfupscholarprog = ref(null);
 const rfupcouncil = ref(null);
@@ -1870,6 +1871,128 @@ const editThesisSC = () => {
   } else {
     var formData = new FormData(document.getElementById("editthesisForm"));
     formData.append("editScholarID", saddressid.value);
+
+    axios.post("/update.php?updateThesis", formData).then(function (response) {
+      if (response.data == true) {
+        fixed.value = false;
+        showEditalert();
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
+
+    // Update Logs
+
+    formData.append("authname", user.username);
+    formData.append("upspasid", state.upspasid);
+
+    axios.post("/create.php?ThesisInfoLog", formData).then(function (response) {
+      if (response.data == true) {
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
+    // Back End Ends Here
+  }
+};
+
+const editScholarshipsInfo = () => {
+  rfupentry.value.validate();
+  rfupyear.value.validate();
+  rfupbatch.value.validate();
+  rfupgrant.value.validate();
+  rfuplvl.value.validate();
+  rfupcomp.value.validate();
+  rfupscholarprog.value.validate();
+  rfupcouncil.value.validate();
+  rfupscholartype.value.validate();
+  rfupavailment.value.validate();
+  rfupsem.value.validate();
+  rfupay.value.validate();
+
+  if (
+    rfupentry.value.hasError ||
+    rfupyear.value.hasError ||
+    rfupbatch.value.hasError ||
+    rfupgrant.value.hasError ||
+    rfuplvl.value.hasError ||
+    rfupcomp.value.hasError ||
+    rfupscholarprog.value.hasError ||
+    rfupcouncil.value.hasError ||
+    rfupscholartype.value.hasError ||
+    rfupavailment.value.hasError ||
+    rfupsem.value.hasError ||
+    rfupay.value.hasError
+  ) {
+  } else {
+    var formData = new FormData(document.getElementById("editscholarshipForm"));
+    formData.append("editScholarID", saddressid.value);
+
+    axios
+      .post("/update.php?updateScholarshipInfo", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    axios
+      .post("/update.php?updateScholarshipInfo2", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    axios
+      .post("/update.php?updateScholarshipInfo3", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          showEditalert();
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    // Update Logs
+
+    formData.append("authname", user.username);
+    formData.append("upspasid", state.upspasid);
+
+    axios
+      .post("/create.php?ScholarInfoLog", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+    // Back End Ends Here
   }
 };
 

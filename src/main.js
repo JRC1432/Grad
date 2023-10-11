@@ -1,7 +1,7 @@
 // FILE: main.js
 
 import { createApp } from "vue";
-import { Quasar, Notify, Loading, Dialog } from "quasar";
+import { Quasar, Notify, Loading, Dialog, LoadingBar } from "quasar";
 import router from "./router";
 import "./assets/base.css";
 import axiosMain from "axios";
@@ -66,7 +66,8 @@ myApp.use(router);
 myApp.use(Vue3Lottie);
 
 myApp.use(Quasar, {
-  plugins: { Notify, Loading, Dialog }, // import Quasar plugins and add here
+  plugins: { Notify, Loading, Dialog, LoadingBar }, // import Quasar plugins and add here
+  config: { loadingBar: { skipHijack: false, color: "warning", size: "3px" } },
 });
 
 myApp.use(VueReCaptcha, {
