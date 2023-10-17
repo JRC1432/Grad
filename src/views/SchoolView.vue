@@ -69,40 +69,109 @@
     <!-- Table Ends Here -->
 
     <q-dialog v-model="editSchool" persistent>
-      <q-card>
-        <q-card-section>
+      <q-card style="min-width: 1000px; width: 1000px">
+        <q-card-section class="q-gutter-md">
           <div class="text-h6">Edit School Information</div>
+          <q-space />
+          <q-btn flat color="primary" v-close-popup>
+            <IconSquareRoundedX :size="30" stroke-width="2" @click="onReset" />
+          </q-btn>
         </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="q-pa-md">
-            <q-input
-              outlined
-              v-model="state.schoolname"
-              name="schoolname"
-              label="School Name"
-            />
-          </div>
-
+        <form id="editSchoolCourses" @submit.prevent.stop="editSchoolCourses">
           <div class="q-pa-md">
             <q-select
+              ref="refupmultipleCourses"
               label="Add Multiple Courses"
               filled
               v-model="state.editcourse"
+              name="editcourse[]"
               use-input
               use-chips
               multiple
               hide-dropdown-icon
               input-debounce="0"
               new-value-mode="add-unique"
-              style="width: 400px"
+              :rules="inputCourse"
             />
-          </div>
-        </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Update" color="primary" v-close-popup />
-        </q-card-actions>
+            <q-btn flat label="Add Course" color="primary" type="submit" />
+          </div>
+        </form>
+
+        <form id="editSchoolinfoForm" @submit.prevent.stop="editSchoolinfo">
+          <q-card-section class="q-pt-none">
+            <div class="col-xs-12 col-sm-6">
+              <div class="q-col-gutter-md row items-start">
+                <div class="col-xs-12 col-sm-12">
+                  <q-table
+                    flat
+                    bordered
+                    title="Lists of Courses"
+                    :rows="SCrows"
+                    :columns="SCcolumns"
+                    row-key="id"
+                    :loading="false"
+                    separator="cell"
+                    :filter="filters"
+                    v-model:selected="selected"
+                  >
+                    <template v-slot:top-right>
+                      <!-- Search Bar -->
+                      <q-input
+                        borderless
+                        dense
+                        debounce="300"
+                        v-model="filters"
+                        placeholder="Search"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="search" />
+                        </template>
+                      </q-input>
+                    </template>
+
+                    <!-- End of Search Bar -->
+                    <template v-slot:body-cell-actions="props">
+                      <q-td :props="props">
+                        <q-btn
+                          dense
+                          round
+                          flat
+                          color="red"
+                          @click="deleteRow(props)"
+                          icon="delete"
+                        ></q-btn>
+                      </q-td>
+                    </template>
+                  </q-table>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                  <q-input
+                    outlined
+                    v-model="state.schoolname"
+                    name="schoolname"
+                    label="School Name"
+                  />
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <q-input
+                    ref="refschoolregion"
+                    outlined
+                    v-model="state.upschoolregion"
+                    name="upschoolregion"
+                    label="School Region"
+                    :rules="inputRules"
+                  />
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Update" color="primary" type="submit" />
+          </q-card-actions>
+        </form>
       </q-card>
     </q-dialog>
 
@@ -184,7 +253,9 @@ const axios = inject("$axios");
 const $q = useQuasar();
 
 const filter = ref("");
+const filters = ref("");
 const rows = ref([]);
+const SCrows = ref([]);
 
 const editSchool = ref(false);
 const newSchool = ref(false);
@@ -200,6 +271,7 @@ const state = reactive({
   addschool: "",
   editcourse: null,
   schoolregion: "",
+  upschoolregion: "",
 });
 
 // Rules & Validations
@@ -214,7 +286,7 @@ const columns = [
     name: "school",
     required: true,
     label: "School Name",
-    align: "center",
+    align: "left",
     field: "school_name",
     sortable: true,
   },
@@ -222,8 +294,27 @@ const columns = [
     name: "_region",
     required: true,
     label: "School Region",
-    align: "center",
+    align: "left",
     field: "school_region",
+    sortable: true,
+  },
+
+  {
+    name: "actions",
+    align: "center",
+    label: "Action Buttons",
+    field: "",
+    sortable: true,
+  },
+];
+
+const SCcolumns = [
+  {
+    name: "courses",
+    required: true,
+    label: "Courses",
+    align: "left",
+    field: "courses",
     sortable: true,
   },
 
@@ -270,6 +361,56 @@ const showCreateSchool = () => {
   });
 };
 
+// Sweet Alert (Update) Code Here
+
+const showUpdatechool = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Updating School Details!",
+    html: "In Progress.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+      Swal.fire({
+        icon: "success",
+        title: "The School Information is now updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      readusers();
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
+    }
+  });
+};
+// Edit COURSES
+
+const currentProps = ref();
+
+const showedit = (props) => {
+  currentProps.value = props;
+  console.log(currentProps.value.row.id);
+  editSchool.value = true;
+  state.schoolname = props.row.school_name;
+  state.upschoolregion = props.row.school_region;
+
+  var formData = new FormData();
+  formData.append("ids", currentProps.value.row.id);
+  axios.post("/read.php?readcourse", formData).then(function (response) {
+    SCrows.value = response.data;
+  });
+};
 // Read Users
 
 onMounted(() => {
@@ -284,7 +425,53 @@ const readschools = () => {
     });
 };
 
-// Delete Users
+// Delete Courses
+
+const deleteRow = (props) => {
+  $q.dialog({
+    title: "Confirm",
+    message: "Do you want to remove this course?",
+    cancel: true,
+    persistent: true,
+  })
+    .onOk(() => {
+      // console.log('>>>> OK')
+
+      console.log(props.row.id);
+      var formData = new FormData();
+      formData.append("schoolid", props.row.id);
+      axios
+        .post("/delete.php?deleteSchoolInfo", formData)
+        .then(function (response) {
+          if (response.data == true) {
+            var formData = new FormData();
+            formData.append("ids", currentProps.value.row.id);
+            axios
+              .post("/read.php?readcourse", formData)
+              .then(function (response) {
+                SCrows.value = response.data;
+              });
+          } else {
+            $q.notify({
+              color: "red",
+              textColor: "white",
+              message: "Course not deleted",
+            });
+          }
+        });
+    })
+    .onOk(() => {
+      // console.log('>>>> second OK catcher')
+    })
+    .onCancel(() => {
+      // console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    });
+};
+
+// Delete School
 
 const showdel = (props) => {
   Swal.fire({
@@ -298,33 +485,24 @@ const showdel = (props) => {
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      console.log(props.row.id);
       var formData = new FormData();
-      formData.append("userid", props.row.id);
-      // axios
-      //   .post("/delete.php?deleteuser", formData)
-      //   .then(function (response) {
-      //     if (response.data == true) {
-      //       readusers();
-      //       countusers();
-      //       countadmins();
-      //     } else {
-      //       $q.notify({
-      //         color: "red",
-      //         textColor: "white",
-      //         message: "User not deleted",
-      //       });
-      //     }
-      //   });
+      formData.append("schoolid", props.row.id);
+
+      axios
+        .post("/delete.php?deleteSchool", formData)
+        .then(function (response) {
+          if (response.data == true) {
+            readschools();
+          } else {
+            $q.notify({
+              color: "red",
+              textColor: "white",
+              message: "Course not deleted",
+            });
+          }
+        });
     }
   });
-};
-
-// Edit User
-
-const showedit = (props) => {
-  editSchool.value = true;
-  state.schoolname = props.row.school_name;
 };
 
 // Create School
@@ -356,6 +534,53 @@ const createSchool = () => {
       }
     });
   }
+};
+
+// Edit School
+
+const editSchoolinfo = () => {
+  var formData = new FormData(document.getElementById("editSchoolinfoForm"));
+  formData.append("ids", currentProps.value.row.id);
+
+  axios
+    .post("/update.php?updateSchoolCourse", formData)
+    .then(function (response) {
+      if (response.data == true) {
+        editSchool.value = false;
+        showUpdatechool();
+        readschools();
+      } else {
+        alert("Failed");
+      }
+    });
+};
+
+const editSchoolCourses = () => {
+  var formData = new FormData(document.getElementById("editSchoolCourses"));
+  formData.append("ids", currentProps.value.row.id);
+  axios.post("/create.php?editnewCourse", formData).then(function (response) {
+    if (response.data == true) {
+      var formData = new FormData();
+      formData.append("ids", currentProps.value.row.id);
+      axios.post("/read.php?readcourse", formData).then(function (response) {
+        SCrows.value = response.data;
+        $q.notify({
+          message: "Added Successfully.",
+          color: "green",
+        });
+      });
+      state.editcourse = null;
+    } else {
+      $q.notify({
+        message: "Please input courses in the field.",
+        color: "red",
+      });
+    }
+  });
+};
+
+const onReset = () => {
+  state.editcourse = null;
 };
 </script>
 

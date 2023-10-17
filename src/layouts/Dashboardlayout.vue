@@ -120,7 +120,7 @@
               <IconSchool :size="30" stroke-width="2" />
             </q-item-section>
 
-            <q-item-section> View Scholars </q-item-section>
+            <q-item-section> Scholars </q-item-section>
           </q-item>
           <q-item
             clickable

@@ -552,7 +552,7 @@
                       map-options
                       use-input
                       input-debounce="0"
-                      label="Select School"
+                      label="Graduate School"
                       v-model="upgradschool"
                       name="upgradschool"
                       :options="gradschoolOptions"

@@ -67,7 +67,13 @@ myApp.use(Vue3Lottie);
 
 myApp.use(Quasar, {
   plugins: { Notify, Loading, Dialog, LoadingBar }, // import Quasar plugins and add here
-  config: { loadingBar: { skipHijack: false, color: "warning", size: "3px" } },
+  config: {
+    loadingBar: {
+      skipHijack: false,
+      color: "warning",
+      size: "3px",
+    },
+  },
 });
 
 myApp.use(VueReCaptcha, {
