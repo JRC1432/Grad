@@ -58,7 +58,6 @@
                   v-model="state.midname"
                   label="Middle Name"
                   name="midname"
-                  :rules="inputRules"
                 />
               </div>
               <div class="col-xs-12 col-sm-2 col-md-2">
@@ -441,7 +440,7 @@
 
             <q-btn
               flat
-              @click="step = 2"
+              @click="step = 3"
               color="primary"
               label="Back"
               class="q-ml-sm"
@@ -606,7 +605,7 @@
 
             <q-btn
               flat
-              @click="step = 3"
+              @click="step = 4"
               color="primary"
               label="Back"
               class="q-ml-sm"
@@ -803,7 +802,6 @@ const step2 = () => {
   rfemail.value.validate();
   rfbirth.value.validate();
   rfsname.value.validate();
-  rfmname.value.validate();
   rffname.value.validate();
   rflname.value.validate();
   rfspasid.value.validate();
@@ -813,7 +811,6 @@ const step2 = () => {
     rfemail.value.hasError ||
     rfbirth.value.hasError ||
     rfsname.value.hasError ||
-    rfmname.value.hasError ||
     rffname.value.hasError ||
     rflname.value.hasError ||
     rfspasid.value.hasError

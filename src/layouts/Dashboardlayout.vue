@@ -106,7 +106,7 @@
               <IconUserPlus :size="30" stroke-width="2" />
             </q-item-section>
 
-            <q-item-section> Add New Scholars </q-item-section>
+            <q-item-section> Add New Scholar </q-item-section>
           </q-item>
           <q-item
             clickable
