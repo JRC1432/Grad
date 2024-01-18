@@ -601,110 +601,7 @@
             </form>
           </q-tab-panel>
 
-          <!-- Thesis -->
-
-          <q-tab-panel name="thesis">
-            <form id="editthesisForm" @submit.prevent.stop="editThesisSC">
-              <div class="col-xs-12 col-sm-6">
-                <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfuptitle"
-                      outlined
-                      v-model="state.uptitle"
-                      name="uptitle"
-                      label="Title of Research"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupstartdate"
-                      outlined
-                      v-model="state.upstartdate"
-                      name="upstartdate"
-                      type="date"
-                      label="Start Date"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupenddate"
-                      outlined
-                      v-model="state.upenddate"
-                      name="upenddate"
-                      type="date"
-                      label="End Date"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupduration"
-                      outlined
-                      v-model="state.upduration"
-                      name="upduration"
-                      label="Duration"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupfield"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Field"
-                      v-model="upfield"
-                      name="upfield"
-                      :options="fieldOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupobligation"
-                      outlined
-                      v-model="state.upobligation"
-                      name="upobligation"
-                      label="Service Obligation"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupundergrad"
-                      outlined
-                      emit-value
-                      map-options
-                      label="Undergraduate Scholar"
-                      v-model="upundergrad"
-                      name="upundergrad"
-                      :options="undergradOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfupremarks"
-                      outlined
-                      v-model="state.upremarks"
-                      name="upremarks"
-                      label="Remarks"
-                      :rules="inputRules"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="row justify-end">
-                <q-btn type="submit" color="primary" label="Update" />
-              </div>
-            </form>
-          </q-tab-panel>
-
-          <!-- End thesis -->
+          <!-- Scholarship Info -->
 
           <q-tab-panel name="scholarInfo">
             <form
@@ -860,6 +757,113 @@
               </div>
             </form>
           </q-tab-panel>
+
+          <!-- End of Scholarship Info -->
+
+          <!-- Thesis -->
+
+          <q-tab-panel name="thesis">
+            <form id="editthesisForm" @submit.prevent.stop="editThesisSC">
+              <div class="col-xs-12 col-sm-6">
+                <div class="q-col-gutter-md row items-start">
+                  <div class="col-xs-12">
+                    <q-input
+                      ref="rfuptitle"
+                      outlined
+                      v-model="state.uptitle"
+                      name="uptitle"
+                      label="Title of Research"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="rfupstartdate"
+                      outlined
+                      v-model="state.upstartdate"
+                      name="upstartdate"
+                      type="date"
+                      label="Start Date"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="rfupenddate"
+                      outlined
+                      v-model="state.upenddate"
+                      name="upenddate"
+                      type="date"
+                      label="End Date"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="rfupduration"
+                      outlined
+                      v-model="state.upduration"
+                      name="upduration"
+                      label="Duration"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-select
+                      ref="rfupfield"
+                      emit-value
+                      map-options
+                      outlined
+                      label="Field"
+                      v-model="upfield"
+                      name="upfield"
+                      :options="fieldOptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-input
+                      ref="rfupobligation"
+                      outlined
+                      v-model="state.upobligation"
+                      name="upobligation"
+                      label="Service Obligation"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <q-select
+                      ref="rfupundergrad"
+                      outlined
+                      emit-value
+                      map-options
+                      label="Undergraduate Scholar"
+                      v-model="upundergrad"
+                      name="upundergrad"
+                      :options="undergradOptions"
+                      :rules="[myRule]"
+                    />
+                  </div>
+
+                  <div class="col-xs-12">
+                    <q-input
+                      ref="rfupremarks"
+                      outlined
+                      v-model="state.upremarks"
+                      name="upremarks"
+                      label="Remarks"
+                      :rules="inputRules"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row justify-end">
+                <q-btn type="submit" color="primary" label="Update" />
+              </div>
+            </form>
+          </q-tab-panel>
+
+          <!-- End thesis -->
 
           <!-- Document Section -->
 
@@ -1953,7 +1957,7 @@ const editScholarshipsInfo = () => {
       .then(function (response) {
         if (response.data == true) {
           fixed.value = false;
-          showEditalert();
+          // showEditalert();
           readOnscholars();
           readGradscholars();
           readTermscholars();
@@ -1967,7 +1971,7 @@ const editScholarshipsInfo = () => {
       .then(function (response) {
         if (response.data == true) {
           fixed.value = false;
-          showEditalert();
+          // showEditalert();
           readOnscholars();
           readGradscholars();
           readTermscholars();

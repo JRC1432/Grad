@@ -16,7 +16,9 @@
           <q-avatar size="70px" class="q-mb-sm">
             <img src="http://localhost/backdbase/pic/download.jpg" />
           </q-avatar>
-          Log In To Continue
+          <q-space />
+
+          Digitization System
         </div>
         <div class="q-pa-xl">
           <form id="login" @submit.prevent.stop="LogSubmit">
@@ -24,7 +26,7 @@
               ref="nameRef"
               v-model="state.usernames"
               :dense="dense"
-              label="UserName"
+              label="Username"
               name="usernames"
               lazy-rules
               :rules="inputRules"
@@ -103,7 +105,7 @@ const state = reactive({
 });
 
 const inputRules = [
-  (val) => (val && val.length > 0) || "Please type something",
+  (val) => (val && val.length > 0) || "Please enter your username",
 ];
 const inputpassRules = [
   (val) => !!val || "Field is required",
