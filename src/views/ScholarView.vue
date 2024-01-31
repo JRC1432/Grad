@@ -251,7 +251,7 @@
           <q-tab name="sinfo" label="Scholar Information" />
           <q-tab name="cinfo" label="Contact Information" />
           <q-tab name="scinfo" label="School Information" />
-          <q-tab name="thesis" label="Thesis Details" />
+          <!-- <q-tab name="thesis" label="Thesis Details" /> -->
           <q-tab name="scholarInfo" label="Scholarship Informations" />
 
           <q-tab name="scdocu" label="Document Upload" />
@@ -545,54 +545,6 @@
                       :rules="inputRules"
                     />
                   </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupgradschool"
-                      outlined
-                      map-options
-                      use-input
-                      input-debounce="0"
-                      label="Graduate School"
-                      v-model="upgradschool"
-                      name="upgradschool"
-                      :options="gradschoolOptions"
-                      @filter="filterGradschool"
-                      behavior="menu"
-                      @update:model-value="populateschool"
-                      :rules="[myRule]"
-                    >
-                      <template v-slot:no-option>
-                        <q-item>
-                          <q-item-section class="text-grey">
-                            No results
-                          </q-item-section>
-                        </q-item>
-                      </template>
-                    </q-select>
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupgradcourse"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Graduate Course"
-                      v-model="upgradcourse"
-                      name="upgradcourse"
-                      :options="gradcourseOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      outlined
-                      readonly
-                      v-model="state.upschoolregion"
-                      name="upschoolregion"
-                      label="School Region"
-                    />
-                  </div>
                 </div>
               </div>
               <div class="row justify-end">
@@ -608,150 +560,511 @@
               id="editscholarshipForm"
               @submit.prevent.stop="editScholarshipsInfo"
             >
-              <div class="col-xs-12 col-sm-6">
-                <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupentry"
-                      outlined
-                      label="Entry Type"
-                      transition-show="flip-up"
-                      transition-hide="flip-down"
-                      v-model="upentry"
-                      name="upentry"
-                      :options="entryType"
-                      :rules="[myRule]"
-                    />
+              <q-card flat bordered class="col-xs-12">
+                <q-card-section>
+                  <div class="text-h6 text-primary">
+                    SCHOLARSHIP INFORMATION
                   </div>
+                </q-card-section>
 
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-input
-                      ref="rfupyear"
-                      outlined
-                      v-model="state.upyraward"
-                      name="upyraward"
-                      label="Year of Award"
-                      mask="####"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-input
-                      ref="rfupbatch"
-                      outlined
-                      v-model="state.upbatch"
-                      name="upbatch"
-                      label="Batch"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupgrant"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Grant"
-                      v-model="upgrant"
-                      name="upgrant"
-                      :options="grantOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfuplvl"
-                      outlined
-                      label="Level"
-                      v-model="uplevel"
-                      name="uplevel"
-                      :options="LvlOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-input
-                      ref="rfupcomp"
-                      outlined
-                      v-model="state.upcomp"
-                      name="upcomp"
-                      label="Comp"
-                      :rules="inputRules"
-                    />
-                  </div>
+                <q-separator inset />
 
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupscholarprog"
-                      outlined
-                      label="Scholarship Program"
-                      v-model="upscholarprog"
-                      name="upscholarprog"
-                      :options="scholarprogOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupcouncil"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Council"
-                      v-model="upcouncil"
-                      name="upcouncil"
-                      :options="councilOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
+                <q-card-section>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="q-col-gutter-md row items-start">
+                      <div class="col-xs-12">
+                        <q-select
+                          ref="rfupentry"
+                          outlined
+                          label="Entry Type"
+                          transition-show="flip-up"
+                          transition-hide="flip-down"
+                          v-model="upentry"
+                          name="upentry"
+                          :options="entryType"
+                          :rules="[myRule]"
+                          style="max-width: 310px"
+                        />
+                      </div>
 
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupscholartype"
-                      outlined
-                      label="Scholar Type"
-                      v-model="upscholartype"
-                      name="upscholartype"
-                      :options="scholartypeOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-input
-                      ref="rfupavailment"
-                      outlined
-                      v-model="state.upavailment"
-                      name="upavailment"
-                      label="Availment"
-                      :rules="inputRules"
-                    />
-                  </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-input
+                          ref="rfupyear"
+                          outlined
+                          v-model="state.upyraward"
+                          name="upyraward"
+                          label="Year of Award"
+                          mask="####"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-input
+                          ref="rfupbatch"
+                          outlined
+                          v-model="state.upbatch"
+                          name="upbatch"
+                          label="Batch"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-select
+                          ref="rfupgrant"
+                          emit-value
+                          map-options
+                          outlined
+                          label="Grant"
+                          v-model="upgrant"
+                          name="upgrant"
+                          :options="grantOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-select
+                          ref="rfuplvl"
+                          outlined
+                          label="Level"
+                          v-model="uplevel"
+                          name="uplevel"
+                          :options="LvlOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-input
+                          ref="rfupcomp"
+                          outlined
+                          v-model="state.upcomp"
+                          name="upcomp"
+                          label="Comp"
+                          :rules="inputRules"
+                        />
+                      </div>
 
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-select
-                      ref="rfupsem"
-                      outlined
-                      label="Semester"
-                      v-model="upsem"
-                      name="upsem"
-                      :options="semOptions"
-                      :rules="[myRule]"
-                    />
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-select
+                          ref="rfupscholarprog"
+                          outlined
+                          label="Scholarship Program"
+                          v-model="upscholarprog"
+                          name="upscholarprog"
+                          :options="scholarprogOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
-                    <q-input
-                      ref="rfupay"
-                      outlined
-                      v-model="state.upay"
-                      name="upay"
-                      label="Academic Year"
-                      mask="#### - ####"
-                      hint="Year: #### - ####"
-                      :rules="inputRules"
-                    />
+                </q-card-section>
+              </q-card>
+
+              <br />
+
+              <q-card flat bordered class="col-xs-12">
+                <q-card-section>
+                  <div class="text-h6 text-primary">SCHOOL</div>
+                </q-card-section>
+
+                <q-separator inset />
+
+                <q-card-section>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="q-col-gutter-md row items-start">
+                      <div class="col-xs-12">
+                        <q-select
+                          ref="rfupcouncil"
+                          emit-value
+                          map-options
+                          outlined
+                          label="Monitoring Council/ University"
+                          v-model="upcouncil"
+                          name="upcouncil"
+                          :options="councilOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-select
+                          ref="rfupgradschool"
+                          outlined
+                          map-options
+                          use-input
+                          input-debounce="0"
+                          label="Graduate School"
+                          v-model="upgradschool"
+                          name="upgradschool"
+                          :options="gradschoolOptions"
+                          @filter="filterGradschool"
+                          behavior="menu"
+                          @update:model-value="populateschool"
+                          :rules="[myRule]"
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                No results
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-select
+                          ref="rfupgradcourse"
+                          emit-value
+                          map-options
+                          outlined
+                          label="Graduate Course"
+                          v-model="upgradcourse"
+                          name="upgradcourse"
+                          :options="gradcourseOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+
+                      <div class="col-xs-12">
+                        <q-input
+                          outlined
+                          readonly
+                          v-model="state.upschoolregion"
+                          name="upschoolregion"
+                          label="School Region"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </q-card-section>
+              </q-card>
+
+              <br />
+
+              <q-card flat bordered class="col-xs-12">
+                <q-card-section>
+                  <div class="text-h6 text-primary">
+                    OTHER SCHOLARSHIP INFORMATION
+                  </div>
+                </q-card-section>
+
+                <q-separator inset />
+
+                <q-card-section>
+                  <div class="col-xs-12 col-sm-6">
+                    <div class="q-col-gutter-md row items-start">
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-input
+                          ref="rfupavailment"
+                          outlined
+                          v-model="state.upavailment"
+                          name="upavailment"
+                          label="Availment"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-select
+                          ref="rfupstats"
+                          emit-value
+                          map-options
+                          outlined
+                          label="Status"
+                          v-model="upstatus"
+                          name="upstatus"
+                          :options="statsOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-select
+                          ref="rfupsem"
+                          outlined
+                          label="Semester"
+                          v-model="upsem"
+                          name="upsem"
+                          :options="semOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-4 col-md-4">
+                        <q-input
+                          ref="rfupay"
+                          outlined
+                          v-model="state.upay"
+                          name="upay"
+                          label="Academic Year"
+                          mask="#### - ####"
+                          hint="Year: #### - ####"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-list bordered class="rounded-borders">
+                          <q-expansion-item
+                            expand-separator
+                            icon="school"
+                            label="Foreign"
+                            caption="Scholar"
+                          >
+                            <q-card>
+                              <q-card-section>
+                                <div class="col-xs-12 col-sm-6">
+                                  <div class="q-col-gutter-md row items-start">
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upfsemone"
+                                        name="upfsemone"
+                                        label="Sem"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upfstartdate"
+                                        name="upfstartdate"
+                                        type="date"
+                                        label="Date of Award"
+                                        no-placeholder
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upfsemtwo"
+                                        name="upfsemtwo"
+                                        label="Sem"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upfenddate"
+                                        name="upfenddate"
+                                        type="date"
+                                        label="Date Expected to Graduate"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card-section>
+                            </q-card>
+                          </q-expansion-item>
+
+                          <q-expansion-item
+                            expand-separator
+                            icon="school"
+                            label="Local"
+                            caption="Scholar"
+                          >
+                            <q-card>
+                              <q-card-section>
+                                <div class="col-xs-12 col-sm-6">
+                                  <div class="q-col-gutter-md row items-start">
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.uplsemone"
+                                        name="uplsemone"
+                                        label="Sem"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.uplstartdate"
+                                        name="uplstartdate"
+                                        label="Date of Award"
+                                        mask="#### - ####"
+                                        hint="Year: #### - ####"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.uplsemtwo"
+                                        name="uplsemtwo"
+                                        label="Sem"
+                                      />
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.uplenddate"
+                                        name="uplenddate"
+                                        label="Date Expected To Graduate"
+                                        mask="#### - ####"
+                                        hint="Year: #### - ####"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card-section>
+                            </q-card>
+                          </q-expansion-item>
+
+                          <q-expansion-item
+                            expand-separator
+                            icon="school"
+                            label="MS-PHD wth Foreign"
+                            caption="Scholar"
+                          >
+                            <q-card>
+                              <q-card-section>
+                                <div class="col-xs-12 col-sm-6">
+                                  <div class="q-col-gutter-md row items-start">
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upmsemone"
+                                        name="upmsemone"
+                                        label="Sem"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upmstartdate"
+                                        name="upmstartdate"
+                                        label="Date Expected To Graduate"
+                                        mask="#### - ####"
+                                        hint="Year: #### - ####"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-1 col-md-1">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upmsemtwo"
+                                        name="upmsemtwo"
+                                        label="Sem"
+                                      />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5">
+                                      <q-input
+                                        outlined
+                                        v-model="state.upmsenddate"
+                                        name="upmsenddate"
+                                        label="Date Expected To Graduate"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </q-card-section>
+                            </q-card>
+                          </q-expansion-item>
+                        </q-list>
+                      </div>
+
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rfupduration"
+                          outlined
+                          v-model="state.upduration"
+                          name="upduration"
+                          label="Duration"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rfupremarks"
+                          outlined
+                          v-model="state.upremarks"
+                          name="upremarks"
+                          label="Remarks"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-select
+                          ref="rfupfield"
+                          emit-value
+                          map-options
+                          outlined
+                          label="Field"
+                          v-model="upfield"
+                          name="upfield"
+                          :options="fieldOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-input
+                          ref="rfupobligation"
+                          outlined
+                          v-model="state.upobligation"
+                          name="upobligation"
+                          label="Service Obligation"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rfuptitle"
+                          outlined
+                          v-model="state.uptitle"
+                          name="uptitle"
+                          label="Title of Research"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-select
+                          ref="rfupscholartype"
+                          outlined
+                          label="Scholar Type"
+                          v-model="upscholartype"
+                          name="upscholartype"
+                          :options="scholartypeOptions"
+                          :rules="[myRule]"
+                        />
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-md-6">
+                        <q-input
+                          ref="rfupgraddate"
+                          outlined
+                          v-model="state.upgraddate"
+                          name="upgraddate"
+                          label="Graduation Date"
+                          mask="#### - ##"
+                          hint="Year: Yr - Month"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rupfhonors"
+                          outlined
+                          v-model="state.uphonors"
+                          name="uphonors"
+                          label="Honors/ Awards Received"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rfupdissemination"
+                          outlined
+                          v-model="state.updissemination"
+                          name="updissemination"
+                          label="Dissemination Grant"
+                          :rules="inputRules"
+                        />
+                      </div>
+                      <div class="col-xs-12">
+                        <q-input
+                          ref="rupresearch"
+                          outlined
+                          v-model="state.upresearch"
+                          name="upresearch"
+                          label="Research Grant"
+                          :rules="inputRules"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </q-card-section>
+              </q-card>
               <div class="row justify-end">
                 <q-btn type="submit" color="primary" label="Update" />
               </div>
@@ -759,111 +1072,6 @@
           </q-tab-panel>
 
           <!-- End of Scholarship Info -->
-
-          <!-- Thesis -->
-
-          <q-tab-panel name="thesis">
-            <form id="editthesisForm" @submit.prevent.stop="editThesisSC">
-              <div class="col-xs-12 col-sm-6">
-                <div class="q-col-gutter-md row items-start">
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfuptitle"
-                      outlined
-                      v-model="state.uptitle"
-                      name="uptitle"
-                      label="Title of Research"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupstartdate"
-                      outlined
-                      v-model="state.upstartdate"
-                      name="upstartdate"
-                      type="date"
-                      label="Start Date"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupenddate"
-                      outlined
-                      v-model="state.upenddate"
-                      name="upenddate"
-                      type="date"
-                      label="End Date"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupduration"
-                      outlined
-                      v-model="state.upduration"
-                      name="upduration"
-                      label="Duration"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupfield"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Field"
-                      v-model="upfield"
-                      name="upfield"
-                      :options="fieldOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-input
-                      ref="rfupobligation"
-                      outlined
-                      v-model="state.upobligation"
-                      name="upobligation"
-                      label="Service Obligation"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12 col-sm-6 col-md-6">
-                    <q-select
-                      ref="rfupundergrad"
-                      outlined
-                      emit-value
-                      map-options
-                      label="Undergraduate Scholar"
-                      v-model="upundergrad"
-                      name="upundergrad"
-                      :options="undergradOptions"
-                      :rules="[myRule]"
-                    />
-                  </div>
-
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfupremarks"
-                      outlined
-                      v-model="state.upremarks"
-                      name="upremarks"
-                      label="Remarks"
-                      :rules="inputRules"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="row justify-end">
-                <q-btn type="submit" color="primary" label="Update" />
-              </div>
-            </form>
-          </q-tab-panel>
-
-          <!-- End thesis -->
 
           <!-- Document Section -->
 
@@ -1099,17 +1307,12 @@ const refstreet = ref(null);
 
 const rfupcourse = ref(null);
 const rfupschool = ref(null);
-const rfupgradschool = ref(null);
-const rfupgradcourse = ref(null);
 
 //Thesis Reference
 
-const rfuptitle = ref(null);
-const rfupstartdate = ref(null);
-const rfupenddate = ref(null);
-const rfupduration = ref(null);
-const rfupfield = ref(null);
-const rfupobligation = ref(null);
+// const rfupstartdate = ref(null);
+// const rfupenddate = ref(null);
+
 const rfupundergrad = ref(null);
 const rfupremarks = ref(null);
 
@@ -1119,18 +1322,31 @@ const rfupentry = ref(null);
 const rfupyear = ref(null);
 const rfupbatch = ref(null);
 const rfupgrant = ref(null);
-const rfupcomp = ref(null);
 const rfuplvl = ref(null);
+const rfupcomp = ref(null);
 const rfupscholarprog = ref(null);
 const rfupcouncil = ref(null);
+const rfupgradschool = ref(null);
+const rfupgradcourse = ref(null);
+const rfupduration = ref(null);
+const rfupfield = ref(null);
+const rfupobligation = ref(null);
+const rfuptitle = ref(null);
 const rfupscholartype = ref(null);
+const rfupgraddate = ref(null);
+const rupfhonors = ref(null);
+const rfupdissemination = ref(null);
+const rupresearch = ref(null);
+
 const rfupavailment = ref(null);
+const rfupstats = ref(null);
 const rfupsem = ref(null);
 const rfupay = ref(null);
 
 // Document Reference
 const refFiletype = ref(null);
 const refDesc = ref(null);
+
 const reffile = ref(null);
 
 // Select Validation declaration Variables
@@ -1150,6 +1366,7 @@ const upscholarprog = ref(null);
 const upcouncil = ref(null);
 const upscholartype = ref(null);
 const upsem = ref(null);
+const upstatus = ref(null);
 
 // file Validation
 const files = ref(null);
@@ -1176,22 +1393,43 @@ const state = reactive({
 
   upcourse: "",
   upschool: "",
-  upgradschool: "",
-  upgradcourse: "",
-  upschoolregion: "",
 
-  uptitle: "",
   upstartdate: "",
   upenddate: "",
-  upduration: "",
-  upobligation: "",
+
   upremarks: "",
 
   upyraward: "",
   upbatch: "",
   upcomp: "",
+  upgradschool: "",
+  upgradcourse: "",
+  upschoolregion: "",
+
   upavailment: "",
   upay: "",
+
+  upfsemone: "",
+  upfstartdate: "",
+  upfsemtwo: "",
+  upfenddate: "",
+  uplsemone: "",
+  uplsemtwo: "",
+  uplstartdate: "",
+  uplenddate: "",
+  upmsemone: "",
+  upmstartdate: "",
+  upmsemtwo: "",
+  upmsenddate: "",
+
+  upduration: "",
+  upremarks: "",
+  upobligation: "",
+  uptitle: "",
+  upgraddate: "",
+  uphonors: "",
+  updissemination: "",
+  upresearch: "",
 
   filedesc: "",
 });
@@ -1600,6 +1838,20 @@ const populateaddress = () => {
   });
 };
 
+// Showing Status
+
+const statsOptions = ref();
+
+onMounted(() => {
+  populatestats();
+});
+
+const populatestats = () => {
+  axios.get("/read.php?stats").then(function (response) {
+    statsOptions.value = response.data;
+  });
+};
+
 //Edit Scaholar
 
 const showeditScholar = (props) => {
@@ -1650,18 +1902,23 @@ const showeditScholar = (props) => {
     state.upschoolregion = response.data.region;
     upgradcourse.value = response.data.grad_course;
     upgradschool.value = response.data.grad_school;
+    upstatus.value = response.data.status;
   });
 
   axios.post("/read.php?editThesis", formData).then(function (response) {
-    state.uptitle = response.data.title;
-    state.upstartdate = response.data.start_date;
-    state.upenddate = response.data.end_date;
+    // state.upstartdate = response.data.start_date;
+    // state.upenddate = response.data.end_date;
+    // upundergrad.value = response.data.undergrad_scholar;
     state.upduration = response.data.duration;
+    state.upremarks = response.data.remarks;
     upfield.value = response.data.field;
     state.upobligation = response.data.servob;
-    upundergrad.value = response.data.undergrad_scholar;
-    state.upremarks = response.data.remarks;
+    state.uptitle = response.data.title;
     upscholartype.value = response.data.school_type;
+    state.upgraddate = response.data.grad_date;
+    state.uphonors = response.data.honors;
+    state.updissemination = response.data.dissemination;
+    state.upresearch = response.data.research;
   });
 
   axios.post("/read.php?editScholarchip", formData).then(function (response) {
@@ -1673,6 +1930,23 @@ const showeditScholar = (props) => {
     state.upavailment = response.data.availment;
     upsem.value = response.data.sem;
     state.upay = response.data.award_year;
+  });
+
+  axios.post("/read.php?editDateSem", formData).then(function (response) {
+    state.upfsemone = response.data.foreign_sem;
+    state.upfstartdate = response.data.foreign_startdate;
+    state.upfsemtwo = response.data.foreign_endsem;
+    state.upfenddate = response.data.foreign_enddate;
+
+    state.uplsemone = response.data.local_sem;
+    state.uplstartdate = response.data.local_startdate;
+    state.uplsemtwo = response.data.local_endsem;
+    state.uplenddate = response.data.local_enddate;
+
+    state.upmsemone = response.data.msphd_sem;
+    state.upmstartdate = response.data.msphd_startdate;
+    state.upmsemtwo = response.data.msphd_endsem;
+    state.upmsenddate = response.data.msphd_enddate;
   });
 };
 
@@ -1784,15 +2058,8 @@ const editScontact = () => {
 const editSchool = () => {
   rfupcourse.value.validate();
   rfupschool.value.validate();
-  rfupgradschool.value.validate();
-  rfupgradcourse.value.validate();
 
-  if (
-    rfupcourse.value.hasError ||
-    rfupschool.value.hasError ||
-    rfupgradschool.value.hasError ||
-    rfupgradcourse.value.hasError
-  ) {
+  if (rfupcourse.value.hasError || rfupschool.value.hasError) {
     //Errors
   } else {
     // Back End Starts Here
@@ -1802,24 +2069,6 @@ const editSchool = () => {
     // Previous School
     axios
       .post("/update.php?updateScholarschool", formData)
-      .then(function (response) {
-        if (response.data == true) {
-          fixed.value = false;
-          showEditalert();
-          readOnscholars();
-          readGradscholars();
-          readTermscholars();
-        } else {
-          alert("Failed");
-        }
-      });
-
-    // Graduate School
-
-    formData.append("upgradschool", upgradschool.value?.label);
-
-    axios
-      .post("/update.php?updateGradScholarschool", formData)
       .then(function (response) {
         if (response.data == true) {
           fixed.value = false;
@@ -1852,59 +2101,59 @@ const editSchool = () => {
 
 // Thesis
 
-const editThesisSC = () => {
-  rfuptitle.value.validate();
-  rfupstartdate.value.validate();
-  rfupenddate.value.validate();
-  rfupduration.value.validate();
-  rfupfield.value.validate();
-  rfupobligation.value.validate();
-  rfupundergrad.value.validate();
-  rfupremarks.value.validate();
+// const editThesisSC = () => {
+//   rfuptitle.value.validate();
+//   rfupstartdate.value.validate();
+//   rfupenddate.value.validate();
+//   rfupduration.value.validate();
+//   rfupfield.value.validate();
+//   rfupobligation.value.validate();
+//   rfupundergrad.value.validate();
+//   rfupremarks.value.validate();
 
-  if (
-    rfuptitle.value.hasError ||
-    rfupstartdate.value.hasError ||
-    rfupenddate.value.hasError ||
-    rfupduration.value.hasError ||
-    rfupfield.value.hasError ||
-    rfupobligation.value.hasError ||
-    rfupundergrad.value.hasError ||
-    rfupremarks.value.hasError
-  ) {
-  } else {
-    var formData = new FormData(document.getElementById("editthesisForm"));
-    formData.append("editScholarID", saddressid.value);
+//   if (
+//     rfuptitle.value.hasError ||
+//     rfupstartdate.value.hasError ||
+//     rfupenddate.value.hasError ||
+//     rfupduration.value.hasError ||
+//     rfupfield.value.hasError ||
+//     rfupobligation.value.hasError ||
+//     rfupundergrad.value.hasError ||
+//     rfupremarks.value.hasError
+//   ) {
+//   } else {
+//     var formData = new FormData(document.getElementById("editthesisForm"));
+//     formData.append("editScholarID", saddressid.value);
 
-    axios.post("/update.php?updateThesis", formData).then(function (response) {
-      if (response.data == true) {
-        fixed.value = false;
-        showEditalert();
-        readOnscholars();
-        readGradscholars();
-        readTermscholars();
-      } else {
-        alert("Failed");
-      }
-    });
+//     axios.post("/update.php?updateThesis", formData).then(function (response) {
+//       if (response.data == true) {
+//         fixed.value = false;
+//         showEditalert();
+//         readOnscholars();
+//         readGradscholars();
+//         readTermscholars();
+//       } else {
+//         alert("Failed");
+//       }
+//     });
 
-    // Update Logs
+//     // Update Logs
 
-    formData.append("authname", user.username);
-    formData.append("upspasid", state.upspasid);
+//     formData.append("authname", user.username);
+//     formData.append("upspasid", state.upspasid);
 
-    axios.post("/create.php?ThesisInfoLog", formData).then(function (response) {
-      if (response.data == true) {
-        readOnscholars();
-        readGradscholars();
-        readTermscholars();
-      } else {
-        alert("Failed");
-      }
-    });
-    // Back End Ends Here
-  }
-};
+//     axios.post("/create.php?ThesisInfoLog", formData).then(function (response) {
+//       if (response.data == true) {
+//         readOnscholars();
+//         readGradscholars();
+//         readTermscholars();
+//       } else {
+//         alert("Failed");
+//       }
+//     });
+//     // Back End Ends Here
+//   }
+// };
 
 const editScholarshipsInfo = () => {
   rfupentry.value.validate();
@@ -1915,10 +2164,22 @@ const editScholarshipsInfo = () => {
   rfupcomp.value.validate();
   rfupscholarprog.value.validate();
   rfupcouncil.value.validate();
-  rfupscholartype.value.validate();
+  rfupgradschool.value.validate();
+  rfupgradcourse.value.validate();
   rfupavailment.value.validate();
+  rfupstats.value.validate();
   rfupsem.value.validate();
   rfupay.value.validate();
+  rfupduration.value.validate();
+  rfupremarks.value.validate();
+  rfupfield.value.validate();
+  rfupobligation.value.validate();
+  rfuptitle.value.validate();
+  rfupscholartype.value.validate();
+  rfupgraddate.value.validate();
+  rupfhonors.value.validate();
+  rfupdissemination.value.validate();
+  rupresearch.value.validate();
 
   if (
     rfupentry.value.hasError ||
@@ -1929,10 +2190,22 @@ const editScholarshipsInfo = () => {
     rfupcomp.value.hasError ||
     rfupscholarprog.value.hasError ||
     rfupcouncil.value.hasError ||
-    rfupscholartype.value.hasError ||
+    rfupgradschool.value.hasError ||
+    rfupgradcourse.value.hasError ||
     rfupavailment.value.hasError ||
+    rfupstats.value.hasError ||
     rfupsem.value.hasError ||
-    rfupay.value.hasError
+    rfupay.value.hasError ||
+    rfupduration.value.hasError ||
+    rfupremarks.value.hasError ||
+    rfupfield.value.hasError ||
+    rfupobligation.value.hasError ||
+    rfuptitle.value.hasError ||
+    rfupscholartype.value.hasError ||
+    rfupgraddate.value.hasError ||
+    rupfhonors.value.hasError ||
+    rfupdissemination.value.hasError ||
+    rupresearch.value.hasError
   ) {
   } else {
     var formData = new FormData(document.getElementById("editscholarshipForm"));
@@ -1957,7 +2230,7 @@ const editScholarshipsInfo = () => {
       .then(function (response) {
         if (response.data == true) {
           fixed.value = false;
-          // showEditalert();
+
           readOnscholars();
           readGradscholars();
           readTermscholars();
@@ -1971,7 +2244,7 @@ const editScholarshipsInfo = () => {
       .then(function (response) {
         if (response.data == true) {
           fixed.value = false;
-          // showEditalert();
+
           readOnscholars();
           readGradscholars();
           readTermscholars();
@@ -1979,6 +2252,36 @@ const editScholarshipsInfo = () => {
           alert("Failed");
         }
       });
+
+    //  Graduate School
+
+    // formData.append("upgradschool", upgradschool.value?.label);
+
+    axios
+      .post("/update.php?updateGradScholarschool", formData)
+      .then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+          readOnscholars();
+          readGradscholars();
+          readTermscholars();
+        } else {
+          alert("Failed");
+        }
+      });
+
+    // Update Date & SEM
+
+    axios.post("/update.php?updateDateSem", formData).then(function (response) {
+      if (response.data == true) {
+        fixed.value = false;
+        readOnscholars();
+        readGradscholars();
+        readTermscholars();
+      } else {
+        alert("Failed");
+      }
+    });
 
     // Update Logs
 

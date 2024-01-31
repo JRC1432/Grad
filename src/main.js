@@ -46,6 +46,9 @@ router.beforeEach((to, from, next) => {
       // console.log(user);
       myApp.provide("$user", user);
 
+      // console.log(response.data);
+      // next();
+      // return;
       if (response.data == false || response.data?.username == undefined) {
         // console.log(to);
         // next();

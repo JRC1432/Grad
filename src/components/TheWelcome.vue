@@ -156,9 +156,7 @@ const LogSubmit = async () => {
           textColor: "white",
           message: "Login Failed",
         });
-        location.reload();
       } else {
-        showLoading();
         router.push("/stats");
       }
     });
