@@ -69,19 +69,36 @@
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-select
+                <q-input
                   ref="rfemail"
-                  v-model="state.emailadd"
-                  name="emailadd[]"
-                  label="Multiple E-mail Address"
                   outlined
-                  use-input
-                  use-chips
-                  multiple
-                  hide-dropdown-icon
+                  v-model="state.emailadd"
+                  name="emailadd"
+                  label="E-mail Address"
                   type="email"
-                  input-debounce="0"
-                  new-value-mode="add-unique"
+                  :rules="inputRules"
+                />
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfcontact"
+                  outlined
+                  v-model="state.contact"
+                  name="contact"
+                  label="Phone"
+                  mask="(####) ### - ####"
+                  :rules="inputRules"
+                />
+              </div>
+
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <q-input
+                  ref="rfAlternateEmail"
+                  outlined
+                  v-model="state.AlternateEmail"
+                  name="alternateEmail"
+                  label="Alternate E-mail Address"
+                  type="email"
                   :rules="inputRules"
                 />
               </div>
@@ -95,17 +112,6 @@
                     name="gender"
                   />
                 </div>
-              </div>
-              <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-input
-                  ref="rfcontact"
-                  outlined
-                  v-model="state.contact"
-                  name="contact"
-                  label="Phone"
-                  mask="(####) ### - ####"
-                  :rules="inputRules"
-                />
               </div>
             </div>
           </div>
@@ -291,6 +297,7 @@
                   outlined
                   label="Units"
                   type="number"
+                  :rules="inputRules"
                 />
               </div>
             </div>
@@ -322,10 +329,6 @@
             </q-card-section>
 
             <q-separator inset />
-
-            <!-- <pre>
-SPAS ID: {{ level }} - {{ currentYear }} - {{ region }} - {{ yraward }}</pre
-            > -->
 
             <q-card-section>
               <div class="col-xs-12 col-sm-6">
@@ -475,13 +478,16 @@ SPAS ID: {{ level }} - {{ currentYear }} - {{ region }} - {{ yraward }}</pre
                   <div class="col-xs-12">
                     <q-select
                       ref="rfcouncil"
-                      emit-value
-                      map-options
                       outlined
+                      map-options
+                      use-input
+                      input-debounce="0"
                       label="Monitoring Council/ University"
                       v-model="council"
                       name="council"
                       :options="councilOptions"
+                      @filter="filterCouncil"
+                      behavior="menu"
                       :rules="[myRule]"
                     />
                   </div>
@@ -863,6 +869,7 @@ const step = ref(1);
 
 const rfcontact = ref(null);
 const rfemail = ref(null);
+const rfAlternateEmail = ref(null);
 const rfbirth = ref(null);
 const rfsname = ref(null);
 const rfmname = ref(null);
@@ -947,7 +954,8 @@ const state = reactive({
   firstname: "",
   midname: "",
   suffixname: "",
-  emailadd: null,
+  emailadd: "",
+  AlternateEmail: "",
   birthdate: "",
   contact: "",
   gender: "M",
@@ -1029,13 +1037,6 @@ const scholartypeOptions = [
   { label: "PART TIME", value: "PART TIME" },
 ];
 
-// const fieldOptions = [
-//   { label: "APPLIED SCIENCES", value: "APPLIED SCIENCES" },
-//   { label: "BASIC SCIENCES", value: "BASIC SCIENCES" },
-//   { label: "ENGINEERING", value: "ENGINEERING" },
-//   { label: "SCIENCE EDUCATION", value: "SCIENCE EDUCATION" },
-// ];
-
 const availmentOptions = [
   { label: "NEW", value: "NEW" },
   { label: "DEFER", value: "DEFER" },
@@ -1065,22 +1066,20 @@ const myRule = (val) => {
 // Steppers
 
 const step2 = () => {
+  rflname.value.validate();
+  rffname.value.validate();
+  rfbirth.value.validate();
   rfcontact.value.validate();
   rfemail.value.validate();
-  rfbirth.value.validate();
-  rfsname.value.validate();
-  rffname.value.validate();
-  rflname.value.validate();
-  // rfspasid.value.validate();
+  rfAlternateEmail.value.validate();
 
   if (
+    rflname.value.hasError ||
+    rffname.value.hasError ||
+    rfbirth.value.hasError ||
     rfcontact.value.hasError ||
     rfemail.value.hasError ||
-    rfbirth.value.hasError ||
-    rfsname.value.hasError ||
-    rffname.value.hasError ||
-    rflname.value.hasError
-    // rfspasid.value.hasError
+    rfAlternateEmail.value.hasError
   ) {
   } else {
     step.value = 2;
@@ -1105,8 +1104,15 @@ const step3 = () => {
 const step4 = () => {
   rfschool.value.validate();
   rfcourse.value.validate();
+  rfscprog.value.validate();
+  rfunits.value.validate();
 
-  if (rfschool.value.hasError || rfcourse.value.hasError) {
+  if (
+    rfschool.value.hasError ||
+    rfcourse.value.hasError ||
+    rfscprog.value.hasError ||
+    rfunits.value.hasError
+  ) {
   } else {
     step.value = 4;
   }
@@ -1211,8 +1217,6 @@ onMounted(() => {
 const populategradSchool = () => {
   axios.get("/read.php?gradSchool").then((response) => {
     gradschooloption2 = response.data;
-
-    console.log(response.data.school_region);
   });
 };
 
@@ -1297,7 +1301,8 @@ const populategrants = () => {
 
 // Showing Council
 
-const councilOptions = ref();
+var councilOptions2 = [];
+const councilOptions = ref(councilOptions2);
 
 onMounted(() => {
   populatecouncil();
@@ -1305,59 +1310,66 @@ onMounted(() => {
 
 const populatecouncil = () => {
   axios.get("/read.php?council").then(function (response) {
-    councilOptions.value = response.data;
+    councilOptions2 = response.data;
+  });
+};
+
+const filterCouncil = (val, update) => {
+  if (val === "") {
+    update(() => {
+      councilOptions.value = councilOptions2;
+    });
+    return;
+  }
+  update(() => {
+    const needle = val.toLowerCase();
+    councilOptions.value = councilOptions2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
   });
 };
 
 const submitScholar = () => {
+  rfscholarprog.value.validate();
   rfentry.value.validate();
-  rfyear.value.validate();
+  rfay.value.validate();
   rfbatch.value.validate();
   rfgrant.value.validate();
   rflvl.value.validate();
   rfcomp.value.validate();
-  rfscholarprog.value.validate();
   rfcouncil.value.validate();
   rfgradschool.value.validate();
   rfgradcourse.value.validate();
+  // rffield.value.validate();
+  rfduration.value.validate();
   rfavailment.value.validate();
   rfstats.value.validate();
   rfsem.value.validate();
-  rfay.value.validate();
-  rfduration.value.validate();
+  rfyear.value.validate();
   rfremarks.value.validate();
-  rffield.value.validate();
   rfobligation.value.validate();
-
   rfscholartype.value.validate();
 
-  rfhonors.value.validate();
-
-  // rfundergrad.value.validate();
-
   if (
+    rfscholarprog.value.hasError ||
     rfentry.value.hasError ||
-    rfyear.value.hasError ||
+    rfay.value.hasError ||
     rfbatch.value.hasError ||
     rfgrant.value.hasError ||
     rflvl.value.hasError ||
     rfcomp.value.hasError ||
-    rfscholarprog.value.hasError ||
     rfcouncil.value.hasError ||
     rfgradschool.value.hasError ||
     rfgradcourse.value.hasError ||
+    // rffield.value.hasError ||
+    rfduration.value.hasError ||
     rfavailment.value.hasError ||
     rfstats.value.hasError ||
     rfsem.value.hasError ||
-    rfay.value.hasError ||
-    rfduration.value.hasError ||
+    rfyear.value.hasError ||
     rfremarks.value.hasError ||
-    rffield.value.hasError ||
     rfobligation.value.hasError ||
-    rfscholartype.value.hasError ||
-    rfhonors.value.hasError
-
-    // rfundergrad.value.hasError
+    rfscholartype.value.hasError
   ) {
     // error
   } else {
@@ -1368,6 +1380,7 @@ const submitScholar = () => {
     formData.append("midname", state.midname);
     formData.append("suffixname", state.suffixname);
     formData.append("emailadd", state.emailadd);
+    formData.append("alternateEmail", state.AlternateEmail);
     formData.append("birthdate", state.birthdate);
     formData.append("contact", state.contact);
     formData.append("gender", state.gender);
@@ -1384,8 +1397,10 @@ const submitScholar = () => {
 
     formData.append("school", state.school);
     formData.append("course", state.course);
+    formData.append("scprog", scprog.value);
+    formData.append("units", state.units);
 
-    formData.append("spasid", state.spasid);
+    // formData.append("spasid", state.spasid);
     formData.append("usercreator", user.username);
 
     axios.post("/create.php?createScholar", formData).then(function (response) {
