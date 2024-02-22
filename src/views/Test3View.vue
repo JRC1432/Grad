@@ -256,23 +256,35 @@
           <div class="col-xs-12 col-sm-6">
             <div class="q-col-gutter-md row items-start">
               <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-input
+                <q-select
                   ref="rfcourse"
                   outlined
-                  v-model="state.course"
-                  name="course"
+                  map-options
+                  use-input
+                  input-debounce="0"
                   label="Previous Course"
-                  :rules="inputRules"
+                  v-model="course"
+                  name="course"
+                  :options="underGradCoursesoption"
+                  @filter="filterUndergradCourse"
+                  behavior="menu"
+                  :rules="[myRule]"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
-                <q-input
+                <q-select
                   ref="rfschool"
                   outlined
-                  v-model="state.school"
-                  name="school"
+                  map-options
+                  use-input
+                  input-debounce="0"
                   label="Previous School"
-                  :rules="inputRules"
+                  v-model="school"
+                  name="school"
+                  :options="underGradSchooloptions"
+                  @filter="filterUndergradSchool"
+                  behavior="menu"
+                  :rules="[myRule]"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -925,6 +937,9 @@ const council = ref(null);
 const gradcourse = ref(null);
 const gradschool = ref(null);
 
+const course = ref(null);
+const school = ref(null);
+
 const scprog = ref(null);
 const availment = ref(null);
 
@@ -969,8 +984,6 @@ const state = reactive({
   provincecity: "",
   district: "",
 
-  course: "",
-  school: "",
   units: "",
   field: "",
 
@@ -1236,6 +1249,66 @@ const filterGradschool = (val, update) => {
   });
 };
 
+// Showing UnderGrad Courses
+var underGradCoursesoption2 = [];
+const underGradCoursesoption = ref(underGradCoursesoption2);
+
+onMounted(() => {
+  populateUndergradCourse();
+});
+
+const populateUndergradCourse = () => {
+  axios.get("/read.php?underGradCourses").then((response) => {
+    underGradCoursesoption2 = response.data;
+  });
+};
+
+const filterUndergradCourse = (val, update) => {
+  if (val === "") {
+    update(() => {
+      underGradCoursesoption.value = underGradCoursesoption2;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    underGradCoursesoption.value = underGradCoursesoption2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
+  });
+};
+
+// Showing UnderGrad School
+var underGradSchooloptions2 = [];
+const underGradSchooloptions = ref(underGradSchooloptions2);
+
+onMounted(() => {
+  populateUndergradSchool();
+});
+
+const populateUndergradSchool = () => {
+  axios.get("/read.php?underGradSchool").then((response) => {
+    underGradSchooloptions2 = response.data;
+  });
+};
+
+const filterUndergradSchool = (val, update) => {
+  if (val === "") {
+    update(() => {
+      underGradSchooloptions.value = underGradSchooloptions2;
+    });
+    return;
+  }
+
+  update(() => {
+    const needle = val.toLowerCase();
+    underGradSchooloptions.value = underGradSchooloptions2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
+  });
+};
+
 // Showing GradSchool Data
 
 onMounted(() => {
@@ -1395,8 +1468,8 @@ const submitScholar = () => {
     formData.append("district", state.district);
     formData.append("region", region.value);
 
-    formData.append("school", state.school);
-    formData.append("course", state.course);
+    formData.append("school", school.value);
+    formData.append("course", course.value);
     formData.append("scprog", scprog.value);
     formData.append("units", state.units);
 
