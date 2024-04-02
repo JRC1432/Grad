@@ -1,68 +1,64 @@
 <template>
-  <div class="q-pa-md" style="max-width: 350px">
-    <q-card>
-      <q-scroll-area style="height: 500px; width: 100%">
-        <q-list>
-          <q-intersection transition="flip-right" class="example-item">
-            <q-item
-              clickable
-              v-ripple
-              v-for="actlogs in actlog"
-              :key="actlogs.actlog"
-            >
-              <q-item-section>
-                <q-item-label>ACTION BY: {{ actlogs.added_by }}</q-item-label>
-                <q-item-label caption lines="2">{{
-                  actlogs.action_title
-                }}</q-item-label>
-                <q-separator spaced />
-              </q-item-section>
+  <div class="q-pa-md">
+    <q-carousel
+      v-model="slide"
+      transition-prev="slide-right"
+      transition-next="slide-left"
+      animated
+      control-color="primary"
+      class="rounded-borders"
+    >
+      <q-carousel-slide name="style" class="column no-wrap flex-center">
+        <q-icon name="style" color="primary" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="tv" class="column no-wrap flex-center">
+        <q-icon name="live_tv" color="primary" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="layers" class="column no-wrap flex-center">
+        <q-icon name="layers" color="primary" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="map" class="column no-wrap flex-center">
+        <q-icon name="terrain" color="primary" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+    </q-carousel>
 
-              <q-item-section side top>
-                <q-item-label caption>5 min ago</q-item-label>
-                <q-icon name="star" color="yellow" />
-              </q-item-section>
-            </q-item>
-          </q-intersection>
-        </q-list>
-      </q-scroll-area>
-    </q-card>
+    <div class="row justify-center">
+      <q-btn-toggle
+        glossy
+        v-model="slide"
+        :options="[
+          { label: 1, value: 'style' },
+          { label: 2, value: 'tv' },
+          { label: 3, value: 'layers' },
+          { label: 4, value: 'map' },
+        ]"
+      />
+    </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, reactive, inject } from "vue";
+<script>
+import { ref } from "vue";
 
-import {
-  IconListDetails,
-  IconSquareRoundedX,
-  IconFileTypePdf,
-  IconFileSearch,
-  IconFiles,
-} from "@tabler/icons-vue";
-import { useQuasar, QSpinnerGears } from "quasar";
-import Swal from "sweetalert2";
-
-const $q = useQuasar();
-
-const user = inject("$user");
-const axios = inject("$axios");
-
-const actlog = ref();
-
-onMounted(() => {
-  readLog();
-});
-
-const readLog = () => {
-  axios.get("/read.php?ReadLogs").then(function (response) {
-    actlog.value = response.data;
-  });
+export default {
+  setup() {
+    return {
+      slide: ref("style"),
+      lorem:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo provident incidunt ducimus iusto perferendis porro earum. Totam, numquam?",
+    };
+  },
 };
 </script>
-<style scoped>
-.example-item {
-  height: 56px;
-  width: 100%;
-}
-</style>
