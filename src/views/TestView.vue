@@ -34,6 +34,8 @@
       </q-carousel-slide>
     </q-carousel>
 
+    
+
     <div class="row justify-center">
       <q-btn-toggle
         glossy
