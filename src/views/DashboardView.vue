@@ -2,7 +2,7 @@
   <!-- Table Starts Here -->
 
   <div class="q-pa-md">
-    <q-card class="my-card">
+    <q-card class="my-card rounded-borders-20">
       <q-card-section>
         <div class="text-h6 text-primary">Users Control Panel</div>
         <div class="text-subtitle2 text-primary">Users Table</div>
@@ -723,5 +723,9 @@ const UpdateUser = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.rounded-borders-20 {
+  border-radius: 20px !important; /* Adjust the radius as needed */
 }
 </style>

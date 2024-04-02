@@ -2,7 +2,7 @@
   <!-- Table Starts Here -->
 
   <div class="q-pa-md">
-    <q-card class="my-card">
+    <q-card class="my-card rounded-borders-20">
       <q-card-section>
         <div class="text-h6 text-primary">Activity Log</div>
         <div class="text-subtitle2 text-primary">Activity Log Table</div>

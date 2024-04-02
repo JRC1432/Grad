@@ -1,9 +1,66 @@
 <template>
+  <div class="q-pa-md">
+    <div class="row justify-end">
+      <q-btn
+        label="Bulk Upload"
+        color="primary"
+        @click="bulk = true"
+        icon="dynamic_feed"
+      />
+      <q-dialog v-model="bulk" persistent>
+        <q-card style="min-width: 300px; width: 500px">
+          <q-form id="bulkUploadForm" @submit.prevent.stop="bulkUploads">
+            <q-card-section>
+              <div class="text-h6">CSV FILE</div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-section style="max-height: 50vh" class="q-pt-none">
+              <div class="q-pa-md">
+                <div class="q-gutter-sm row items-start">
+                  <div class="q-pa-md">
+                    <q-file
+                      ref="rfBulkUpload"
+                      filled
+                      v-model="bulkuploadScholars"
+                      name="bulkuploadScholars"
+                      label="*CSV FILES ONLY"
+                      color="primary"
+                      clearable
+                      counter
+                      :rules="[fileRules]"
+                      style="min-width: 200px; width: 400px"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="attach_file" />
+                      </template>
+                    </q-file>
+                  </div>
+                </div>
+                <div class="row justify-end">
+                  <q-btn type="submit" label="Upload" color="primary" />
+                </div>
+              </div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-actions align="right">
+              <q-btn flat label="CLOSE" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-form>
+        </q-card>
+      </q-dialog>
+    </div>
+  </div>
+
   <form id="scholarForm" @submit.prevent.stop="submitScholar">
     <div class="q-pa-md">
       <!-- Step 1 -->
 
       <q-stepper
+        class="rounded-borders-20"
         v-model="step"
         ref="stepper"
         alternative-labels
@@ -865,7 +922,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject } from "vue";
+import { ref, reactive, onMounted, inject, handleError } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
 import router from "../router";
@@ -876,6 +933,8 @@ const axios = inject("$axios");
 const user = inject("$user");
 
 const step = ref(1);
+
+const bulk = ref(false);
 
 //Validation Declaration
 
@@ -921,6 +980,7 @@ const rfobligation = ref(null);
 const rfscholartype = ref(null);
 
 const rfhonors = ref(null);
+const rfBulkUpload = ref(null);
 
 const rfschoolregion = ref(null);
 
@@ -949,6 +1009,7 @@ const ay = ref("");
 const yraward = ref("");
 const spasid = ref("");
 const region = ref("");
+const bulkuploadScholars = ref(null);
 
 // Get Year Now
 const currentYear = ref(null);
@@ -1076,6 +1137,13 @@ const myRule = (val) => {
   return true;
 };
 
+const fileRules = (val) => {
+  if (val === null) {
+    return "Please Select a File!";
+  }
+  return true;
+};
+
 // Steppers
 
 const step2 = () => {
@@ -1167,6 +1235,24 @@ const showCustom = () => {
       });
     }
   }, 100);
+};
+
+// File Handler
+
+const handleFileChange = (event) => {
+  console.log(event);
+  const bulkuploadScholar = bulkuploadScholars.value;
+  if (bulkuploadScholar) {
+    if (bulkuploadScholar.type === "application/pdf") {
+      // Handle the selected PDF file
+    } else {
+      $q.notify({
+        color: "negative",
+        message: "Please select a CSV File.",
+      });
+      bulkuploadScholars.value = null;
+    }
+  }
 };
 
 // Showing Province
@@ -1491,10 +1577,62 @@ const submitScholar = () => {
     });
   }
 };
+
+const bulkFire = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "UUPLOADING SCHOLARS INFORMSTIONS!",
+    html: "In Progress.......... <b></b> milliseconds.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const timer = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
+      Swal.fire("UPLOADED SUCCESSFULLY!", "", "success");
+    }
+  });
+};
+
+const bulkUploads = () => {
+  rfBulkUpload.value.validate();
+
+  if (rfBulkUpload.value.hasError) {
+    // Error Here
+  } else {
+    var formData = new FormData(document.getElementById("bulkUploadForm"));
+
+    formData.append("usercreator", user.username);
+    formData.append("authid", user.id);
+
+    axios.post("/create.php?bulkUpload", formData).then(function (response) {
+      if (response.data == true) {
+        bulk.value = false;
+        bulkFire();
+      } else {
+        alert("Error");
+      }
+    });
+  }
+};
 </script>
 <style scoped>
 .text-h6 {
   background-color: primary;
   width: 150px;
+}
+
+.rounded-borders-20 {
+  border-radius: 20px !important; /* Adjust the radius as needed */
 }
 </style>
