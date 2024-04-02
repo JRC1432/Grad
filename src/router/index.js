@@ -41,6 +41,7 @@ const router = createRouter({
           path: "/dash",
           name: "dash",
           component: DashboardView,
+          meta: { access_level: 1 },
         },
         {
           path: "/newscholar",

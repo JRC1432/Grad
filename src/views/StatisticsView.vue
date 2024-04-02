@@ -1,49 +1,289 @@
 <template>
+  <form id="" @submit.prevent.stop="populateyears">
+    <div class="q-pa-md example-row-equal-width">
+      <div class="q-col-gutter-md row item-start">
+        <div class="col-xs-12 col-sm-8 col-md-8">
+          <div class="text-h6 text-bold q-mb-md row items-center">
+            <IconLayoutDashboard
+              class="text-negative q-mr-sm"
+              :size="40"
+              stroke-width="2"
+            />
+            <span class="text-h4 text-bold text-primary">DASHBOARD</span>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-2">
+          <q-select
+            hint="Start Year"
+            outlined
+            behavior="menu"
+            emit-value
+            map-options
+            use-input
+            mask="####"
+            input-debounce="0"
+            label="Year From"
+            v-model="state.frstYearSelect"
+            name="frstYearSelect"
+            :options="yrsoptions"
+            @filter="filteryrs"
+            @update:model-value="populateyears"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> No results </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2">
+          <q-select
+            hint="Scholar Charts Trigger"
+            outlined
+            behavior="menu"
+            emit-value
+            map-options
+            use-input
+            mask="####"
+            input-debounce="0"
+            label="Year To"
+            v-model="state.yearselect"
+            name="yearselect"
+            :options="yrsoptions"
+            @filter="filteryrs"
+            @update:model-value="populateyears"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> No results </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+        </div>
+      </div>
+    </div>
+  </form>
+
   <div class="q-pa-md">
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary rounded-borders-20">
-            <q-card-section class="flex">
-              <div class="text-h6">Total Number of Scholars:</div>
-              <q-space />
-              <div class="text-right text-h6 text-bold">
-                {{ ongoingscholars + gradscholars + termscholars }}
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #65b2ca">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="school" size="xl"></q-icon>
+                </div>
               </div>
-            </q-card-section>
+              <div class="col-10" style="background: #acd7e5">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="
+                          ongoingscholars + gradscholars + termscholars
+                        "
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Total Number of Scholars:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </q-card>
         </div>
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary rounded-borders-20">
-            <q-card-section class="flex">
-              <div class="text-h6">Ongoing Scholars:</div>
-              <q-space />
-              <div class="text-right text-h6 text-bold">
-                {{ ongoingscholars }}
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #7e98cc">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="pending" size="xl"></q-icon>
+                </div>
               </div>
-            </q-card-section>
+              <div class="col-10" style="background: #dac8e8">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold" id="number_up">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="ongoingscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div id="number_up"></div>
+                    <div class="text-subtitle2">OnGoing:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </q-card>
         </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #fcb1bf">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="check_circle" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #ffd1da">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="gradscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Graduated:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #f699cd">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="cancel" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #ffd1da">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="termscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Terminated:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary rounded-borders-20">
-            <q-card-section class="flex">
-              <div class="text-h6">Graduated Scholars:</div>
-              <q-space />
-              <div class="text-right text-h6 text-bold">
-                {{ gradscholars }}
+  <div class="q-pa-md">
+    <div class="col-xs-12 col-sm-6">
+      <div class="q-col-gutter-md row items-start">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+          <q-card class="rounded-borders-20 q-pa-md">
+            <div class="row items-center no-wrap q-mb-lg">
+              <div class="col">
+                <div class="text-h6 text-bold q-mb-md row items-center">
+                  <IconChartBar
+                    class="text-negative q-mr-sm"
+                    :size="40"
+                    stroke-width="2"
+                  />
+                  <span class="text-h6 text-bold text-primary"
+                    >Scholar Charts</span
+                  >
+                </div>
+              </div>
+            </div>
+            <q-card-section>
+              <div class="row">
+                <div class="col-8">
+                  <div class="row justify-center">
+                    <Bar
+                      :data="bardata"
+                      :options="baroptions"
+                      style="height: 530px"
+                    />
+                  </div>
+                </div>
+                <div class="col-4 row q-pa-lg justify-start">
+                  <div class="q-mb-xl">
+                    <div class="text-h6 text-bold q-mb-md row items-center">
+                      <IconChartBar
+                        class="text-negative q-mr-sm"
+                        :size="40"
+                        stroke-width="2"
+                      />
+                      <span class="text-h6 text-bold text-primary"
+                        >Scholar Charts</span
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             </q-card-section>
           </q-card>
         </div>
+        <div class="col-xs-12 q-gutter-y-lg col-sm-12 col-md-4">
+          <q-card class="text-primary rounded-borders-20">
+            <q-card-section>
+              <div class="text-h6">Male & Female Scholars</div>
+            </q-card-section>
 
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary rounded-borders-20">
-            <q-card-section class="flex">
-              <div class="text-h6">Terminated Scholars:</div>
-              <q-space />
-              <div class="text-right text-h6 text-bold">
-                {{ termscholars }}
+            <q-card-section class="q-pa-md">
+              <div class="q-pa-md">
+                <q-card
+                  flat
+                  class="my-card white text-primary rounded-borders-20"
+                >
+                  <Doughnut
+                    :data="data"
+                    :options="options"
+                    :height="195"
+                    :width="195"
+                  />
+                </q-card>
+              </div>
+            </q-card-section>
+          </q-card>
+
+          <q-card class="text-primary rounded-borders-20">
+            <q-card-section>
+              <div class="text-h6">Scholars Status Charts</div>
+            </q-card-section>
+
+            <q-card-section class="q-pa-md">
+              <div class="q-pa-md">
+                <q-card
+                  flat
+                  class="my-card white text-primary rounded-borders-20"
+                >
+                  <Doughnut
+                    :data="datas"
+                    :options="doptions"
+                    :height="200"
+                    :width="200"
+                  />
+                </q-card>
               </div>
             </q-card-section>
           </q-card>
@@ -52,100 +292,19 @@
     </div>
   </div>
 
-  <div class="q-pa-md">
-    <q-card class="text-primary rounded-borders-20">
-      <q-card-section>
-        <div class="text-h6">Scholar Charts</div>
-      </q-card-section>
-
-      <q-card-section class="q-pa-md">
-        <div class="q-pa-md">
-          <q-card flat class="my-card white text-primary rounded-borders-20">
-            <div class="q-pa-md">
-              <div class="q-col-gutter-md row items-start">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                  <q-card-section class="q-pr-lg">
-                    <Doughnut
-                      :data="data"
-                      :options="options"
-                      style="height: 400px"
-                    />
-                  </q-card-section>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                  <q-card-section class="q-pr-lg">
-                    <Doughnut
-                      :data="datas"
-                      :options="doptions"
-                      style="height: 400px"
-                    />
-                  </q-card-section>
-                </div>
-              </div>
-            </div>
-          </q-card>
-        </div>
-
-        <div class="col-xs-12 col-sm-6">
-          <div class="q-col-gutter-md row items-start">
-            <div class="col-xs-12 col-sm-4 col-md-4">
-              <div class="text-h6">Female Count: {{ femalecounts }}</div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4">
-              <div class="text-center text-h6">
-                Total Count: {{ malecounts + femalecounts }}
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4">
-              <div class="text-right text-h6">Male Count: {{ malecounts }}</div>
-            </div>
-          </div>
-        </div>
-      </q-card-section>
-    </q-card>
-  </div>
-
-  <div class="q-pa-md">
-    <q-card class="my-card text-primary rounded-borders-20">
-      <q-select
-        filled
-        behavior="menu"
-        emit-value
-        map-options
-        use-input
-        mask="####"
-        input-debounce="0"
-        label="Select Year"
-        v-model="state.yearselect"
-        name="yearselect"
-        :options="yrsoptions"
-        @filter="filteryrs"
-        @update:model-value="populateyears"
-      >
-        <template v-slot:no-option>
-          <q-item>
-            <q-item-section class="text-grey"> No results </q-item-section>
-          </q-item>
-        </template>
-      </q-select>
-      <q-card-section class="q-pa-md">
-        <Bar :data="bardata" :options="baroptions" style="height: 400px" />
-      </q-card-section>
-    </q-card>
-  </div>
-  <div class="q-pa-md">
+  <!-- <div class="q-pa-md">
     <q-card class="my-card text-primary">
       <q-card-section class="q-pa-md">
         <Line :data="linedata" :options="lineoptions" style="height: 300px" />
       </q-card-section>
     </q-card>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
 import { ref, reactive, onMounted, inject, computed } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
+import { IconChartBar, IconLayoutDashboard } from "@tabler/icons-vue";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -159,6 +318,8 @@ import {
   LineElement,
 } from "chart.js";
 import { Pie, Line, Doughnut, Bar } from "vue-chartjs";
+import { defineComponent } from "vue";
+import Vue3autocounter from "vue3-autocounter";
 
 const $q = useQuasar();
 
@@ -185,77 +346,8 @@ const termscholars = ref();
 
 const state = reactive({
   yearselect: new Date().getFullYear(),
+  frstYearSelect: new Date().getFullYear(),
 });
-
-// Count Male Section
-
-onMounted(() => {
-  countmale();
-});
-
-const malecounts = ref([]);
-
-const countmale = () => {
-  axios.get("/read.php?countmale").then(function (response) {
-    malecounts.value = response.data.malecount;
-  });
-};
-
-// Count Female Section
-
-onMounted(() => {
-  countfemale();
-});
-
-const femalecounts = ref([]);
-
-const countfemale = () => {
-  axios.get("/read.php?countfemale").then(function (response) {
-    femalecounts.value = response.data.femalecount;
-  });
-};
-
-// Count Ongoing Scholars
-
-onMounted(() => {
-  countOnScholars();
-});
-
-const countOnScholars = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?OnScholars")
-    .then(function (response) {
-      ongoingscholars.value = response.data.ongoingscholar;
-    });
-};
-
-// Count Graduated Scholars
-
-onMounted(() => {
-  countGradScholars();
-});
-
-const countGradScholars = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?GradScholars")
-    .then(function (response) {
-      gradscholars.value = response.data.gradscholar;
-    });
-};
-
-// Count Terminated Scholars
-
-onMounted(() => {
-  counttermScholars();
-});
-
-const counttermScholars = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?TermScholars")
-    .then(function (response) {
-      termscholars.value = response.data.termscholar;
-    });
-};
 
 // Pie Data for Gender Scholars
 
@@ -273,7 +365,7 @@ const data = computed(() => {
 
 const options = {
   responsive: true,
-  cutout: 150,
+  cutout: 50,
   maintainAspectRatio: false,
 };
 
@@ -293,7 +385,7 @@ const datas = computed(() => {
 
 const doptions = {
   responsive: true,
-  cutout: 150,
+  cutout: 50,
   maintainAspectRatio: false,
 };
 
@@ -364,13 +456,48 @@ onMounted(() => {
   populateyears();
 });
 
+const malecounts = ref([]);
+const femalecounts = ref([]);
+
 const populateyears = () => {
+  // Bar Graph Append
   var formData = new FormData();
   formData.append("years", state.yearselect);
 
   axios.post("/read.php?yrselect", formData).then(function (response) {
     julval.value = response.data;
-    console.log(julval.value);
+  });
+
+  // Male Counts
+
+  formData.append("frstYearSelect", state.frstYearSelect);
+  formData.append("yearselect", state.yearselect);
+
+  axios.post("/read.php?countmale", formData).then(function (response) {
+    malecounts.value = response.data.malecount;
+  });
+
+  // Female Counts
+
+  axios.post("/read.php?countfemale", formData).then(function (response) {
+    femalecounts.value = response.data.femalecount;
+  });
+
+  // Ongoing Scholars
+  axios.post("/read.php?OnScholars", formData).then(function (response) {
+    ongoingscholars.value = response.data.ongoingscholar;
+  });
+
+  // Graduated Scholars
+
+  axios.post("/read.php?GradScholars", formData).then(function (response) {
+    gradscholars.value = response.data.gradscholar;
+  });
+
+  // Terminated Scholars
+
+  axios.post("/read.php?TermScholars", formData).then(function (response) {
+    termscholars.value = response.data.termscholar;
   });
 };
 
@@ -408,4 +535,11 @@ const baroptions = {
   responsive: true,
   maintainAspectRatio: false,
 };
+
+defineComponent({
+  name: "Demo",
+  components: {
+    "vue3-autocounter": Vue3autocounter,
+  },
+});
 </script>

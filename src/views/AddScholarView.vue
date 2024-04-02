@@ -2,54 +2,59 @@
   <div class="q-pa-md">
     <div class="row justify-end">
       <q-btn
-        label="Bulk Upload"
+        label="Batch Upload"
         color="primary"
         @click="bulk = true"
         icon="dynamic_feed"
       />
       <q-dialog v-model="bulk" persistent>
-        <q-card style="min-width: 300px; width: 500px">
-          <q-form id="bulkUploadForm" @submit.prevent.stop="bulkUploads">
-            <q-card-section>
-              <div class="text-h6">CSV FILE</div>
-            </q-card-section>
+        <q-card style="min-width: 500px; width: 500px">
+          <q-toolbar>
+            <IconFileTypeCsv :size="30" stroke-width="2" />
 
-            <q-separator />
+            <q-toolbar-title
+              ><span class="text-weight-bold" color="primary">CSV</span> File
+              Upload</q-toolbar-title
+            >
 
-            <q-card-section style="max-height: 50vh" class="q-pt-none">
-              <div class="q-pa-md">
-                <div class="q-gutter-sm row items-start">
-                  <div class="q-pa-md">
-                    <q-file
-                      ref="rfBulkUpload"
-                      filled
-                      v-model="bulkuploadScholars"
-                      name="bulkuploadScholars"
-                      label="*CSV FILES ONLY"
-                      color="primary"
-                      clearable
-                      counter
-                      :rules="[fileRules]"
-                      style="min-width: 200px; width: 400px"
-                    >
-                      <template v-slot:prepend>
-                        <q-icon name="attach_file" />
-                      </template>
-                    </q-file>
+            <q-btn flat round dense icon="close" v-close-popup />
+          </q-toolbar>
+
+          <q-card-section>
+            <q-form id="bulkUploadForm" @submit.prevent.stop="bulkUploads">
+              <q-card class="my-card">
+                <q-card-section class="bg-primary text-white">
+                  <div class="text-h6">Upload Your File Here</div>
+                  <div class="text-subtitle2">
+                    Only CSV Documents are Allowed
                   </div>
+                </q-card-section>
+                <div class="q-pa-md">
+                  <q-file
+                    ref="rfBulkUpload"
+                    filled
+                    v-model="bulkuploadScholars"
+                    name="bulkuploadScholars"
+                    label="*CSV FILES ONLY"
+                    color="primary"
+                    clearable
+                    counter
+                    :rules="[fileRules]"
+                  >
+                    <template v-slot:prepend>
+                      <q-icon name="attach_file" />
+                    </template>
+                  </q-file>
                 </div>
-                <div class="row justify-end">
-                  <q-btn type="submit" label="Upload" color="primary" />
-                </div>
+              </q-card>
+              <br />
+              <div class="row justify-end">
+                <q-btn type="submit" label="Upload" color="primary" />
               </div>
-            </q-card-section>
+            </q-form>
+          </q-card-section>
 
-            <q-separator />
-
-            <q-card-actions align="right">
-              <q-btn flat label="CLOSE" color="primary" v-close-popup />
-            </q-card-actions>
-          </q-form>
+          <q-separator />
         </q-card>
       </q-dialog>
     </div>
@@ -136,6 +141,7 @@
                   :rules="inputRules"
                 />
               </div>
+
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   ref="rfcontact"
@@ -167,6 +173,7 @@
                     type="radio"
                     v-model="state.gender"
                     name="gender"
+                    inline
                   />
                 </div>
               </div>
@@ -318,6 +325,7 @@
                   outlined
                   map-options
                   use-input
+                  emit-value
                   input-debounce="0"
                   label="Previous Course"
                   v-model="course"
@@ -334,6 +342,7 @@
                   outlined
                   map-options
                   use-input
+                  emit-value
                   input-debounce="0"
                   label="Previous School"
                   v-model="school"
@@ -426,7 +435,7 @@
                     <q-input
                       ref="rfspasid"
                       outlined
-                      v-model="region"
+                      v-model="state.newregion"
                       name="spasRegion"
                       readonly
                     />
@@ -565,6 +574,7 @@
                       ref="rfgradschool"
                       outlined
                       map-options
+                      emit-value
                       use-input
                       input-debounce="0"
                       label="Graduate School"
@@ -738,20 +748,6 @@
                       </q-expansion-item>
                     </q-list>
                   </div>
-
-                  <!-- <div class="col-xs-12">
-                    <q-select
-                      ref="rffield"
-                      emit-value
-                      map-options
-                      outlined
-                      label="Field"
-                      v-model="field"
-                      name="field"
-                      :options="fieldOptions"
-                      :rules="[myRule]"
-                    />
-                  </div> -->
                 </div>
               </div>
             </q-card-section>
@@ -806,7 +802,7 @@
                       :rules="[myRule]"
                     />
                   </div>
-                  <div class="col-xs-12 col-sm-4 col-md-4">
+                  <div class="col-xs-12 col-sm-6 col-md-12">
                     <q-input
                       ref="rfyear"
                       outlined
@@ -816,36 +812,6 @@
                       mask="####"
                       readonly
                       :rules="inputRules"
-                    />
-                  </div>
-
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfremarks"
-                      outlined
-                      v-model="state.remarks"
-                      name="remarks"
-                      label="Remarks"
-                      :rules="inputRules"
-                    />
-                  </div>
-
-                  <div class="col-xs-12">
-                    <q-input
-                      ref="rfobligation"
-                      outlined
-                      v-model="state.obligation"
-                      name="obligation"
-                      label="Service Obligation"
-                      :rules="inputRules"
-                    />
-                  </div>
-                  <div class="col-xs-12">
-                    <q-input
-                      outlined
-                      v-model="state.title"
-                      name="title"
-                      label="Title of Research"
                     />
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
@@ -870,6 +836,27 @@
                       hint="Year: Yr - Month"
                     />
                   </div>
+
+                  <div class="col-xs-12">
+                    <q-input
+                      ref="rfobligation"
+                      outlined
+                      v-model="state.obligation"
+                      name="obligation"
+                      label="Service Obligation"
+                      type="number"
+                      :rules="inputRules"
+                    />
+                  </div>
+                  <div class="col-xs-12">
+                    <q-input
+                      outlined
+                      v-model="state.title"
+                      name="title"
+                      label="Title of Research"
+                    />
+                  </div>
+
                   <div class="col-xs-12">
                     <q-input
                       ref="rfhonors"
@@ -898,6 +885,16 @@
                       :rules="inputRules"
                     />
                   </div>
+                  <div class="col-xs-12">
+                    <q-input
+                      ref="rfremarks"
+                      outlined
+                      v-model="state.remarks"
+                      name="remarks"
+                      label="Remarks"
+                      :rules="inputRules"
+                    />
+                  </div>
                 </div>
               </div>
             </q-card-section>
@@ -922,9 +919,10 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject, handleError } from "vue";
+import { ref, reactive, onMounted, inject, handleError, watch } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import Swal from "sweetalert2";
+import { IconFileTypeCsv } from "@tabler/icons-vue";
 import router from "../router";
 
 const $q = useQuasar();
@@ -995,7 +993,7 @@ const level = ref(null);
 const scholarprog = ref(null);
 const council = ref(null);
 const gradcourse = ref(null);
-const gradschool = ref(null);
+const gradschool = ref("");
 
 const course = ref(null);
 const school = ref(null);
@@ -1003,7 +1001,7 @@ const school = ref(null);
 const scprog = ref(null);
 const availment = ref(null);
 
-const scholartype = ref(null);
+const scholartype = ref("");
 
 const ay = ref("");
 const yraward = ref("");
@@ -1022,6 +1020,16 @@ const getCurrentYear = () => {
   const currentDate = new Date();
   currentYear.value = currentDate.getFullYear();
 };
+
+watch(scholartype, async (newscholarType) => {
+  if (newscholarType.includes("PART TIME") && state.obligation == "0") {
+    state.obligation = "0";
+  } else if (newscholarType.includes("PART TIME")) {
+    state.obligation = "1";
+  } else {
+    state.obligation = "";
+  }
+});
 
 // Reactive states
 
@@ -1051,6 +1059,7 @@ const state = reactive({
   batch: "",
   comp: "100m",
   schoolregion: "",
+  newregion: "",
 
   fsemone: "",
   fstartdate: "",
@@ -1294,7 +1303,6 @@ onMounted(() => {
 const populateaddress = () => {
   var formData = new FormData();
   formData.append("province", province.value);
-  console.log(state.province);
 
   axios.post("/read.php?addressid", formData).then(function (response) {
     state.municipality = response.data.zmun;
@@ -1302,6 +1310,7 @@ const populateaddress = () => {
     state.barangay = response.data.zbar;
     state.district = response.data.zdis;
     region.value = response.data.zreg;
+    state.newregion = response.data.new_region;
   });
 };
 
@@ -1332,6 +1341,24 @@ const filterGradschool = (val, update) => {
     gradschoolOptions.value = gradschooloption2.filter((option) => {
       return option.label.toLowerCase().includes(needle);
     });
+  });
+};
+
+// Showing GradSchool Data
+
+onMounted(() => {
+  populateschool();
+});
+
+const populateschool = () => {
+  // state.schoolregion = gradschool.value?.school_region;
+
+  var formData = new FormData();
+  formData.append("schoolId", gradschool.value);
+
+  axios.post("/read.php?gradSchoolFilter", formData).then(function (response) {
+    state.obligation = response.data.duration;
+    state.schoolregion = response.data.school_region;
   });
 };
 
@@ -1395,16 +1422,6 @@ const filterUndergradSchool = (val, update) => {
   });
 };
 
-// Showing GradSchool Data
-
-onMounted(() => {
-  populateschool();
-});
-
-const populateschool = () => {
-  state.schoolregion = gradschool.value?.school_region;
-};
-
 // Showing GradSchool Courses
 var gradcourseOptions2 = [];
 const gradcourseOptions = ref(gradcourseOptions2);
@@ -1433,6 +1450,22 @@ const filterGradCourse = (val, update) => {
     });
   });
 };
+
+// Showing GradSchool Data
+
+// onMounted(() => {
+//   populateGradSchoolFilter();
+// });
+
+// const populateGradSchoolFilter = () => {
+//   var formData = new FormData();
+//   formData.append("schoolName", gradschool.value);
+//   console.log(gradschool.value);
+
+//   axios.post("/read.php?gradSchoolFilter", formData).then(function (response) {
+//     state.obligation = response.data.newDuration;
+//   });
+// };
 
 // Showing Field of Courses
 

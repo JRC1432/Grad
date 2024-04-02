@@ -6,6 +6,7 @@ import router from "./router";
 import "./assets/base.css";
 import axiosMain from "axios";
 import { VueReCaptcha } from "vue-recaptcha-v3";
+import Vue3Autocounter from "vue3-autocounter";
 
 import Vue3Lottie from "vue3-lottie";
 
@@ -49,6 +50,7 @@ router.beforeEach((to, from, next) => {
       // console.log(response.data);
       // next();
       // return;
+
       if (response.data == false || response.data?.username == undefined) {
         // console.log(to);
         // next();
@@ -60,13 +62,28 @@ router.beforeEach((to, from, next) => {
           next();
         }
       } else {
-        next();
+        if (to.path == "/") {
+          router.push("/stats");
+          //   next();
+        }
+
+        if (to?.meta?.access_level) {
+          if (to?.meta?.access_level == user.access_level) {
+            next();
+          } else {
+            router.push("/stats");
+            // next();
+          }
+        } else {
+          next();
+        }
       }
     });
 });
 
 myApp.use(router);
 myApp.use(Vue3Lottie);
+myApp.use(Vue3Autocounter);
 
 myApp.use(Quasar, {
   plugins: { Notify, Loading, Dialog, LoadingBar }, // import Quasar plugins and add here

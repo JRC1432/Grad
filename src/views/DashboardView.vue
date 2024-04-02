@@ -335,7 +335,7 @@
 </template>
 <script setup>
 import { ref, onMounted, reactive, inject, computed } from "vue";
-import axios from "axios";
+
 import {
   IconUserEdit,
   IconUserCancel,
@@ -346,7 +346,9 @@ import { useQuasar, QSpinnerGears, Notify } from "quasar";
 import Swal from "sweetalert2";
 
 const user = inject("$user");
+const q$ = useQuasar();
 const $q = useQuasar();
+const axios = inject("$axios");
 
 // Items Variables
 const nameRef = ref(null);
@@ -486,6 +488,8 @@ const columns = [
 const Acclevel = [
   { label: "Administrator Account", value: "1" },
   { label: "User Account", value: "0" },
+  { label: "Coordinator", value: "2" },
+  { label: "Project Leaders", value: "3" },
 ];
 
 // Sweet Alert (Create) Code Here
@@ -563,11 +567,9 @@ onMounted(() => {
 });
 
 const readusers = () => {
-  axios
-    .get("http://localhost/backdbase/read.php?readuser")
-    .then(function (response) {
-      rows.value = response.data;
-    });
+  axios.get("/read.php?readuser").then(function (response) {
+    rows.value = response.data;
+  });
 };
 
 // Create New Users
@@ -594,24 +596,34 @@ const CreateUser = () => {
     formData.append("creator", user.username);
     formData.append("authid", user.id);
 
-    axios
-      .post("http://localhost/backdbase/create.php?createuser", formData)
-      .then(function (response) {
-        if (response.data == true) {
-          state.username = "";
-          state.password = "";
-          state.confirmpassword = "";
-          acclevel.value = "";
-          fixed.value = false;
-          showalert();
-        } else {
-          $q.notify({
-            color: "red",
-            textColor: "white",
-            message: "Err",
-          });
-        }
-      });
+    axios.post("/create.php?createuser", formData).then(function (response) {
+      if (response.data == true) {
+        state.username = "";
+        state.password = "";
+        state.confirmpassword = "";
+        acclevel.value = "";
+        fixed.value = false;
+        showalert();
+      } else {
+        $q.notify({
+          color: "red",
+          textColor: "white",
+          message: "Err",
+        });
+      }
+    });
+
+    axios.post("/create.php?newUserLog", formData).then(function (response) {
+      if (response.data == true) {
+        fixed.value = false;
+      } else {
+        $q.notify({
+          color: "red",
+          textColor: "white",
+          message: "Error in log",
+        });
+      }
+    });
   }
 };
 
@@ -629,24 +641,38 @@ const showdel = (props) => {
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      console.log(props.row.id);
+
       var formData = new FormData();
       formData.append("userid", props.row.id);
-      axios
-        .post("http://localhost/backdbase/delete.php?deleteuser", formData)
-        .then(function (response) {
-          if (response.data == true) {
-            readusers();
-            countusers();
-            countadmins();
-          } else {
-            $q.notify({
-              color: "red",
-              textColor: "white",
-              message: "User not deleted",
-            });
-          }
-        });
+      axios.post("/delete.php?deleteuser", formData).then(function (response) {
+        if (response.data == true) {
+          readusers();
+          countusers();
+          countadmins();
+        } else {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            message: "User not deleted",
+          });
+        }
+      });
+
+      formData.append("creator", user.username);
+      formData.append("username", props.row.username);
+      formData.append("acclevel", props.row.access_level);
+
+      axios.post("/create.php?delUserLog", formData).then(function (response) {
+        if (response.data == true) {
+          fixed.value = false;
+        } else {
+          $q.notify({
+            color: "red",
+            textColor: "white",
+            message: "Error in log",
+          });
+        }
+      });
     }
   });
 };
@@ -659,6 +685,7 @@ const showedit = (props) => {
   state.uplastname = props.row.lname;
   state.upusername = props.row.username;
   state.upid = props.row.id;
+
   var formData = new FormData();
   formData.append("userid", state.upid);
   formData.append("uppassword", state.uppassword);
@@ -683,31 +710,42 @@ const UpdateUser = () => {
   } else {
     var formData = new FormData(document.getElementById("UpdateUserForm"));
     formData.append("upfirstname", state.upfirstname);
-    console.log(state.upfirstname);
+
     formData.append("uplastname", state.uplastname);
-    console.log(state.uplastname);
+
     formData.append("userid", state.upid);
-    console.log(state.upid);
+
     formData.append("upusername", state.upusername);
-    console.log(state.upusername);
+
     formData.append("upacclevel", upacclevel.value);
-    console.log(state.upacclevel);
+
     formData.append("uppassword", state.uppassword);
-    console.log(state.uppassword);
-    axios
-      .post("http://localhost/backdbase/update.php?updateuser", formData)
-      .then(function (response) {
-        if (response.data == true) {
-          showEditalert();
-          editdialog.value = false;
-        } else {
-          $q.notify({
-            color: "red",
-            textColor: "white",
-            message: "User not updated",
-          });
-        }
-      });
+
+    axios.post("/update.php?updateuser", formData).then(function (response) {
+      if (response.data == true) {
+        showEditalert();
+        editdialog.value = false;
+      } else {
+        $q.notify({
+          color: "red",
+          textColor: "white",
+          message: "User not updated",
+        });
+      }
+    });
+
+    formData.append("creator", user.username);
+    axios.post("/create.php?editUserLog", formData).then(function (response) {
+      if (response.data == true) {
+        fixed.value = false;
+      } else {
+        $q.notify({
+          color: "red",
+          textColor: "white",
+          message: "Error in log",
+        });
+      }
+    });
   }
 };
 </script>
