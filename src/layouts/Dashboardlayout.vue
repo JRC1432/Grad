@@ -22,9 +22,105 @@
 
         <q-space />
 
-        <q-space />
-
         <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn flat round icon="notifications_active" class="q-ml-md">
+            <q-menu>
+              <div class="q-pa-md flex justify-center">
+                <q-list style="max-width: 95%; width: 400px; height: 500px">
+                  <q-intersection
+                    clickable
+                    v-ripple
+                    v-for="actlogs in actlog"
+                    :key="actlogs.actlog"
+                    transition="flip-right"
+                  >
+                    <q-item
+                      clickable
+                      v-ripple
+                      @click="readStatus(actlogs.id)"
+                      v-if="actlogs.read_stats == 'unread'"
+                      class="bg-grey-12"
+                    >
+                      <q-item-section avatar>
+                        <q-avatar color="primary" text-color="white">
+                          <IconAlertOctagon :size="30" stroke-width="2" />
+                        </q-avatar>
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label
+                          >SYSTEM NOTIFICATION:
+                          {{ actlogs.added_by }}</q-item-label
+                        >
+                        <q-item-label caption lines="2">{{
+                          actlogs.action_title
+                        }}</q-item-label>
+                        <q-separator inset />
+                      </q-item-section>
+
+                      <q-item-section side>
+                        <q-item-label caption
+                          >{{ actlogs.prevtime }} ago</q-item-label
+                        >
+                        <q-icon
+                          v-if="actlogs.read_stats == 'read'"
+                          name="radio_button_checked"
+                          color="green"
+                        />
+                        <q-icon
+                          v-else
+                          name="radio_button_checked"
+                          color="orange"
+                        />
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item
+                      clickable
+                      v-ripple
+                      @click="readStatus(actlogs.id)"
+                      v-else
+                      class="bg-white"
+                    >
+                      <q-item-section avatar>
+                        <q-avatar color="primary" text-color="white">
+                          <IconAlertOctagon :size="30" stroke-width="2" />
+                        </q-avatar>
+                      </q-item-section>
+
+                      <q-item-section>
+                        <q-item-label
+                          >SYSTEM NOTIFICATION:
+                          {{ actlogs.added_by }}</q-item-label
+                        >
+                        <q-item-label caption lines="2">{{
+                          actlogs.action_title
+                        }}</q-item-label>
+                        <q-separator inset />
+                      </q-item-section>
+
+                      <q-item-section side>
+                        <q-item-label caption
+                          >{{ actlogs.prevtime }} ago</q-item-label
+                        >
+                        <q-icon
+                          v-if="actlogs.read_stats == 'read'"
+                          name="radio_button_checked"
+                          color="green"
+                        />
+                        <q-icon
+                          v-else
+                          name="radio_button_checked"
+                          color="orange"
+                        />
+                      </q-item-section>
+                    </q-item>
+                  </q-intersection>
+                </q-list>
+              </div>
+            </q-menu>
+            <q-badge color="orange" floating>{{ notifCount }}</q-badge>
+          </q-btn>
           <label>{{ user.username }}</label>
           <q-btn round flat>
             <q-avatar size="35px">
@@ -66,6 +162,7 @@
             to="/stats"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="user.access_level != 4"
           >
             <q-item-section avatar>
               <IconChartPie :size="30" stroke-width="2" />
@@ -83,6 +180,7 @@
             to="/dash"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="user.access_level == 1"
           >
             <q-item-section avatar>
               <!-- <q-icon name="groups" /> -->
@@ -101,6 +199,11 @@
             to="/newscholar"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="
+              user.access_level == 1 ||
+              user.access_level == 2 ||
+              user.access_level == 3
+            "
           >
             <q-item-section avatar>
               <IconUserPlus :size="30" stroke-width="2" />
@@ -115,6 +218,11 @@
             to="/viewscholar"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="
+              user.access_level == 1 ||
+              user.access_level == 2 ||
+              user.access_level == 3
+            "
           >
             <q-item-section avatar>
               <IconSchool :size="30" stroke-width="2" />
@@ -129,6 +237,11 @@
             to="/school"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="
+              user.access_level == 1 ||
+              user.access_level == 2 ||
+              user.access_level == 3
+            "
           >
             <q-item-section avatar>
               <IconBuildingCommunity :size="30" stroke-width="2" />
@@ -143,6 +256,11 @@
             to="/log"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
+            v-if="
+              user.access_level == 1 ||
+              user.access_level == 2 ||
+              user.access_level == 3
+            "
           >
             <q-item-section avatar>
               <IconFileInfo :size="30" stroke-width="2" />
@@ -201,18 +319,50 @@
         </form>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="dialogMessage" persistent>
+      <q-card style="width: 700px; max-width: 80vw">
+        <q-toolbar class="bg-orange-5">
+          <IconAlertOctagon :size="30" stroke-width="2" />
+
+          <q-toolbar-title
+            ><span class="text-weight-bold" color="primary"
+              >SYSTEM NOTIFICATION</span
+            >
+            !!</q-toolbar-title
+          >
+        </q-toolbar>
+        <q-card-section>
+          <q-card
+            class="my-card"
+            v-for="logmsgs in logmsg"
+            :key="logmsgs.logmsg"
+          >
+            <div class="q-pa-md text-h6">Action by: {{ logmsgs.added_by }}</div>
+            <div class="q-pa-md text-h7">
+              Action Log: {{ logmsgs.action_title }}
+            </div>
+          </q-card>
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="OK" v-close-popup @click="readLog" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-layout>
 </template>
 <script setup>
-import { ref, inject, reactive } from "vue";
+import { ref, inject, reactive, onMounted } from "vue";
 import { fabYoutube } from "@quasar/extras/fontawesome-v6";
 import {
-  IconSchool,
-  IconUserPlus,
-  IconUsersGroup,
   IconChartPie,
-  IconFileInfo,
+  IconUsersGroup,
+  IconUserPlus,
+  IconSchool,
   IconBuildingCommunity,
+  IconFileInfo,
+  IconAlertOctagon,
 } from "@tabler/icons-vue";
 import router from "../router";
 import Swal from "sweetalert2";
@@ -222,6 +372,8 @@ const user = inject("$user");
 
 const regpic = ref(user.pic);
 const showPic = ref(false);
+
+const dialogMessage = ref(false);
 
 const leftDrawerOpen = ref(false);
 
@@ -243,6 +395,31 @@ const onFileChange = () => {
 const logOut = () => {
   axios.post("/read.php?authlogout").then(function (response) {
     router.push("/");
+  });
+};
+
+// Sweet Log Update
+
+const showMessage = () => {
+  Swal.fire({
+    title: "<strong>System Notification Message</strong>",
+    icon: "info",
+    html: `
+    You can use <b>bold text</b>,
+    <a href="#">links</a>,
+    and other HTML tags
+  `,
+    showCloseButton: true,
+    showCancelButton: true,
+    focusConfirm: false,
+    confirmButtonText: `
+    <i class="fa fa-thumbs-up"></i> Great!
+  `,
+    confirmButtonAriaLabel: "Thumbs up, great!",
+    cancelButtonText: `
+    <i class="fa fa-thumbs-down"></i>
+  `,
+    cancelButtonAriaLabel: "Thumbs down",
   });
 };
 
@@ -304,6 +481,58 @@ const upload = () => {
     }
   });
 };
+
+// Read Logs
+
+const actlog = ref();
+
+onMounted(() => {
+  readLog();
+});
+
+const readLog = () => {
+  axios.get("/read.php?ReadLogs").then(function (response) {
+    actlog.value = response.data;
+  });
+};
+
+// Read Notification
+
+const notifCount = ref();
+
+onMounted(() => {
+  readNotif();
+});
+
+const readNotif = () => {
+  axios.get("/read.php?readNotifCount").then(function (response) {
+    notifCount.value = response.data.count;
+  });
+};
+
+// Read/Unread Functions
+const logids = ref();
+const logmsg = ref();
+
+const readStatus = (props) => {
+  dialogMessage.value = true;
+  logids.value = props;
+
+  var formData = new FormData();
+  formData.append("logids", logids.value);
+
+  axios.post("/read.php?readStats", formData).then(function (response) {
+    logmsg.value = response.data;
+  });
+
+  axios.post("/update.php?logReadStats", formData).then(function (response) {
+    if (response.data == true) {
+      readNotif();
+    } else {
+      alert("2nd Failed");
+    }
+  });
+};
 </script>
 
 <style lang="sass" scoped>
@@ -314,4 +543,7 @@ const upload = () => {
   .my-card
   width: 100%
   max-width: 350px
+
+  .example-item
+  height: 5px
 </style>
