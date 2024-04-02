@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-card class="my-card text-black">
+    <q-card class="my-card text-black rounded-borders-20">
       <q-card-section>
         <div class="text-h6 text-primary">View Scholars</div>
         <div class="text-subtitle2 text-primary">Scholars Table</div>

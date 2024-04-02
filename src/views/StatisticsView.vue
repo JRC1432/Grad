@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary">
+          <q-card class="my-card text-primary rounded-borders-20">
             <q-card-section class="flex">
               <div class="text-h6">Total Number of Scholars:</div>
               <q-space />
@@ -14,7 +14,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary">
+          <q-card class="my-card text-primary rounded-borders-20">
             <q-card-section class="flex">
               <div class="text-h6">Ongoing Scholars:</div>
               <q-space />
@@ -26,7 +26,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary">
+          <q-card class="my-card text-primary rounded-borders-20">
             <q-card-section class="flex">
               <div class="text-h6">Graduated Scholars:</div>
               <q-space />
@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <q-card class="my-card text-primary">
+          <q-card class="my-card text-primary rounded-borders-20">
             <q-card-section class="flex">
               <div class="text-h6">Terminated Scholars:</div>
               <q-space />
@@ -53,14 +53,14 @@
   </div>
 
   <div class="q-pa-md">
-    <q-card class="text-primary">
+    <q-card class="text-primary rounded-borders-20">
       <q-card-section>
         <div class="text-h6">Scholar Charts</div>
       </q-card-section>
 
       <q-card-section class="q-pa-md">
         <div class="q-pa-md">
-          <q-card flat class="my-card white text-primary">
+          <q-card flat class="my-card white text-primary rounded-borders-20">
             <div class="q-pa-md">
               <div class="q-col-gutter-md row items-start">
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -107,7 +107,7 @@
   </div>
 
   <div class="q-pa-md">
-    <q-card class="my-card text-primary">
+    <q-card class="my-card text-primary rounded-borders-20">
       <q-select
         filled
         behavior="menu"
