@@ -1,35 +1,21 @@
 <template>
+  <q-btn @click="awesome = !awesome">Toggle</q-btn>
+
   <div class="q-pa-md flex justify-center">
-    <div style="max-width: 100%; width: 500px">
-      <q-intersection
-        clickable
-        v-ripple
-        v-for="actlogs in actlog"
-        :key="actlogs.actlog"
-        transition="flip-right"
-        class="example-item"
-      >
-        <q-item clickable v-ripple>
-          <q-item-section avatar>
-            <q-avatar color="primary" text-color="white"> Q </q-avatar>
-          </q-item-section>
+    <q-card
+      v-if="awesome"
+      class="my-card text-white"
+      style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)"
+    >
+      <q-card-section>
+        <div class="text-h6">Our Changing Planet</div>
+        <div class="text-subtitle2">by John Doe</div>
+      </q-card-section>
 
-          <q-item-section>
-            <q-item-label
-              >SYSTEM NOTIFICATION: {{ actlogs.added_by }}</q-item-label
-            >
-            <q-item-label caption lines="2">{{
-              actlogs.action_title
-            }}</q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <q-item-label caption>5 min ago</q-item-label>
-            <q-icon name="star" color="yellow" />
-          </q-item-section>
-        </q-item>
-      </q-intersection>
-    </div>
+      <q-card-section class="q-pt-none">
+        {{ lorem }}
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
@@ -50,6 +36,8 @@ const $q = useQuasar();
 
 const user = inject("$user");
 const axios = inject("$axios");
+
+const awesome = ref(true);
 
 const actlog = ref();
 

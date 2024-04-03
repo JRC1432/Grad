@@ -75,7 +75,7 @@
       <q-card>
         <form id="UserForm" @submit.prevent.stop="CreateUser">
           <q-card-section class="q-gutter-md">
-            <div class="text-h6">Add New User</div>
+            <div class="text-h6">New User</div>
             <q-space />
             <q-btn flat color="primary" v-close-popup>
               <IconSquareRoundedX :size="30" stroke-width="2" />
@@ -84,114 +84,143 @@
 
           <q-separator />
 
-          <q-card-section style="max-height: 60vh" class="scroll">
+          <q-card-section style="max-height: 80vh" class="scroll">
             <div class="q-pa-md">
               <div class="row row_width q-col-gutter-xs">
-                <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="fnameRef"
+                <div class="col-xs-12 col-sm-6">
+                  <q-img
                     rounded
-                    outlined
-                    v-model="state.firstname"
-                    name="firstname"
-                    label="First Name"
-                    :rules="inputRules"
-                  />
-                </div>
-                <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="lnameRef"
-                    rounded
-                    outlined
-                    v-model="state.lastname"
-                    name="lastname"
-                    label="Last Name"
-                    :rules="inputRules"
-                  />
-                </div>
-                <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="nameRef"
-                    rounded
-                    outlined
-                    v-model="state.username"
-                    name="username"
-                    label="UserName"
-                    :rules="inputRules"
-                  />
-                </div>
-                <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="passRef"
-                    rounded
-                    outlined
-                    :type="isPwds ? 'password' : 'text'"
-                    v-model="state.password"
-                    name="password"
-                    label="Password"
-                    :rules="inputpassRules"
+                    class="rounded-image"
+                    :src="url"
+                    spinner-color="white"
                   >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isPwds ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isPwds = !isPwds"
-                      />
-                    </template>
-                  </q-input>
+                  </q-img>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div>
+                    <span>Test</span>
+
+                    <q-file
+                      filled
+                      outlined
+                      v-model="state.pic"
+                      name="pic"
+                      id="pic"
+                      label="Upload Picture"
+                      accept=".jpg, image/*"
+                      @rejected="onRejected"
+                      counter
+                      @update:model-value="onFileChange"
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="attach_file" />
+                      </template>
+                    </q-file>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                  <div class="q-px-sm">
+                    <span class="text-bold">First Name</span>
+                    <q-input
+                      ref="fnameRef"
+                      outlined
+                      dense
+                      v-model="state.firstname"
+                      name="firstname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6">
+                  <div class="q-px-sm">
+                    <span class="text-bold">Last Name</span>
+                    <q-input
+                      ref="lnameRef"
+                      outlined
+                      dense
+                      v-model="state.lastname"
+                      name="lastname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12">
+                  <div class="q-px-sm">
+                    <span class="text-bold">Username</span>
+                    <q-input
+                      ref="nameRef"
+                      outlined
+                      dense
+                      v-model="state.username"
+                      name="username"
+                      :rules="inputRules"
+                    />
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="confpassRef"
-                    rounded
-                    outlined
-                    :type="isPwd ? 'password' : 'text'"
-                    v-model="state.confirmpassword"
-                    name="confirmpassword"
-                    label="Confirm Password"
-                    :rules="inputpassRules"
-                    :error="confirmpass"
-                    color="green"
-                  >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isPwd ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isPwd = !isPwd"
-                      />
-                    </template>
-                  </q-input>
+                  <div class="q-px-sm">
+                    <span class="text-bold">Password</span>
+                    <q-input
+                      ref="passRef"
+                      outlined
+                      dense
+                      :type="isPwds ? 'password' : 'text'"
+                      v-model="state.password"
+                      name="password"
+                      :rules="inputpassRules"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwds ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwds = !isPwds"
+                        />
+                      </template>
+                    </q-input>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-select
-                    ref="SlctUservalidate"
-                    rounded
-                    outlined
-                    label="User Access Level"
-                    transition-show="flip-up"
-                    transition-hide="flip-down"
-                    v-model="acclevel"
-                    name="acclevel"
-                    :options="Acclevel"
-                    :rules="[myRule]"
-                  />
+                  <div class="q-px-sm">
+                    <span class="text-bold">Confirm Password</span>
+                    <q-input
+                      ref="confpassRef"
+                      outlined
+                      dense
+                      :type="isPwd ? 'password' : 'text'"
+                      v-model="state.confirmpassword"
+                      name="confirmpassword"
+                      :rules="inputpassRules"
+                      :error="confirmpass"
+                      color="green"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwd ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwd = !isPwd"
+                        />
+                      </template>
+                    </q-input>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-file
-                    rounded
-                    outlined
-                    v-model="state.pic"
-                    name="pic"
-                    id="pic"
-                    label="Upload Picture"
-                    accept=".jpg, image/*"
-                    @rejected="onRejected"
-                    counter
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="attach_file" />
-                    </template>
-                  </q-file>
+                  <div class="q-px-sm">
+                    <span class="text-bold">User Access Level</span>
+                    <q-select
+                      ref="SlctUservalidate"
+                      outlined
+                      dense
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="acclevel"
+                      name="acclevel"
+                      :options="Acclevel"
+                      :rules="[myRule]"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -212,7 +241,7 @@
       <q-card>
         <form id="UpdateUserForm" @submit.prevent.stop="UpdateUser">
           <q-card-section class="q-gutter-md">
-            <div class="text-h6">Edit User Account</div>
+            <div class="text-h6">Update User Account</div>
             <q-space />
             <q-btn flat color="primary" v-close-popup>
               <IconSquareRoundedX :size="30" stroke-width="2" />
@@ -224,96 +253,108 @@
           <q-card-section style="max-height: 60vh" class="scroll">
             <div class="q-pa-md">
               <div class="row row_width q-col-gutter-xs">
-                <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="upfnameRef"
-                    rounded
-                    outlined
-                    v-model="state.upfirstname"
-                    name="upfirstname"
-                    label="Fisrt Name"
-                    :rules="inputRules"
-                  />
+                <div class="col-xs-12 col-sm-6">
+                  <div class="q-px-sm">
+                    <span class="text-bold">First Name</span>
+                    <q-input
+                      ref="upfnameRef"
+                      outlined
+                      dense
+                      v-model="state.upfirstname"
+                      name="upfirstname"
+                      :rules="inputRules"
+                    />
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="q-px-sm">
+                    <span class="text-bold">Last Name</span>
+                    <q-input
+                      ref="uplnameRef"
+                      outlined
+                      dense
+                      v-model="state.uplastname"
+                      name="uplastname"
+                      :rules="inputRules"
+                    />
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="uplnameRef"
-                    rounded
-                    outlined
-                    v-model="state.uplastname"
-                    name="uplastname"
-                    label="Last Name"
-                    :rules="inputRules"
-                  />
+                  <div class="q-px-sm">
+                    <span class="text-bold">Username</span>
+                    <q-input
+                      ref="upnameRef"
+                      outlined
+                      dense
+                      v-model="state.upusername"
+                      name="upusername"
+                      :rules="inputRules"
+                    />
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="upnameRef"
-                    rounded
-                    outlined
-                    v-model="state.upusername"
-                    name="upusername"
-                    label="UserName"
-                    :rules="inputRules"
-                  />
+                  <div class="q-px-sm">
+                    <span class="text-bold">Password</span>
+                    <q-input
+                      ref="uppassRef"
+                      outlined
+                      dense
+                      :type="isPwds ? 'password' : 'text'"
+                      v-model="state.uppassword"
+                      name="uppassword"
+                      :rules="inputpassRules"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwds ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwds = !isPwds"
+                        />
+                      </template>
+                    </q-input>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="uppassRef"
-                    rounded
-                    outlined
-                    :type="isPwds ? 'password' : 'text'"
-                    v-model="state.uppassword"
-                    name="uppassword"
-                    label="Password"
-                    :rules="inputpassRules"
-                  >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isPwds ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isPwds = !isPwds"
-                      />
-                    </template>
-                  </q-input>
+                  <div class="q-px-sm">
+                    <span class="text-bold">Confirm Password</span>
+                    <q-input
+                      ref="upconfpassRef"
+                      outlined
+                      dense
+                      :type="isPwd ? 'password' : 'text'"
+                      v-model="state.upconfirmpassword"
+                      name="upconfirmpassword"
+                      :rules="inputpassRules"
+                      :error="upconfirmpass"
+                      color="green"
+                    >
+                      <template v-slot:append>
+                        <q-icon
+                          :name="isPwd ? 'visibility_off' : 'visibility'"
+                          class="cursor-pointer"
+                          @click="isPwd = !isPwd"
+                        />
+                      </template>
+                    </q-input>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-sm-12">
-                  <q-input
-                    ref="upconfpassRef"
-                    rounded
-                    outlined
-                    :type="isPwd ? 'password' : 'text'"
-                    v-model="state.upconfirmpassword"
-                    name="upconfirmpassword"
-                    label="Confirm Password"
-                    :rules="inputpassRules"
-                    :error="upconfirmpass"
-                    color="green"
-                  >
-                    <template v-slot:append>
-                      <q-icon
-                        :name="isPwd ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isPwd = !isPwd"
-                      />
-                    </template>
-                  </q-input>
-                </div>
-                <div class="col-xs-12 col-sm-12">
-                  <q-select
-                    ref="upSlctUservalidate"
-                    rounded
-                    outlined
-                    emit-value
-                    map-options
-                    label="User Access Level"
-                    transition-show="flip-up"
-                    transition-hide="flip-down"
-                    v-model="upacclevel"
-                    name="upacclevel"
-                    :options="Acclevel"
-                    :rules="[myRule]"
-                  />
+                  <div class="q-px-sm">
+                    <span class="text-bold">User Access Level</span>
+                    <q-select
+                      ref="upSlctUservalidate"
+                      outlined
+                      dense
+                      emit-value
+                      map-options
+                      transition-show="flip-up"
+                      transition-hide="flip-down"
+                      v-model="upacclevel"
+                      name="upacclevel"
+                      :options="Acclevel"
+                      :rules="[myRule]"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -491,6 +532,13 @@ const Acclevel = [
   { label: "Coordinator", value: "2" },
   { label: "Project Leaders", value: "3" },
 ];
+
+const url = ref(null);
+
+const onFileChange = () => {
+  const file = state.pic;
+  url.value = URL.createObjectURL(file);
+};
 
 // Sweet Alert (Create) Code Here
 
@@ -765,5 +813,10 @@ const UpdateUser = () => {
 
 .rounded-borders-20 {
   border-radius: 20px !important; /* Adjust the radius as needed */
+}
+.rounded-image {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
 }
 </style>

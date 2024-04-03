@@ -1,42 +1,14 @@
 <template>
   <div class="q-pa-md">
-    <div class="row q-gutter-sm">
-      <q-btn
-        no-caps
-        unelevated
-        color="positive"
-        @click="triggerPositive"
-        label="Trigger 'positive'"
-      />
-      <q-btn
-        no-caps
-        unelevated
-        color="negative"
-        @click="triggerNegative"
-        label="Trigger 'negative'"
-      />
-      <q-btn
-        no-caps
-        unelevated
-        color="warning"
-        text-color="dark"
-        @click="triggerWarning"
-        label="Trigger 'warning'"
-      />
-      <q-btn
-        no-caps
-        unelevated
-        color="info"
-        @click="triggerInfo"
-        label="Trigger 'info'"
-      />
-      <q-btn
-        no-caps
-        unelevated
-        color="grey-8"
-        @click="triggerOngoing"
-        label="Trigger 'ongoing'"
-      />
+    <div class="col-xs-12 col-sm-6">
+      <div class="q-col-gutter-md row">
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <q-card>Test</q-card>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6">
+          <q-card>Test</q-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
