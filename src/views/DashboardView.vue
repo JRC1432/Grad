@@ -77,7 +77,7 @@
           <q-card-section class="q-gutter-md">
             <div class="text-h6">New User</div>
             <q-space />
-            <q-btn flat color="primary" v-close-popup>
+            <q-btn flat color="primary" @click="newClosebtn">
               <IconSquareRoundedX :size="30" stroke-width="2" />
             </q-btn>
           </q-card-section>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6">
                   <div>
-                    <span>Test</span>
+                    <span>Picture is optional</span>
 
                     <q-file
                       filled
@@ -606,6 +606,10 @@ const showEditalert = () => {
       console.log("I was closed by the timer");
     }
   });
+};
+
+const newClosebtn = () => {
+  state.fname = "";
 };
 
 // Read Users
