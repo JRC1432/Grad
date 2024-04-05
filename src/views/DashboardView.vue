@@ -608,10 +608,18 @@ const showEditalert = () => {
   });
 };
 
-const newClosebtn = () => {
-  state.fname = "";
-};
+// Close & Clear button
 
+const newClosebtn = () => {
+  state.pic = "";
+  state.firstname = "";
+  state.lastname = "";
+  state.username = "";
+  state.password = "";
+  state.confirmpassword = "";
+  acclevel.value = "";
+  fixed.value = false;
+};
 // Read Users
 
 onMounted(() => {
