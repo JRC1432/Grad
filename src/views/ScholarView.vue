@@ -266,6 +266,7 @@
                             <q-input
                               ref="refspas"
                               outlined
+                              hide-bottom-space
                               readonly
                               v-model="state.upspasid"
                               label="SPAS ID:"
@@ -278,6 +279,7 @@
                             <q-select
                               ref="refstats"
                               outlined
+                              hide-bottom-space
                               label="Status"
                               transition-show="flip-up"
                               transition-hide="flip-down"
@@ -291,6 +293,7 @@
                             <q-select
                               ref="refsubstats"
                               outlined
+                              hide-bottom-space
                               label="Remarks"
                               transition-show="flip-up"
                               transition-hide="flip-down"
@@ -305,6 +308,7 @@
                             <q-input
                               ref="reflname"
                               outlined
+                              hide-bottom-space
                               v-model="state.uplastname"
                               label="Last Name"
                               name="uplastname"
@@ -315,6 +319,7 @@
                             <q-input
                               ref="reffname"
                               outlined
+                              hide-bottom-space
                               v-model="state.upfirstname"
                               label="First Name"
                               name="upfirstname"
@@ -344,6 +349,7 @@
                               ref="refbirth"
                               type="date"
                               outlined
+                              hide-bottom-space
                               v-model="state.upbirthdate"
                               name="upbirthdate"
                               label="Birthday"
@@ -360,6 +366,7 @@
                                 v-model="state.upgender"
                                 name="upgender"
                                 inline
+                                hide-bottom-space
                               />
                             </div>
                           </div>
@@ -385,6 +392,7 @@
                             <q-input
                               ref="refupmail"
                               outlined
+                              hide-bottom-space
                               v-model="state.upemailadd"
                               name="upemailadd"
                               label="E-mail Address"
@@ -396,6 +404,7 @@
                             <q-input
                               ref="rfupAlternateEmail"
                               outlined
+                              hide-bottom-space
                               v-model="state.upAlternateEmail"
                               name="upAlternateEmail"
                               label="Alternate E-mail Address"
@@ -407,6 +416,7 @@
                             <q-input
                               ref="refcontact"
                               outlined
+                              hide-bottom-space
                               v-model="state.upcontact"
                               name="upcontact"
                               label="Phone"
@@ -418,6 +428,7 @@
                             <q-select
                               ref="rfzip"
                               outlined
+                              hide-bottom-space
                               v-model="upprovince"
                               name="upprovince"
                               emit-value
@@ -444,6 +455,7 @@
                             <q-input
                               ref="refhousenum"
                               outlined
+                              hide-bottom-space
                               v-model="state.uphousenum"
                               name="uphousenum"
                               label="Block Lot/House No."
@@ -454,6 +466,7 @@
                             <q-input
                               ref="refstreet"
                               outlined
+                              hide-bottom-space
                               v-model="state.upstreet"
                               name="upstreet"
                               label="Compound/Street/Phase/Purok"
@@ -533,6 +546,7 @@
                             <q-select
                               ref="rfupcourse"
                               outlined
+                              hide-bottom-space
                               map-options
                               use-input
                               input-debounce="0"
@@ -549,6 +563,7 @@
                             <q-select
                               ref="rfupschool"
                               outlined
+                              hide-bottom-space
                               map-options
                               use-input
                               input-debounce="0"
@@ -568,6 +583,7 @@
                               name="upscprog"
                               emit-value
                               outlined
+                              hide-bottom-space
                               label="Scholarship Program"
                               transition-show="flip-up"
                               transition-hide="flip-down"
@@ -605,6 +621,7 @@
                             <q-select
                               ref="rfupcouncil"
                               outlined
+                              hide-bottom-space
                               map-options
                               use-input
                               input-debounce="0"
@@ -621,6 +638,7 @@
                             <q-select
                               ref="rfupgradschool"
                               outlined
+                              hide-bottom-space
                               map-options
                               use-input
                               input-debounce="0"
@@ -655,6 +673,7 @@
                             <q-select
                               ref="rfupgradcourse"
                               outlined
+                              hide-bottom-space
                               map-options
                               use-input
                               input-debounce="0"
@@ -681,6 +700,7 @@
                             <q-input
                               ref="rfupduration"
                               outlined
+                              hide-bottom-space
                               v-model="state.upduration"
                               name="upduration"
                               label="Duration"
@@ -834,6 +854,7 @@
                             <q-select
                               ref="rfupscholarprog"
                               outlined
+                              hide-bottom-space
                               emit-value
                               label="Scholarship Program"
                               v-model="upscholarprog"
@@ -847,6 +868,7 @@
                               ref="rfupentry"
                               emit-value
                               outlined
+                              hide-bottom-space
                               label="Entry Type"
                               transition-show="flip-up"
                               transition-hide="flip-down"
@@ -860,6 +882,7 @@
                             <q-input
                               ref="rfupay"
                               outlined
+                              hide-bottom-space
                               v-model="upay"
                               name="upay"
                               label="Academic Year"
@@ -876,6 +899,7 @@
                             <q-input
                               ref="rfupbatch"
                               outlined
+                              hide-bottom-space
                               v-model="state.upbatch"
                               name="upbatch"
                               label="Batch"
@@ -889,6 +913,7 @@
                               emit-value
                               map-options
                               outlined
+                              hide-bottom-space
                               label="Grant"
                               v-model="upgrant"
                               name="upgrant"
@@ -901,6 +926,7 @@
                               ref="rfuplvl"
                               emit-value
                               outlined
+                              hide-bottom-space
                               label="Level"
                               v-model="uplevel"
                               name="uplevel"
@@ -924,6 +950,7 @@
                               emit-value
                               map-options
                               outlined
+                              hide-bottom-space
                               v-model="upavailment"
                               name="upavailment"
                               label="Availment"
@@ -939,7 +966,6 @@
                               v-model="upavailment"
                               name="upstatus"
                               readonly
-                              :rules="[myRule]"
                             />
                           </div>
                           <div class="col-xs-12 col-sm-6 col-md-6">
@@ -950,7 +976,6 @@
                               v-model="state.upbatch"
                               name="upsem"
                               readonly
-                              :rules="[myRule]"
                             />
                           </div>
                           <div class="col-xs-12 col-sm-6 col-md-6">
@@ -962,13 +987,13 @@
                               label="Year of Award"
                               mask="####"
                               readonly
-                              :rules="inputRules"
                             />
                           </div>
                           <div class="col-xs-12">
                             <q-input
                               ref="rfupremarks"
                               outlined
+                              hide-bottom-space
                               v-model="state.upremarks"
                               name="upremarks"
                               label="Remarks"
@@ -979,6 +1004,7 @@
                             <q-input
                               ref="rfupobligation"
                               outlined
+                              hide-bottom-space
                               v-model="state.upobligation"
                               name="upobligation"
                               label="Service Obligation"
@@ -998,6 +1024,7 @@
                               ref="rfupscholartype"
                               emit-value
                               outlined
+                              hide-bottom-space
                               label="Scholar Type"
                               v-model="upscholartype"
                               name="upscholartype"

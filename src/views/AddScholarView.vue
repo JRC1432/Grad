@@ -84,6 +84,7 @@
                 <q-input
                   ref="rflname"
                   outlined
+                  hide-bottom-space
                   v-model="state.lastname"
                   label="Last Name"
                   name="lastname"
@@ -93,6 +94,7 @@
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
                   ref="rffname"
+                  hide-bottom-space
                   outlined
                   v-model="state.firstname"
                   label="First Name"
@@ -103,6 +105,7 @@
               <div class="col-xs-12 col-sm-3 col-md-3">
                 <q-input
                   ref="rfmname"
+                  hide-bottom-space
                   outlined
                   v-model="state.midname"
                   label="Middle Name"
@@ -113,6 +116,7 @@
                 <q-input
                   ref="rfsname"
                   outlined
+                  hide-bottom-space
                   v-model="state.suffixname"
                   label="Suffix Name"
                   name="suffixname"
@@ -123,6 +127,7 @@
                 <q-input
                   ref="rfbirth"
                   outlined
+                  hide-bottom-space
                   v-model="state.birthdate"
                   name="birthdate"
                   type="date"
@@ -134,6 +139,7 @@
                 <q-input
                   ref="rfemail"
                   outlined
+                  hide-bottom-space
                   v-model="state.emailadd"
                   name="emailadd"
                   label="E-mail Address"
@@ -146,6 +152,7 @@
                 <q-input
                   ref="rfcontact"
                   outlined
+                  hide-bottom-space
                   v-model="state.contact"
                   name="contact"
                   label="Phone"
@@ -158,6 +165,7 @@
                 <q-input
                   ref="rfAlternateEmail"
                   outlined
+                  hide-bottom-space
                   v-model="state.AlternateEmail"
                   name="alternateEmail"
                   label="Alternate E-mail Address"
@@ -174,6 +182,7 @@
                     v-model="state.gender"
                     name="gender"
                     inline
+                    hide-bottom-space
                   />
                 </div>
               </div>
@@ -198,6 +207,7 @@
                 <q-select
                   ref="rfprovince"
                   outlined
+                  hide-bottom-space
                   v-model="province"
                   name="province"
                   emit-value
@@ -225,6 +235,7 @@
                 <q-input
                   ref="rfhousenum"
                   outlined
+                  hide-bottom-space
                   v-model="state.housenum"
                   name="housenum"
                   label="Block Lot/House No."
@@ -235,6 +246,7 @@
                 <q-input
                   ref="rfstreet"
                   outlined
+                  hide-bottom-space
                   v-model="state.street"
                   name="street"
                   label="Compound/Street/Phase/Purok"
@@ -244,6 +256,7 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   outlined
+                  hide-bottom-space
                   v-model="state.subdivision"
                   name="subdivision"
                   label="Subdivision/Village"
@@ -252,6 +265,7 @@
               <div class="col-xs-12 col-sm-6 col-md-6">
                 <q-input
                   outlined
+                  hide-bottom-space
                   v-model="state.barangay"
                   name="barangay"
                   label="Barangay"
@@ -323,6 +337,7 @@
                 <q-select
                   ref="rfcourse"
                   outlined
+                  hide-bottom-space
                   map-options
                   use-input
                   emit-value
@@ -340,6 +355,7 @@
                 <q-select
                   ref="rfschool"
                   outlined
+                  hide-bottom-space
                   map-options
                   use-input
                   emit-value
@@ -360,6 +376,7 @@
                   name="scprog"
                   emit-value
                   outlined
+                  hide-bottom-space
                   label="Scholarship Program"
                   transition-show="flip-up"
                   transition-hide="flip-down"
@@ -373,6 +390,7 @@
                   v-model="state.units"
                   name="units"
                   outlined
+                  hide-bottom-space
                   label="Units"
                   type="number"
                   :rules="inputRules"
@@ -454,6 +472,7 @@
                     <q-select
                       ref="rfscholarprog"
                       outlined
+                      hide-bottom-space
                       emit-value
                       label="Scholarship Program"
                       v-model="scholarprog"
@@ -467,6 +486,7 @@
                       ref="rfentry"
                       emit-value
                       outlined
+                      hide-bottom-space
                       label="Entry Type"
                       transition-show="flip-up"
                       transition-hide="flip-down"
@@ -480,6 +500,7 @@
                     <q-input
                       ref="rfay"
                       outlined
+                      hide-bottom-space
                       v-model="ay"
                       name="ay"
                       label="Academic Year"
@@ -494,6 +515,7 @@
                     <q-input
                       ref="rfbatch"
                       outlined
+                      hide-bottom-space
                       v-model="state.batch"
                       name="batch"
                       label="Batch"
@@ -507,6 +529,7 @@
                       emit-value
                       map-options
                       outlined
+                      hide-bottom-space
                       label="Grant"
                       v-model="grant"
                       name="grant"
@@ -519,6 +542,7 @@
                       ref="rflvl"
                       emit-value
                       outlined
+                      hide-bottom-space
                       label="Level"
                       v-model="level"
                       name="level"
@@ -530,6 +554,7 @@
                     <q-input
                       ref="rfcomp"
                       outlined
+                      hide-bottom-space
                       v-model="state.comp"
                       name="comp"
                       label="Comp"
@@ -557,6 +582,7 @@
                     <q-select
                       ref="rfcouncil"
                       outlined
+                      hide-bottom-space
                       map-options
                       use-input
                       input-debounce="0"
@@ -573,6 +599,7 @@
                     <q-select
                       ref="rfgradschool"
                       outlined
+                      hide-bottom-space
                       map-options
                       emit-value
                       use-input
@@ -607,6 +634,7 @@
                   <div class="col-xs-12 col-sm-6 col-md-6">
                     <q-select
                       ref="rfgradcourse"
+                      hide-bottom-space
                       outlined
                       map-options
                       use-input
@@ -634,6 +662,7 @@
                     <q-input
                       ref="rfduration"
                       outlined
+                      hide-bottom-space
                       v-model="state.duration"
                       name="duration"
                       label="Duration"
@@ -773,6 +802,7 @@
                       emit-value
                       map-options
                       outlined
+                      hide-bottom-space
                       v-model="availment"
                       name="availment"
                       label="Availment"
@@ -788,7 +818,6 @@
                       v-model="availment"
                       name="status"
                       readonly
-                      :rules="[myRule]"
                     />
                   </div>
                   <div class="col-xs-12 col-sm-4 col-md-4">
@@ -799,7 +828,6 @@
                       v-model="state.batch"
                       name="sem"
                       readonly
-                      :rules="[myRule]"
                     />
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-12">
@@ -811,7 +839,6 @@
                       label="Year of Award"
                       mask="####"
                       readonly
-                      :rules="inputRules"
                     />
                   </div>
                   <div class="col-xs-12 col-sm-6 col-md-6">
@@ -819,6 +846,7 @@
                       ref="rfscholartype"
                       emit-value
                       outlined
+                      hide-bottom-space
                       label="Scholar Type"
                       v-model="scholartype"
                       name="scholartype"
@@ -841,6 +869,7 @@
                     <q-input
                       ref="rfobligation"
                       outlined
+                      hide-bottom-space
                       v-model="state.obligation"
                       name="obligation"
                       label="Service Obligation"
@@ -864,7 +893,6 @@
                       v-model="state.honors"
                       name="honors"
                       label="Honors/ Awards Received"
-                      :rules="inputRules"
                     />
                   </div>
                   <div class="col-xs-12">
@@ -873,7 +901,6 @@
                       v-model="state.dissemination"
                       name="dissemination"
                       label="Dissemination Grant"
-                      :rules="inputRules"
                     />
                   </div>
                   <div class="col-xs-12">
@@ -882,13 +909,13 @@
                       v-model="state.research"
                       name="research"
                       label="Research Grant"
-                      :rules="inputRules"
                     />
                   </div>
                   <div class="col-xs-12">
                     <q-input
                       ref="rfremarks"
                       outlined
+                      hide-bottom-space
                       v-model="state.remarks"
                       name="remarks"
                       label="Remarks"

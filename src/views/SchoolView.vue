@@ -191,6 +191,7 @@
               <q-input
                 ref="refaddschool"
                 outlined
+                hide-bottom-space
                 v-model="state.addschool"
                 name="addschool"
                 label="School Name"
@@ -202,6 +203,7 @@
               <q-input
                 ref="refschoolregion"
                 outlined
+                hide-bottom-space
                 v-model="state.schoolregion"
                 name="schoolregion"
                 label="School Region"
@@ -214,6 +216,7 @@
                 ref="refcourses"
                 label="Add Multiple Courses"
                 filled
+                hide-bottom-space
                 v-model="state.addcourse"
                 use-input
                 use-chips

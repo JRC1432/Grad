@@ -126,6 +126,7 @@
                       ref="fnameRef"
                       outlined
                       dense
+                      hide-bottom-space
                       v-model="state.firstname"
                       name="firstname"
                       :rules="inputRules"
@@ -140,6 +141,7 @@
                       ref="lnameRef"
                       outlined
                       dense
+                      hide-bottom-space
                       v-model="state.lastname"
                       name="lastname"
                       :rules="inputRules"
@@ -154,9 +156,12 @@
                       ref="nameRef"
                       outlined
                       dense
+                      hide-bottom-space
                       v-model="state.username"
                       name="username"
-                      :rules="inputRules"
+                      :rules="[checkUsernames, maxLength]"
+                      :debounce="1000"
+                      no-error-icon
                     />
                   </div>
                 </div>
@@ -167,6 +172,7 @@
                       ref="passRef"
                       outlined
                       dense
+                      hide-bottom-space
                       :type="isPwds ? 'password' : 'text'"
                       v-model="state.password"
                       name="password"
@@ -189,6 +195,7 @@
                       ref="confpassRef"
                       outlined
                       dense
+                      hide-bottom-space
                       :type="isPwd ? 'password' : 'text'"
                       v-model="state.confirmpassword"
                       name="confirmpassword"
@@ -213,6 +220,7 @@
                       ref="SlctUservalidate"
                       outlined
                       dense
+                      hide-bottom-space
                       transition-show="flip-up"
                       transition-hide="flip-down"
                       v-model="acclevel"
@@ -260,6 +268,7 @@
                       ref="upfnameRef"
                       outlined
                       dense
+                      hide-bottom-space
                       v-model="state.upfirstname"
                       name="upfirstname"
                       :rules="inputRules"
@@ -272,6 +281,7 @@
                     <q-input
                       ref="uplnameRef"
                       outlined
+                      hide-bottom-space
                       dense
                       v-model="state.uplastname"
                       name="uplastname"
@@ -286,9 +296,10 @@
                       ref="upnameRef"
                       outlined
                       dense
+                      hide-bottom-space
                       v-model="state.upusername"
                       name="upusername"
-                      :rules="inputRules"
+                      :rules="[checkUsername, maxLength]"
                     />
                   </div>
                 </div>
@@ -299,6 +310,7 @@
                       ref="uppassRef"
                       outlined
                       dense
+                      hide-bottom-space
                       :type="isPwds ? 'password' : 'text'"
                       v-model="state.uppassword"
                       name="uppassword"
@@ -321,6 +333,7 @@
                       ref="upconfpassRef"
                       outlined
                       dense
+                      hide-bottom-space
                       :type="isPwd ? 'password' : 'text'"
                       v-model="state.upconfirmpassword"
                       name="upconfirmpassword"
@@ -347,6 +360,7 @@
                       dense
                       emit-value
                       map-options
+                      hide-bottom-space
                       transition-show="flip-up"
                       transition-hide="flip-down"
                       v-model="upacclevel"
@@ -385,6 +399,7 @@ import {
 } from "@tabler/icons-vue";
 import { useQuasar, QSpinnerGears, Notify } from "quasar";
 import Swal from "sweetalert2";
+// import { maxLength } from "@vuelidate/validators";
 
 const user = inject("$user");
 const q$ = useQuasar();
@@ -449,16 +464,22 @@ const SelectValidate = [
   (val) => val === null || "Please Select the User Status",
 ];
 
+// Validation for same password inputs
+
 const confirmpass = computed(() => state.password !== state.confirmpassword);
 const upconfirmpass = computed(
   () => state.uppassword !== state.upconfirmpassword
 );
+
+// Validation for select
 
 const myRule = (val) => {
   if (val === null) {
     return "You must make a selection!";
   }
 };
+
+// Validation for images
 
 const onRejected = (rejectedFiles) => {
   rejectedFiles.forEach((rejectedFile) => {
@@ -469,6 +490,54 @@ const onRejected = (rejectedFiles) => {
       });
     }
   });
+};
+
+// Validation for Length
+
+function maxLength(val) {
+  return val.length >= 6 || "Please use maximum of 6 characters";
+}
+
+// Validation for Usernames for Create
+
+const checkUsernames = async (value) => {
+  const formData = new FormData(document.getElementById("UserForm"));
+  formData.append("username", state.username);
+  try {
+    const response = await axios.post("/read.php?checkUser", formData);
+    if (response.data === true) {
+      // Do something if username is available
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("This username is already been taken!!!");
+        }, 1500);
+      });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error:", error);
+  }
+};
+
+const checkUsername = async (value) => {
+  const formData = new FormData(document.getElementById("UpdateUserForm"));
+  formData.append("username", state.upusername);
+  try {
+    const response = await axios.post("/read.php?checkUser", formData);
+    if (response.data === true) {
+      // Do something if username is available
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("This username is already been taken!!!");
+        }, 1500);
+      });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error:", error);
+  }
 };
 
 const columns = [
