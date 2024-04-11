@@ -90,9 +90,9 @@
                 <div class="col-xs-12 col-sm-6">
                   <q-img
                     rounded
-                    class="rounded-image"
                     :src="url"
                     spinner-color="white"
+                    class="q-mb-sm rounded-image"
                   >
                   </q-img>
                 </div>

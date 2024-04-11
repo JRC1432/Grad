@@ -144,7 +144,10 @@
                   name="emailadd"
                   label="E-mail Address"
                   type="email"
-                  :rules="inputRules"
+                  :rules="[
+                    (val) => isValidEmail(val) || 'Invalid email address',
+                    checkEmailAdd,
+                  ]"
                 />
               </div>
 
@@ -170,7 +173,10 @@
                   name="alternateEmail"
                   label="Alternate E-mail Address"
                   type="email"
-                  :rules="inputRules"
+                  :rules="[
+                    (val) => isValidAlterEmail(val) || 'Invalid email address',
+                    checkAlterEmailAdd,
+                  ]"
                 />
               </div>
               <div class="col-xs-12 col-sm-6 col-md-6">
@@ -1178,6 +1184,60 @@ const fileRules = (val) => {
     return "Please Select a File!";
   }
   return true;
+};
+
+const isValidEmail = () => {
+  const regex = /^[A-Za-z0-9+_.-]+@(.+)$/;
+  return regex.test(state.emailadd);
+};
+
+const isValidAlterEmail = () => {
+  const regex = /^[A-Za-z0-9+_.-]+@(.+)$/;
+  return regex.test(state.AlternateEmail);
+};
+
+// Validation for Email Add
+
+const checkEmailAdd = async (value) => {
+  const formData = new FormData(document.getElementById("scholarForm"));
+  formData.append("emailadd", state.emailadd);
+  try {
+    const response = await axios.post("/read.php?checkEmails", formData);
+    if (response.data === true) {
+      // Do something if username is available
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("This email address is already been taken!!!");
+        }, 1500);
+      });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error:", error);
+  }
+};
+
+// Validation for Alter Email Add
+
+const checkAlterEmailAdd = async (value) => {
+  const formData = new FormData(document.getElementById("scholarForm"));
+  formData.append("alternateEmail", state.AlternateEmail);
+  try {
+    const response = await axios.post("/read.php?checkAlterEmails", formData);
+    if (response.data === true) {
+      // Do something if username is available
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("This alternate email address is already been taken!!!");
+        }, 1500);
+      });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error:", error);
+  }
 };
 
 // Steppers
