@@ -2,15 +2,17 @@
   <div class="row">
     <div
       class="col-lg-8 col-md-8 col-sm-8"
-      v-if="q$.screen.gt.xs"
+      v-if="q$.screen.gt.sm"
       style="background: radial-gradient(circle, #f8bbe4 0%, #f988ae 100%)"
     >
       <Vue3Lottie
         animationLink="https://assets7.lottiefiles.com/packages/lf20_xY418y0j6x.json"
         style="height: calc(100vh)"
+        :height="800"
+        :width="800"
       />
     </div>
-    <div class="col-12 col-lg-4 col-md-4 col-sm-4 q-pa-sm">
+    <div class="col-12 col-lg-4 col-md-4 q-px-xl">
       <div class="justify-center">
         <div class="text-h5 text-center text-bold q-pt-xl q-mt-xl">
           <q-avatar size="70px" class="q-mb-sm">
@@ -18,9 +20,21 @@
           </q-avatar>
           <q-space />
 
-          Digitization System
+          Graduate Scholarship Monitoring System
         </div>
+
+        <q-space />
+
         <div class="q-pa-xl">
+          <q-banner
+            class="bg-orange-1 text-orange-14 rounded-borders text-center"
+          >
+            Please sign-in to your account
+            <!-- <template v-slot:action>
+            <q-btn flat label="Dismiss" />
+            <q-btn flat label="Update Credit Card" />
+          </template> -->
+          </q-banner>
           <form id="login" @submit.prevent.stop="LogSubmit">
             <q-input
               ref="nameRef"
@@ -65,6 +79,11 @@
               />
             </div>
           </form>
+          <div class="q-mt-lg text-center">
+            <span class="spacer"> New on our system?</span>
+
+            <a href="" @click.prevent="requestAcc">Request an account</a>
+          </div>
         </div>
       </div>
     </div>
@@ -163,3 +182,8 @@ const LogSubmit = async () => {
   }
 };
 </script>
+<style scoped>
+.spacer {
+  padding-right: 8px; /* Adds space to the right */
+}
+</style>
