@@ -120,7 +120,7 @@ const readStatus = (props) => {
               </q-item-section>
             </q-item>
 
-            <q-separator spaced inset />
+            <q-separator dark />
           </q-list>
         </div>
       </q-menu>

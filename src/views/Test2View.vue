@@ -1,165 +1,545 @@
+<template>
+  <form id="" @submit.prevent.stop="populateyears">
+    <div class="q-pa-md example-row-equal-width">
+      <div class="q-col-gutter-md row item-start">
+        <div class="col-xs-12 col-sm-8 col-md-8">
+          <div class="text-h6 text-bold q-mb-md row items-center">
+            <IconLayoutDashboard
+              class="text-negative q-mr-sm"
+              :size="40"
+              stroke-width="2"
+            />
+            <span class="text-h4 text-bold text-primary">DASHBOARD</span>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-2">
+          <q-select
+            hint="Start Year"
+            outlined
+            behavior="menu"
+            emit-value
+            map-options
+            use-input
+            mask="####"
+            input-debounce="0"
+            label="Year From"
+            v-model="state.frstYearSelect"
+            name="frstYearSelect"
+            :options="yrsoptions"
+            @filter="filteryrs"
+            @update:model-value="populateyears"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> No results </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2">
+          <q-select
+            hint="Scholar Charts Trigger"
+            outlined
+            behavior="menu"
+            emit-value
+            map-options
+            use-input
+            mask="####"
+            input-debounce="0"
+            label="Year To"
+            v-model="state.yearselect"
+            name="yearselect"
+            :options="yrsoptions"
+            @filter="filteryrs"
+            @update:model-value="populateyears"
+          >
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey"> No results </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="q-pa-md">
+    <div class="col-xs-12 col-sm-6">
+      <div class="q-col-gutter-md row items-start">
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #65b2ca">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="school" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #acd7e5">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="
+                          ongoingscholars + gradscholars + termscholars
+                        "
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Total Number of Scholars:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #7e98cc">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="pending" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #dac8e8">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold" id="number_up">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="ongoingscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div id="number_up"></div>
+                    <div class="text-subtitle2">OnGoing:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #fcb1bf">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="check_circle" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #ffd1da">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="gradscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Graduated:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+          <q-card style="background: #f699cd">
+            <div class="row">
+              <div class="col-2 q-pa-md">
+                <div
+                  class="row justify-center items-center"
+                  style="height: 70px"
+                >
+                  <q-icon name="cancel" size="xl"></q-icon>
+                </div>
+              </div>
+              <div class="col-10" style="background: #ffd1da">
+                <div class="row items-center" style="height: 95px">
+                  <div class="q-ml-md">
+                    <div class="text-h4 text-bold">
+                      <vue3-autocounter
+                        ref="counter"
+                        :startAmount="0"
+                        :endAmount="termscholars"
+                        :duration="3"
+                        class="text-bold"
+                      />
+                    </div>
+                    <div class="text-subtitle2">Terminated:</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </q-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-pa-md">
+    <div class="col-xs-12 col-sm-6">
+      <div class="q-col-gutter-md row items-start">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+          <q-card class="rounded-borders-20 q-pa-md">
+            <div class="row items-center no-wrap q-mb-lg">
+              <div class="col">
+                <div class="text-h6 text-bold q-mb-md row items-center">
+                  <IconChartBar
+                    class="text-negative q-mr-sm"
+                    :size="40"
+                    stroke-width="2"
+                  />
+                  <span class="text-h6 text-bold text-primary"
+                    >Scholar Charts</span
+                  >
+                </div>
+              </div>
+            </div>
+            <q-card-section>
+              <div class="row">
+                <div class="col-8">
+                  <div class="row justify-center">
+                    <Bar
+                      :data="bardata"
+                      :options="baroptions"
+                      style="height: 530px"
+                    />
+                  </div>
+                </div>
+                <div class="col-4 row q-pa-lg justify-start">
+                  <div class="q-mb-xl">
+                    <div class="text-h6 text-bold q-mb-md row items-center">
+                      <IconChartBar
+                        class="text-negative q-mr-sm"
+                        :size="40"
+                        stroke-width="2"
+                      />
+                      <span class="text-h6 text-bold text-primary"
+                        >Scholar Charts</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-xs-12 q-gutter-y-lg col-sm-12 col-md-4">
+          <q-card class="text-primary rounded-borders-20">
+            <q-card-section>
+              <div class="text-h6">Male & Female Scholars</div>
+            </q-card-section>
+
+            <q-card-section class="q-pa-md">
+              <div class="q-pa-md">
+                <q-card
+                  flat
+                  class="my-card white text-primary rounded-borders-20"
+                >
+                  <Doughnut
+                    :data="data"
+                    :options="options"
+                    :height="195"
+                    :width="195"
+                  />
+                </q-card>
+              </div>
+            </q-card-section>
+          </q-card>
+
+          <q-card class="text-primary rounded-borders-20">
+            <q-card-section>
+              <div class="text-h6">Scholars Status Charts</div>
+            </q-card-section>
+
+            <q-card-section class="q-pa-md">
+              <div class="q-pa-md">
+                <q-card
+                  flat
+                  class="my-card white text-primary rounded-borders-20"
+                >
+                  <Doughnut
+                    :data="datas"
+                    :options="doptions"
+                    :height="200"
+                    :width="200"
+                  />
+                </q-card>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="q-pa-md">
+    <q-card class="my-card text-primary">
+      <q-card-section class="q-pa-md">
+        <Line :data="linedata" :options="lineoptions" style="height: 300px" />
+      </q-card-section>
+    </q-card>
+  </div> -->
+</template>
+
 <script setup>
-import { ref, inject, onMounted } from "vue";
-import { IconAlertOctagon } from "@tabler/icons-vue";
+import { ref, reactive, onMounted, inject, computed } from "vue";
+import { useQuasar, QSpinnerGears } from "quasar";
+import { IconChartBar, IconLayoutDashboard } from "@tabler/icons-vue";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  Title,
+  CategoryScale,
+  BarElement,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from "chart.js";
+import { Pie, Line, Doughnut, Bar } from "vue-chartjs";
+import { defineComponent } from "vue";
+import Vue3autocounter from "vue3-autocounter";
+
+const $q = useQuasar();
 
 const axios = inject("$axios");
 const user = inject("$user");
+const array = reactive([]);
 
-const dialogMessage = ref(false);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title
+);
 
-// Read Logs
+// Declared Variable
+const ongoingscholars = ref();
+const gradscholars = ref();
+const termscholars = ref();
 
-const actlog = ref();
-
-onMounted(() => {
-  readLog();
+const state = reactive({
+  yearselect: new Date().getFullYear(),
+  frstYearSelect: new Date().getFullYear(),
 });
 
-const readLog = () => {
-  axios.get("/read.php?ReadLogs").then(function (response) {
-    actlog.value = response.data;
+// Pie Data for Gender Scholars
+
+const data = computed(() => {
+  return {
+    labels: ["Male", "Female"],
+    datasets: [
+      {
+        backgroundColor: ["#ADD8E6", "#FFD1DA"],
+        data: [malecounts.value, femalecounts.value],
+      },
+    ],
+  };
+});
+
+const options = {
+  responsive: true,
+  cutout: 50,
+  maintainAspectRatio: false,
+};
+
+// Pie Data for All Scholars
+
+const datas = computed(() => {
+  return {
+    labels: ["Ongoing", "Graduated", "Terminated"],
+    datasets: [
+      {
+        backgroundColor: ["#80C487", "#EDCBD2", "#E3856B"],
+        data: [ongoingscholars.value, gradscholars.value, termscholars.value],
+      },
+    ],
+  };
+});
+
+const doptions = {
+  responsive: true,
+  cutout: 50,
+  maintainAspectRatio: false,
+};
+
+//Line Data
+
+const linedata = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  datasets: [
+    {
+      label: "Applied Scholars",
+      backgroundColor: "#f87979",
+      data: [40, 39, 10, 150, 39, 80, 100, 45, 50, 67, 200, 56],
+    },
+  ],
+};
+
+const lineoptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
+
+// Showing Years
+var yrsoptions2 = [];
+const yrsoptions = ref(yrsoptions2);
+
+onMounted(() => {
+  populateyrs();
+});
+
+const populateyrs = () => {
+  axios.get("/read.php?years").then((response) => {
+    yrsoptions2 = response.data;
   });
 };
 
-// Read Notification
+const filteryrs = (val, update) => {
+  if (val === "") {
+    update(() => {
+      yrsoptions.value = yrsoptions2;
+    });
+    return;
+  }
 
-const notifCount = ref();
-
-onMounted(() => {
-  readNotif();
-});
-
-const readNotif = () => {
-  axios.get("/read.php?readNotifCount").then(function (response) {
-    notifCount.value = response.data.count;
+  update(() => {
+    const needle = val.toLowerCase();
+    yrsoptions.value = yrsoptions2.filter((option) => {
+      return option.label.toLowerCase().includes(needle);
+    });
   });
 };
 
-// Read/Unread Functions
-const logids = ref();
-const logmsg = ref();
+//Showing Years to Bar Graph
 
-const readStatus = (props) => {
-  dialogMessage.value = true;
-  logids.value = props;
+onMounted(() => {
+  populateyears();
+});
 
+const malecounts = ref([]);
+const femalecounts = ref([]);
+
+const populateyears = () => {
+  // Bar Graph Append
   var formData = new FormData();
-  formData.append("logids", logids.value);
+  formData.append("years", state.yearselect);
 
-  axios.post("/read.php?readStats", formData).then(function (response) {
-    logmsg.value = response.data;
+  axios.post("/read.php?yrselect", formData).then(function (response) {
+    julval.value = response.data;
   });
 
-  axios.post("/update.php?logReadStats", formData).then(function (response) {
-    if (response.data == true) {
-      readNotif();
-    } else {
-      alert("2nd Failed");
-    }
+  // Male Counts
+
+  formData.append("frstYearSelect", state.frstYearSelect);
+  formData.append("yearselect", state.yearselect);
+
+  axios.post("/read.php?countmale", formData).then(function (response) {
+    malecounts.value = response.data.malecount;
+  });
+
+  // Female Counts
+
+  axios.post("/read.php?countfemale", formData).then(function (response) {
+    femalecounts.value = response.data.femalecount;
+  });
+
+  // Ongoing Scholars
+  axios.post("/read.php?OnScholars", formData).then(function (response) {
+    ongoingscholars.value = response.data.ongoingscholar;
+  });
+
+  // Graduated Scholars
+
+  axios.post("/read.php?GradScholars", formData).then(function (response) {
+    gradscholars.value = response.data.gradscholar;
+  });
+
+  // Terminated Scholars
+
+  axios.post("/read.php?TermScholars", formData).then(function (response) {
+    termscholars.value = response.data.termscholar;
   });
 };
+
+// Bar Data
+
+const julval = ref();
+
+const bardata = computed(() => {
+  return {
+    labels: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ],
+    datasets: [
+      {
+        label: "Applied Scholars",
+        backgroundColor: "#f87979",
+        data: julval.value,
+      },
+    ],
+  };
+});
+
+const baroptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
+
+defineComponent({
+  name: "Demo",
+  components: {
+    "vue3-autocounter": Vue3autocounter,
+  },
+});
 </script>
-
-<template>
-  <div class="q-pa-xs">
-    <q-btn flat round icon="notifications_active" class="q-ml-md">
-      <q-menu>
-        <div class="q-pa-sm notifexpansion">
-          <q-list v-for="actlogs in actlog" :key="actlogs.actlog">
-            <q-item
-              clickable
-              v-ripple
-              @click="readStatus(actlogs.id)"
-              v-if="actlogs.read_stats == 'unread'"
-              class="bg-grey-12"
-            >
-              <q-item-section>
-                <q-item-label
-                  >SYSTEM NOTIFICATION: {{ actlogs.added_by }}</q-item-label
-                >
-                <q-item-label caption lines="2">{{
-                  actlogs.action_title
-                }}</q-item-label>
-              </q-item-section>
-
-              <q-item-section side top>
-                <q-item-label caption>{{ actlogs.prevtime }} ago</q-item-label>
-                <q-icon
-                  v-if="actlogs.read_stats == 'read'"
-                  name="radio_button_checked"
-                  color="green"
-                />
-                <q-icon v-else name="radio_button_checked" color="orange" />
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              clickable
-              v-ripple
-              @click="readStatus(actlogs.id)"
-              v-else
-              class="bg-white"
-            >
-              <q-item-section>
-                <q-item-label
-                  >SYSTEM NOTIFICATION: {{ actlogs.added_by }}</q-item-label
-                >
-                <q-item-label caption lines="2">{{
-                  actlogs.action_title
-                }}</q-item-label>
-              </q-item-section>
-
-              <q-item-section side top>
-                <q-item-label caption>{{ actlogs.prevtime }} ago</q-item-label>
-                <q-icon
-                  v-if="actlogs.read_stats == 'read'"
-                  name="radio_button_checked"
-                  color="green"
-                />
-                <q-icon v-else name="radio_button_checked" color="orange" />
-              </q-item-section>
-            </q-item>
-
-            <q-separator spaced inset />
-          </q-list>
-        </div>
-      </q-menu>
-
-      <q-badge color="orange" floating>{{ notifCount }}</q-badge>
-    </q-btn>
-  </div>
-
-  <q-dialog v-model="dialogMessage" persistent>
-    <q-card style="width: 700px; max-width: 80vw">
-      <q-toolbar class="bg-orange-5">
-        <IconAlertOctagon :size="30" stroke-width="2" />
-
-        <q-toolbar-title
-          ><span class="text-weight-bold" color="primary"
-            >SYSTEM NOTIFICATION</span
-          >
-          !!</q-toolbar-title
-        >
-      </q-toolbar>
-      <q-card-section>
-        <q-card class="my-card" v-for="logmsgs in logmsg" :key="logmsgs.logmsg">
-          <div class="q-pa-md text-h6">Action by: {{ logmsgs.added_by }}</div>
-          <div class="q-pa-md text-h7">
-            Action Log: {{ logmsgs.action_title }}
-          </div>
-        </q-card>
-      </q-card-section>
-
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="OK" v-close-popup @click="readLog" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
-</template>
-
-<style scoped>
-.notifexpansion {
-  max-width: 350px;
-  max-height: 500px;
-}
-</style>

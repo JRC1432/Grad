@@ -79,11 +79,11 @@
               />
             </div>
           </form>
-          <div class="q-mt-lg text-center">
+          <!-- <div class="q-mt-lg text-center">
             <span class="spacer"> New on our system?</span>
 
             <a href="" @click.prevent="requestAcc">Request an account</a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -137,18 +137,6 @@ onBeforeUnmount(() => {
     $q.loading.hide();
   }
 });
-
-const showLoading = () => {
-  $q.loading.show({
-    message: "Logging In.....",
-  });
-
-  // hiding in 3s
-  timer = setTimeout(() => {
-    $q.loading.hide();
-    timer = void 0;
-  }, 3000);
-};
 
 const LogSubmit = async () => {
   // (optional) Wait until recaptcha has been loaded.
