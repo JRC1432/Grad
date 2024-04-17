@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-sm">
     <q-btn flat round @click="changetheme">
       <IconMoonStars :size="30" stroke-width="2" v-if="isMoonStars" />
       <IconBrightness2 v-else :size="30" stroke-width="2" />

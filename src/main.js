@@ -7,6 +7,8 @@ import "./assets/base.css";
 import axiosMain from "axios";
 import { VueReCaptcha } from "vue-recaptcha-v3";
 import Vue3Autocounter from "vue3-autocounter";
+import "./assets/light.scss";
+import "./assets/dark.scss";
 
 import Vue3Lottie from "vue3-lottie";
 

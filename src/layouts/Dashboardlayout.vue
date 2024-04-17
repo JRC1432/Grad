@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-grey-1">
-    <q-header elevated class="primary" height-hint="58">
+  <q-layout view="hHh lpR fFf" class="background">
+    <q-header elevated height-hint="58" style="background-color: #d61f5d">
       <q-toolbar>
         <q-btn
           flat
@@ -23,6 +23,7 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
+          <DarkMode />
           <Notify />
           <UploadPic />
         </div>
@@ -161,6 +162,7 @@
   </q-layout>
 </template>
 <script setup>
+import DarkMode from "../components/DarkMode.vue";
 import Notify from "../components/Notify.vue";
 import UploadPic from "../components/UploadPic.vue";
 import { ref, inject, reactive, onMounted } from "vue";

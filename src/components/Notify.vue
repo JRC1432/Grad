@@ -71,7 +71,7 @@ const readStatus = (props) => {
               v-ripple
               @click="readStatus(actlogs.id)"
               v-if="actlogs.read_stats == 'unread'"
-              class="bg-grey-12"
+              class="outline"
             >
               <q-item-section>
                 <q-item-label
@@ -98,7 +98,7 @@ const readStatus = (props) => {
               v-ripple
               @click="readStatus(actlogs.id)"
               v-else
-              class="bg-white"
+              class="surface"
             >
               <q-item-section>
                 <q-item-label

@@ -5,100 +5,109 @@
 
   <q-dialog v-model="accreq">
     <q-card>
-      <q-card-section>
-        <div class="text-h6">Request Account</div>
-      </q-card-section>
+      <form id="UserAccForm" @submit.prevent.stop="createReqUser">
+        <q-card-section>
+          <div class="text-h6">Request Account</div>
+        </q-card-section>
 
-      <q-card-section class="q-pt-none">
-        <div class="row row_width q-col-gutter-xs">
-          <div class="col-xs-12 col-sm-12">
-            <div class="q-px-sm">
-              <span class="text-bold">Request To:</span>
-              <q-input
-                ref="refEmail"
-                v-model="state.reqEmail"
-                name="reqEmail"
-                outlined
-                dense
-                hide-bottom-space
-                :rules="[inputRules]"
-                hint="Email **"
-              />
+        <q-card-section class="q-pt-none">
+          <div class="row row_width q-col-gutter-xs">
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">Request To:</span>
+                <q-input
+                  ref="refEmail"
+                  v-model="state.reqEmail"
+                  name="reqEmail"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[inputRules]"
+                  hint="Email **"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="q-px-sm">
+                <span class="text-bold">First Name</span>
+                <q-input
+                  ref="refFname"
+                  v-model="state.reqFirstname"
+                  name="reqFirstname"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[inputRules]"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="q-px-sm">
+                <span class="text-bold">Last Name</span>
+                <q-input
+                  ref="refLname"
+                  v-model="state.reqLastname"
+                  name="reqLastname"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[inputRules]"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">Username</span>
+                <q-input
+                  ref="refUser"
+                  v-model="state.reqUsername"
+                  name="reqUsername"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[inputRules]"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">User Access Level</span>
+                <q-select
+                  ref="upSlctUservalidate"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  hide-bottom-space
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  v-model="reqacclevel"
+                  name="reqacclevel"
+                  :options="Acclevel"
+                  :rules="[myRule]"
+                />
+              </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-6">
-            <div class="q-px-sm">
-              <span class="text-bold">First Name</span>
-              <q-input
-                ref="refFname"
-                v-model="state.reqFirstname"
-                name="reqFirstname"
-                outlined
-                dense
-                hide-bottom-space
-                :rules="[inputRules]"
-              />
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <div class="q-px-sm">
-              <span class="text-bold">Last Name</span>
-              <q-input
-                ref="refLname"
-                v-model="state.reqLastname"
-                name="reqLastname"
-                outlined
-                dense
-                hide-bottom-space
-                :rules="[inputRules]"
-              />
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12">
-            <div class="q-px-sm">
-              <span class="text-bold">Username</span>
-              <q-input
-                ref="refUser"
-                v-model="state.reqUsername"
-                name="reqUsername"
-                outlined
-                dense
-                hide-bottom-space
-                :rules="[inputRules]"
-              />
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12">
-            <div class="q-px-sm">
-              <span class="text-bold">User Access Level</span>
-              <q-select
-                ref="upSlctUservalidate"
-                outlined
-                dense
-                emit-value
-                map-options
-                hide-bottom-space
-                transition-show="flip-up"
-                transition-hide="flip-down"
-                v-model="reqacclevel"
-                name="reqacclevel"
-                :options="Acclevel"
-                :rules="[myRule]"
-              />
-            </div>
-          </div>
-        </div>
-      </q-card-section>
+        </q-card-section>
 
-      <q-card-actions align="right">
-        <q-btn flat label="OK" color="primary" v-close-popup />
-      </q-card-actions>
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="Submit!"
+            color="primary"
+            type="submit"
+            v-close-popup
+          />
+        </q-card-actions>
+      </form>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
 import { ref, reactive, inject, onBeforeUnmount } from "vue";
+import Swal from "sweetalert2";
 
 const accreq = ref(false);
 
@@ -113,6 +122,32 @@ const refEmail = ref(null);
 const refUser = ref(null);
 
 const reqacclevel = ref();
+
+const createLoadingState = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Request Submitting",
+    html: "Loading... <b></b> milliseconds.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const timer = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
+      Swal.fire("Request Submitted!", "", "success");
+    }
+  });
+};
 
 const state = reactive({
   reqFirstname: "",
@@ -131,6 +166,11 @@ const Acclevel = [
 const requestAcc = () => {
   console.log("Test");
   accreq.value = true;
+};
+
+const createReqUser = () => {
+  console.log("Test");
+  createLoadingState();
 };
 </script>
 

@@ -136,18 +136,6 @@ onBeforeUnmount(() => {
   }
 });
 
-const showLoading = () => {
-  $q.loading.show({
-    message: "Logging In.....",
-  });
-
-  // hiding in 3s
-  timer = setTimeout(() => {
-    $q.loading.hide();
-    timer = void 0;
-  }, 3000);
-};
-
 const LogSubmit = async () => {
   // (optional) Wait until recaptcha has been loaded.
   await recaptchaLoaded();
