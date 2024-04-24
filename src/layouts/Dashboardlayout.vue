@@ -1,6 +1,7 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="background">
-    <q-header elevated height-hint="58" style="background-color: #d61f5d">
+  <q-layout view="lHh LpR fFf" class="background">
+    <q-header flat height-hint="58" class="surface-container on-surface-text">
+      <!-- Apply surface-container-lowest if needed -->
       <q-toolbar>
         <q-btn
           flat
@@ -11,18 +12,9 @@
           icon="menu"
         />
 
-        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-avatar size="28px">
-            <img src="http://localhost/backdbase/pic/download.jpg" />
-          </q-avatar>
-          <q-toolbar-title shrink class="text-weight-bold">
-            DOST - SEI
-          </q-toolbar-title>
-        </q-btn>
-
         <q-space />
 
-        <div class="q-gutter-sm row items-center no-wrap">
+        <div class="q-gutter-xs row items-center no-wrap">
           <DarkMode />
           <Notify />
           <UploadPic />
@@ -38,10 +30,18 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      class="q-pa-md white"
+      class="q-pa-md"
       :width="240"
     >
       <q-scroll-area class="fit">
+        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
+          <q-avatar size="28px">
+            <img src="http://localhost/backdbase/pic/download.jpg" />
+          </q-avatar>
+          <q-toolbar-title shrink class="text-weight-bold">
+            DOST - SEI
+          </q-toolbar-title>
+        </q-btn>
         <q-list padding>
           <q-item
             clickable

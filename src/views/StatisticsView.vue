@@ -5,7 +5,7 @@
         <div class="col-xs-12 col-sm-8 col-md-8">
           <div class="text-h6 text-bold q-mb-md row items-center">
             <IconLayoutDashboard
-              class="text-negative q-mr-sm"
+              class="text-primary q-mr-sm"
               :size="40"
               stroke-width="2"
             />
@@ -69,7 +69,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card style="background: #65b2ca">
+          <q-card class="outline">
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -79,7 +79,7 @@
                   <q-icon name="school" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10" style="background: #acd7e5">
+              <div class="col-10 outline-variant">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -101,7 +101,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card style="background: #7e98cc">
+          <q-card class="outline">
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -111,7 +111,7 @@
                   <q-icon name="pending" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10" style="background: #dac8e8">
+              <div class="col-10 outline-variant">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold" id="number_up">
@@ -132,7 +132,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card style="background: #fcb1bf">
+          <q-card class="outline">
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -142,7 +142,7 @@
                   <q-icon name="check_circle" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10" style="background: #ffd1da">
+              <div class="col-10 outline-variant">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -162,7 +162,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card style="background: #f699cd">
+          <q-card class="outline">
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -172,7 +172,7 @@
                   <q-icon name="cancel" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10" style="background: #ffd1da">
+              <div class="col-10 outline-variant">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -204,7 +204,7 @@
               <div class="col">
                 <div class="text-h6 text-bold q-mb-md row items-center">
                   <IconChartBar
-                    class="text-negative q-mr-sm"
+                    class="text-primary q-mr-sm"
                     :size="40"
                     stroke-width="2"
                   />
@@ -216,16 +216,16 @@
             </div>
             <q-card-section>
               <div class="row">
-                <div class="col-8">
+                <div class="col-12">
                   <div class="row justify-center">
-                    <Bar
+                    <Line
                       :data="bardata"
                       :options="baroptions"
                       style="height: 530px"
                     />
                   </div>
                 </div>
-                <div class="col-4 row q-pa-lg justify-start">
+                <!-- <div class="col-4 row q-pa-lg justify-start">
                   <div class="q-mb-xl">
                     <div class="text-h6 text-bold q-mb-md row items-center">
                       <IconChartBar
@@ -238,7 +238,7 @@
                       >
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </q-card-section>
           </q-card>
@@ -291,14 +291,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div class="q-pa-md">
-    <q-card class="my-card text-primary">
-      <q-card-section class="q-pa-md">
-        <Line :data="linedata" :options="lineoptions" style="height: 300px" />
-      </q-card-section>
-    </q-card>
-  </div> -->
 </template>
 
 <script setup>
@@ -345,8 +337,8 @@ const gradscholars = ref();
 const termscholars = ref();
 
 const state = reactive({
-  yearselect: new Date().getFullYear(),
-  frstYearSelect: new Date().getFullYear(),
+  yearselect: 2026,
+  frstYearSelect: 2023,
 });
 
 // Pie Data for Gender Scholars
@@ -358,6 +350,7 @@ const data = computed(() => {
       {
         backgroundColor: ["#ADD8E6", "#FFD1DA"],
         data: [malecounts.value, femalecounts.value],
+        borderWidth: 0,
       },
     ],
   };
@@ -378,6 +371,7 @@ const datas = computed(() => {
       {
         backgroundColor: ["#80C487", "#EDCBD2", "#E3856B"],
         data: [ongoingscholars.value, gradscholars.value, termscholars.value],
+        borderWidth: 0,
       },
     ],
   };
@@ -386,37 +380,6 @@ const datas = computed(() => {
 const doptions = {
   responsive: true,
   cutout: 50,
-  maintainAspectRatio: false,
-};
-
-//Line Data
-
-const linedata = {
-  labels: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ],
-  datasets: [
-    {
-      label: "Applied Scholars",
-      backgroundColor: "#f87979",
-      data: [40, 39, 10, 150, 39, 80, 100, 45, 50, 67, 200, 56],
-    },
-  ],
-};
-
-const lineoptions = {
-  responsive: true,
   maintainAspectRatio: false,
 };
 
@@ -458,6 +421,8 @@ onMounted(() => {
 
 const malecounts = ref([]);
 const femalecounts = ref([]);
+const allScholar = ref([]);
+const allYear = ref([]);
 
 const populateyears = () => {
   // Bar Graph Append
@@ -499,6 +464,13 @@ const populateyears = () => {
   axios.post("/read.php?TermScholars", formData).then(function (response) {
     termscholars.value = response.data.termscholar;
   });
+
+  axios.post("/read.php?LineDataScholar", formData).then(function (response) {
+    allYear.value = response.data.year;
+    allScholar.value = response.data.scholar;
+    console.log(response.data.year);
+    console.log(response.data.year);
+  });
 };
 
 // Bar Data
@@ -507,25 +479,13 @@ const julval = ref();
 
 const bardata = computed(() => {
   return {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
+    labels: allYear.value,
     datasets: [
       {
-        label: "Applied Scholars",
-        backgroundColor: "#f87979",
-        data: julval.value,
+        label: "No. Of Scholars",
+        backgroundColor: "#FF474D",
+        data: allScholar.value,
+        borderColor: "rgb(75, 192, 192)",
       },
     ],
   };
@@ -534,6 +494,9 @@ const bardata = computed(() => {
 const baroptions = {
   responsive: true,
   maintainAspectRatio: false,
+  tooltip: {
+    enabled: true, // Show tooltips always
+  },
 };
 
 defineComponent({

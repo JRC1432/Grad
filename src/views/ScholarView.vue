@@ -358,7 +358,7 @@
                           </div>
 
                           <div class="col-xs-12 col-sm-6 col-md-6">
-                            <span class="text-h7 text">SEX:</span>
+                            <span class="text-primary">SEX: </span>
                             <div class="row justify-start">
                               <q-option-group
                                 :options="sexoptions"

@@ -9,6 +9,7 @@ import { VueReCaptcha } from "vue-recaptcha-v3";
 import Vue3Autocounter from "vue3-autocounter";
 import "./assets/light.scss";
 import "./assets/dark.scss";
+import VueApexCharts from "vue3-apexcharts";
 
 import Vue3Lottie from "vue3-lottie";
 
@@ -86,6 +87,7 @@ router.beforeEach((to, from, next) => {
 myApp.use(router);
 myApp.use(Vue3Lottie);
 myApp.use(Vue3Autocounter);
+myApp.use(VueApexCharts);
 
 myApp.use(Quasar, {
   plugins: { Notify, Loading, Dialog, LoadingBar }, // import Quasar plugins and add here

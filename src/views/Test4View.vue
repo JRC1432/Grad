@@ -218,14 +218,27 @@
               <div class="row">
                 <div class="col-12">
                   <div class="row justify-center">
-                    <apexchart
-                      type="line"
-                      :options="chartOptions"
-                      :series="series"
-                      :width="830"
+                    <Bar
+                      :data="bardata"
+                      :options="baroptions"
+                      style="height: 530px"
                     />
                   </div>
                 </div>
+                <!-- <div class="col-4 row q-pa-lg justify-start">
+                  <div class="q-mb-xl">
+                    <div class="text-h6 text-bold q-mb-md row items-center">
+                      <IconChartBar
+                        class="text-negative q-mr-sm"
+                        :size="40"
+                        stroke-width="2"
+                      />
+                      <span class="text-h6 text-bold text-primary"
+                        >Scholar Charts</span
+                      >
+                    </div>
+                  </div>
+                </div> -->
               </div>
             </q-card-section>
           </q-card>
@@ -275,35 +288,13 @@
             </q-card-section>
           </q-card>
         </div>
-        <!-- <div class="col-xs-12 col-sm-12 col-md-8">
-            <q-card class="text-primary rounded-borders-20">
-              <q-card-section>
-                <div class="text-h6">Scholars Status Charts</div>
-              </q-card-section>
-  
-              <q-card-section class="q-pa-md">
-                <div class="q-pa-md">
-                  <q-card
-                    flat
-                    class="my-card white text-primary rounded-borders-20"
-                  >
-                    <Bar
-                      :data="bardata"
-                      :options="baroptions"
-                      style="height: 530px"
-                    />
-                  </q-card>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, inject, computed, watch } from "vue";
+import { ref, reactive, onMounted, inject, computed } from "vue";
 import { useQuasar, QSpinnerGears } from "quasar";
 import { IconChartBar, IconLayoutDashboard } from "@tabler/icons-vue";
 import {
@@ -321,7 +312,6 @@ import {
 import { Pie, Line, Doughnut, Bar } from "vue-chartjs";
 import { defineComponent } from "vue";
 import Vue3autocounter from "vue3-autocounter";
-import VueApexCharts from "vue-apexcharts";
 
 const $q = useQuasar();
 
@@ -345,12 +335,10 @@ ChartJS.register(
 const ongoingscholars = ref();
 const gradscholars = ref();
 const termscholars = ref();
-const allYear = ref([]);
-const allScholar = ref([]);
 
 const state = reactive({
-  yearselect: new Date().getFullYear(),
-  frstYearSelect: new Date().getFullYear(),
+  yearselect: 2026,
+  frstYearSelect: 2023,
 });
 
 // Pie Data for Gender Scholars
@@ -433,6 +421,8 @@ onMounted(() => {
 
 const malecounts = ref([]);
 const femalecounts = ref([]);
+const allScholar = ref([]);
+const allYear = ref([]);
 
 const populateyears = () => {
   // Bar Graph Append
@@ -475,42 +465,12 @@ const populateyears = () => {
     termscholars.value = response.data.termscholar;
   });
 
-  // Line Data
-
   axios.post("/read.php?LineDataScholar", formData).then(function (response) {
     allYear.value = response.data.year;
     allScholar.value = response.data.scholar;
     console.log(response.data.year);
-    console.log(response.data.scholar);
-    updateChart();
+    console.log(response.data.year);
   });
-};
-
-const chartOptions = ref({
-  chart: {
-    id: "vuechart-example",
-  },
-  xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-  },
-});
-
-const series = ref([
-  {
-    name: "series-1",
-    data: [30, 40, 45, 50, 49, 60, 70, 81],
-  },
-]);
-
-// Define the updateChart function
-const updateChart = () => {
-  const max = 90;
-  const min = 20;
-  const newData = series.value[0].data.map(() => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  });
-  // Update the series data with the new random data
-  series.value[0].data = newData;
 };
 
 // Bar Data
@@ -519,25 +479,12 @@ const julval = ref();
 
 const bardata = computed(() => {
   return {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
+    labels: allYear.value,
     datasets: [
       {
-        label: "No. Of Scholars",
+        label: "Applied Scholars",
         backgroundColor: "#8b0000",
-        data: julval.value,
+        data: allScholar.value,
       },
     ],
   };
@@ -546,9 +493,10 @@ const bardata = computed(() => {
 const baroptions = {
   responsive: true,
   maintainAspectRatio: false,
+  tooltips: {
+    enabled: true, // Show tooltips always
+  },
 };
-
-// Counter
 
 defineComponent({
   name: "Demo",
@@ -556,21 +504,4 @@ defineComponent({
     "vue3-autocounter": Vue3autocounter,
   },
 });
-
-// Line Data
-// const loptions = ref({
-//   chart: {
-//     id: "vuechart-example",
-//   },
-//   xaxis: {
-//     categories: allYear.value,
-//   },
-// });
-
-// const series = ref([
-//   {
-//     name: "No. Scholars",
-//     data: allScholar.value,
-//   },
-// ]);
 </script>

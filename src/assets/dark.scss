@@ -1,301 +1,299 @@
 .body--dark {
   .primary {
-    background-color: rgb(255 178 190);
+    background-color: rgb(255 178 190) !important;
   }
   .surface-tint {
-    background-color: rgb(255 178 190);
+    background-color: rgb(255 178 190) !important;
   }
   .on-primary {
-    background-color: rgb(86 29 42);
+    background-color: rgb(102 0 38) !important;
   }
   .primary-container {
-    background-color: rgb(113 51 64);
+    background-color: rgb(202 17 85) !important;
   }
   .on-primary-container {
-    background-color: rgb(255 217 222);
+    background-color: rgb(255 255 255) !important;
   }
   .secondary {
-    background-color: rgb(228 189 194);
+    background-color: rgb(255 178 190) !important;
   }
   .on-secondary {
-    background-color: rgb(67 41 46);
+    background-color: rgb(100 7 39) !important;
   }
   .secondary-container {
-    background-color: rgb(92 63 68);
+    background-color: rgb(121 26 54) !important;
   }
   .on-secondary-container {
-    background-color: rgb(255 217 222);
+    background-color: rgb(255 198 207) !important;
   }
   .tertiary {
-    background-color: rgb(235 190 144);
+    background-color: rgb(255 181 150) !important;
   }
   .on-tertiary {
-    background-color: rgb(69 43 8);
+    background-color: rgb(88 30 0) !important;
   }
   .tertiary-container {
-    background-color: rgb(95 65 28);
+    background-color: rgb(178 68 0) !important;
   }
   .on-tertiary-container {
-    background-color: rgb(255 221 187);
+    background-color: rgb(255 255 255) !important;
   }
   .error {
-    background-color: rgb(255 180 171);
+    background-color: rgb(255 180 171) !important;
   }
   .on-error {
-    background-color: rgb(105 0 5);
+    background-color: rgb(105 0 5) !important;
   }
   .error-container {
-    background-color: rgb(147 0 10);
+    background-color: rgb(147 0 10) !important;
   }
   .on-error-container {
-    background-color: rgb(255 218 214);
+    background-color: rgb(255 218 214) !important;
   }
   .background {
-    background-color: rgb(25 17 18);
+    background-color: rgb(30 15 18) !important;
   }
   .on-background {
-    background-color: rgb(240 222 224);
+    background-color: rgb(249 220 223) !important;
   }
   .surface {
-    background-color: rgb(25 17 18);
+    background-color: rgb(30 15 18) !important;
   }
   .on-surface {
-    background-color: rgb(240 222 224);
+    background-color: rgb(249 220 223) !important;
   }
   .surface-variant {
-    background-color: rgb(82 67 69);
+    background-color: rgb(90 64 68) !important;
   }
   .on-surface-variant {
-    background-color: rgb(214 194 196);
+    background-color: rgb(226 189 194) !important;
   }
   .outline {
-    background-color: rgb(159 140 142);
+    background-color: rgb(170 136 141) !important;
   }
   .outline-variant {
-    background-color: rgb(82 67 69);
+    background-color: rgb(90 64 68) !important;
   }
   .shadow {
-    background-color: rgb(0 0 0);
+    background-color: rgb(0 0 0) !important;
   }
   .scrim {
-    background-color: rgb(0 0 0);
+    background-color: rgb(0 0 0) !important;
   }
   .inverse-surface {
-    background-color: rgb(240 222 224);
+    background-color: rgb(249 220 223) !important;
   }
   .inverse-on-surface {
-    background-color: rgb(56 46 47);
+    background-color: rgb(61 44 46) !important;
   }
   .inverse-primary {
-    background-color: rgb(142 73 87);
+    background-color: rgb(188 0 77) !important;
   }
   .primary-fixed {
-    background-color: rgb(255 217 222);
+    background-color: rgb(255 217 222) !important;
   }
   .on-primary-fixed {
-    background-color: rgb(58 7 22);
+    background-color: rgb(63 0 21) !important;
   }
   .primary-fixed-dim {
-    background-color: rgb(255 178 190);
+    background-color: rgb(255 178 190) !important;
   }
   .on-primary-fixed-variant {
-    background-color: rgb(113 51 64);
+    background-color: rgb(144 0 57) !important;
   }
   .secondary-fixed {
-    background-color: rgb(255 217 222);
+    background-color: rgb(255 217 222) !important;
   }
   .on-secondary-fixed {
-    background-color: rgb(44 21 25);
+    background-color: rgb(63 0 21) !important;
   }
   .secondary-fixed-dim {
-    background-color: rgb(228 189 194);
+    background-color: rgb(255 178 190) !important;
   }
   .on-secondary-fixed-variant {
-    background-color: rgb(92 63 68);
+    background-color: rgb(130 34 60) !important;
   }
   .tertiary-fixed {
-    background-color: rgb(255 221 187);
+    background-color: rgb(255 219 205) !important;
   }
   .on-tertiary-fixed {
-    background-color: rgb(43 23 0);
+    background-color: rgb(54 15 0) !important;
   }
   .tertiary-fixed-dim {
-    background-color: rgb(235 190 144);
+    background-color: rgb(255 181 150) !important;
   }
   .on-tertiary-fixed-variant {
-    background-color: rgb(95 65 28);
+    background-color: rgb(125 45 0) !important;
   }
   .surface-dim {
-    background-color: rgb(25 17 18);
+    background-color: rgb(30 15 18) !important;
   }
   .surface-bright {
-    background-color: rgb(65 55 56);
+    background-color: rgb(71 52 55) !important;
   }
   .surface-container-lowest {
-    background-color: rgb(20 12 13);
+    background-color: rgb(24 10 13) !important;
   }
   .surface-container-low {
-    background-color: rgb(34 25 27);
+    background-color: rgb(39 23 26) !important;
   }
   .surface-container {
-    background-color: rgb(38 29 31);
+    background-color: rgb(43 27 30) !important;
   }
   .surface-container-high {
-    background-color: rgb(49 40 41);
+    background-color: rgb(55 37 40) !important;
   }
   .surface-container-highest {
-    background-color: rgb(60 50 51);
+    background-color: rgb(66 48 51) !important;
   }
 
-  //   ===============text
+  // Text-only
 
   .primary-text {
-    color: rgb(255 178 190);
+    color: rgb(255 178 190) !important;
   }
   .surface-tint-text {
-    color: rgb(255 178 190);
+    color: rgb(255 178 190) !important;
   }
   .on-primary-text {
-    color: rgb(86 29 42);
+    color: rgb(102 0 38) !important;
   }
   .primary-container-text {
-    color: rgb(113 51 64);
+    color: rgb(202 17 85) !important;
   }
   .on-primary-container-text {
-    color: rgb(255 217 222);
+    color: rgb(255 255 255) !important;
   }
   .secondary-text {
-    color: rgb(228 189 194);
+    color: rgb(255 178 190) !important;
   }
   .on-secondary-text {
-    color: rgb(67 41 46);
+    color: rgb(100 7 39) !important;
   }
   .secondary-container-text {
-    color: rgb(92 63 68);
+    color: rgb(121 26 54) !important;
   }
   .on-secondary-container-text {
-    color: rgb(255 217 222);
+    color: rgb(255 198 207) !important;
   }
   .tertiary-text {
-    color: rgb(235 190 144);
+    color: rgb(255 181 150) !important;
   }
   .on-tertiary-text {
-    color: rgb(69 43 8);
+    color: rgb(88 30 0) !important;
   }
   .tertiary-container-text {
-    color: rgb(95 65 28);
+    color: rgb(178 68 0) !important;
   }
   .on-tertiary-container-text {
-    color: rgb(255 221 187);
+    color: rgb(255 255 255) !important;
   }
   .error-text {
-    color: rgb(255 180 171);
+    color: rgb(255 180 171) !important;
   }
   .on-error-text {
-    color: rgb(105 0 5);
+    color: rgb(105 0 5) !important;
   }
   .error-container-text {
-    color: rgb(147 0 10);
+    color: rgb(147 0 10) !important;
   }
   .on-error-container-text {
-    color: rgb(255 218 214);
+    color: rgb(255 218 214) !important;
   }
-  .background-text {
-    color: rgb(25 17 18);
+  .text {
+    color: rgb(30 15 18) !important;
   }
-  .on-background-text {
-    color: rgb(240 222 224);
+  .on-text {
+    color: rgb(249 220 223) !important;
   }
   .surface-text {
-    color: rgb(25 17 18);
+    color: rgb(30 15 18) !important;
   }
   .on-surface-text {
-    color: rgb(240 222 224);
+    color: rgb(249 220 223) !important;
   }
   .surface-variant-text {
-    color: rgb(82 67 69);
+    color: rgb(90 64 68) !important;
   }
   .on-surface-variant-text {
-    color: rgb(214 194 196);
+    color: rgb(226 189 194) !important;
   }
   .outline-text {
-    color: rgb(159 140 142);
+    color: rgb(170 136 141) !important;
   }
   .outline-variant-text {
-    color: rgb(82 67 69);
+    color: rgb(90 64 68) !important;
   }
   .shadow-text {
-    color: rgb(0 0 0);
+    color: rgb(0 0 0) !important;
   }
   .scrim-text {
-    color: rgb(0 0 0);
+    color: rgb(0 0 0) !important;
   }
   .inverse-surface-text {
-    color: rgb(240 222 224);
+    color: rgb(249 220 223) !important;
   }
   .inverse-on-surface-text {
-    color: rgb(56 46 47);
+    color: rgb(61 44 46) !important;
   }
   .inverse-primary-text {
-    color: rgb(142 73 87);
+    color: rgb(188 0 77) !important;
   }
   .primary-fixed-text {
-    color: rgb(255 217 222);
+    color: rgb(255 217 222) !important;
   }
   .on-primary-fixed-text {
-    color: rgb(58 7 22);
+    color: rgb(63 0 21) !important;
   }
   .primary-fixed-dim-text {
-    color: rgb(255 178 190);
+    color: rgb(255 178 190) !important;
   }
   .on-primary-fixed-variant-text {
-    color: rgb(113 51 64);
+    color: rgb(144 0 57) !important;
   }
   .secondary-fixed-text {
-    color: rgb(255 217 222);
+    color: rgb(255 217 222) !important;
   }
   .on-secondary-fixed-text {
-    color: rgb(44 21 25);
+    color: rgb(63 0 21) !important;
   }
   .secondary-fixed-dim-text {
-    color: rgb(228 189 194);
+    color: rgb(255 178 190) !important;
   }
   .on-secondary-fixed-variant-text {
-    color: rgb(92 63 68);
+    color: rgb(130 34 60) !important;
   }
   .tertiary-fixed-text {
-    color: rgb(255 221 187);
+    color: rgb(255 219 205) !important;
   }
   .on-tertiary-fixed-text {
-    color: rgb(43 23 0);
+    color: rgb(54 15 0) !important;
   }
   .tertiary-fixed-dim-text {
-    color: rgb(235 190 144);
+    color: rgb(255 181 150) !important;
   }
   .on-tertiary-fixed-variant-text {
-    color: rgb(95 65 28);
+    color: rgb(125 45 0) !important;
   }
   .surface-dim-text {
-    color: rgb(25 17 18);
+    color: rgb(30 15 18) !important;
   }
   .surface-bright-text {
-    color: rgb(65 55 56);
+    color: rgb(71 52 55) !important;
   }
   .surface-container-lowest-text {
-    color: rgb(20 12 13);
+    color: rgb(24 10 13) !important;
   }
   .surface-container-low-text {
-    color: rgb(34 25 27);
+    color: rgb(39 23 26) !important;
   }
   .surface-container-text {
-    color: rgb(38 29 31);
+    color: rgb(43 27 30) !important;
   }
   .surface-container-high-text {
-    color: rgb(49 40 41);
+    color: rgb(55 37 40) !important;
   }
   .surface-container-highest-text {
-    color: rgb(60 50 51);
+    color: rgb(66 48 51) !important;
   }
 }
-
-// THIS is base from Material Theme Builder find FIGMA

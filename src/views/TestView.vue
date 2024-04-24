@@ -1,170 +1,235 @@
 <template>
-  <div class="row">
-    <div
-      class="col-lg-8 col-md-8 col-sm-8"
-      v-if="q$.screen.gt.sm"
-      style="background: radial-gradient(circle, #f8bbe4 0%, #f988ae 100%)"
-    >
-      <Vue3Lottie
-        animationLink="https://assets7.lottiefiles.com/packages/lf20_xY418y0j6x.json"
-        style="height: calc(100vh)"
-        :height="800"
-        :width="800"
-      />
-    </div>
-    <div class="col-12 col-lg-4 col-md-4 q-px-xl">
-      <div class="justify-center">
-        <div class="text-h5 text-center text-bold q-pt-xl q-mt-xl">
-          <q-avatar size="70px" class="q-mb-sm">
-            <img src="http://localhost/backdbase/pic/download.jpg" />
-          </q-avatar>
-          <q-space />
+  <span class="spacer"> New on our system?</span>
 
-          Graduate Scholarship Monitoring System
-        </div>
+  <a @click="requestAcc" class="element-class"><u>Request an account</u></a>
 
-        <q-space />
+  <q-dialog v-model="accreq">
+    <q-card>
+      <form id="UserAccForm" @submit.prevent.stop="createReqUser">
+        <q-card-section>
+          <div class="text-h6">Request Account</div>
+        </q-card-section>
 
-        <div class="q-pa-xl">
-          <q-banner
-            class="bg-orange-1 text-orange-14 rounded-borders text-center"
-          >
-            Please sign-in to your account
-            <!-- <template v-slot:action>
-            <q-btn flat label="Dismiss" />
-            <q-btn flat label="Update Credit Card" />
-          </template> -->
-          </q-banner>
-          <form id="login" @submit.prevent.stop="LogSubmit">
-            <q-input
-              ref="nameRef"
-              v-model="state.usernames"
-              :dense="dense"
-              label="Username"
-              name="usernames"
-              lazy-rules
-              :rules="inputRules"
-            >
-              <template v-slot:prepend>
-                <q-icon name="person" />
-              </template>
-            </q-input>
-            <q-input
-              ref="passRef"
-              :type="isPwd ? 'password' : 'text'"
-              v-model="state.password"
-              label="Password"
-              lazy-rules
-              :rules="inputpassRules"
-              name="password"
-            >
-              <template v-slot:prepend>
-                <q-icon name="password" />
-              </template>
-              <template v-slot:append>
-                <q-icon
-                  :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="isPwd = !isPwd"
+        <q-card-section class="q-pt-none">
+          <div class="row row_width q-col-gutter-xs">
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">Request To:</span>
+                <q-input
+                  ref="refEmail"
+                  v-model="state.reqEmail"
+                  name="reqEmail"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[
+                    (val) => isValidEmail(val) || 'Invalid email address',
+                  ]"
+                  hint="Email **"
                 />
-              </template>
-            </q-input>
-            <div class="q-pa-sm">
-              <q-btn
-                rounded
-                color="primary"
-                label="Log In"
-                type="submit"
-                style="width: 100%"
-              />
+              </div>
             </div>
-          </form>
-          <div class="q-mt-lg text-center">
-            <AccRequest />
+            <div class="col-xs-12 col-sm-6">
+              <div class="q-px-sm">
+                <span class="text-bold">First Name</span>
+                <q-input
+                  ref="refFname"
+                  v-model="state.reqFirstname"
+                  name="reqFirstname"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="inputRules"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="q-px-sm">
+                <span class="text-bold">Last Name</span>
+                <q-input
+                  ref="refLname"
+                  v-model="state.reqLastname"
+                  name="reqLastname"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="inputRules"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">Username</span>
+                <q-input
+                  ref="refUser"
+                  v-model="state.reqUsername"
+                  name="reqUsername"
+                  outlined
+                  dense
+                  hide-bottom-space
+                  :rules="[checkUsernames, maxLength]"
+                  no-error-icon
+                  :debounce="1000"
+                />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <div class="q-px-sm">
+                <span class="text-bold">User Access Level</span>
+                <q-select
+                  ref="upSlctUservalidate"
+                  outlined
+                  dense
+                  emit-value
+                  map-options
+                  hide-bottom-space
+                  transition-show="flip-up"
+                  transition-hide="flip-down"
+                  v-model="reqacclevel"
+                  name="reqacclevel"
+                  :options="Acclevel"
+                  :rules="SelectValidate"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="Submit!"
+            color="primary"
+            type="submit"
+            v-close-popup
+          />
+        </q-card-actions>
+      </form>
+    </q-card>
+  </q-dialog>
 </template>
+
 <script setup>
-import AccRequest from "../components/AccRequest.vue";
-// import DocumentationIcon from './icons/IconDocumentation.vue'
-// import ToolingIcon from './icons/IconTooling.vue'
-// import EcosystemIcon from './icons/IconEcosystem.vue'
-// import CommunityIcon from './icons/IconCommunity.vue'
-// import SupportIcon from './icons/IconSupport.vue'
-import { useQuasar } from "quasar";
 import { ref, reactive, inject, onBeforeUnmount } from "vue";
-import { RouterLink, RouterView } from "vue-router";
-import { useReCaptcha } from "vue-recaptcha-v3";
-
-import { isTemplateNode } from "@vue/compiler-core";
-import router from "../router";
-
-const axios = inject("$axios");
-const user = inject("$user");
-
-const isPwd = ref(true);
+import Swal from "sweetalert2";
+import { useQuasar } from "quasar";
 
 const q$ = useQuasar();
 const $q = useQuasar();
-const nameRef = ref(null);
-const passRef = ref(null);
 
-const { executeRecaptcha, recaptchaLoaded } = useReCaptcha();
+const axios = inject("$axios");
 
-let timer;
+const accreq = ref(false);
 
-const state = reactive({
-  password: "",
-  usernames: "",
-});
-
+// Rules & Validations
 const inputRules = [
-  (val) => (val && val.length > 0) || "Please enter your username",
-];
-const inputpassRules = [
-  (val) => !!val || "Field is required",
-  (val) => val.length >= 6 || "Please use minimum of 6 characters",
+  (val) => (val && val.length > 0) || "Please type something",
 ];
 
-onBeforeUnmount(() => {
-  if (timer !== void 0) {
-    clearTimeout(timer);
-    $q.loading.hide();
-  }
-});
+// Select Validation
 
-const LogSubmit = async () => {
-  // (optional) Wait until recaptcha has been loaded.
-  await recaptchaLoaded();
+const SelectValidate = [
+  (val) => val === null || "Please Select the User Status",
+];
 
-  // Execute reCAPTCHA with action "login".
-  const token = await executeRecaptcha("login");
+// Email Vaildation
 
-  // Do stuff with the received token.
-  console.log({ token });
-  nameRef.value.validate();
-  passRef.value.validate();
+const isValidEmail = () => {
+  const regex = /^[A-Za-z0-9+_.-]+@(.+)$/;
+  return regex.test(state.reqEmail);
+};
 
-  if (nameRef.value.hasError || passRef.value.hasError) {
-    // form has error
-  } else {
-    var formData = new FormData(document.getElementById("login"));
+// Validation for Length
 
-    axios.post("/read.php?usnames", formData).then(function (response) {
-      console.log(response.data);
-      if (response.data.error) {
-        $q.notify({
-          color: "red",
-          textColor: "white",
-          message: "Login Failed",
-        });
-      } else {
-        router.push("/stats");
-      }
-    });
+function maxLength(val) {
+  return val.length >= 6 || "Please use maximum of 6 characters";
+}
+
+// Validation for Usernames for Create
+
+const checkUsernames = async (value) => {
+  const formData = new FormData(document.getElementById("UserAccForm"));
+  formData.append("username", state.reqUsername);
+  try {
+    const response = await axios.post("/read.php?checkUser", formData);
+    if (response.data === true) {
+      // Do something if username is available
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("This username is already been taken!!!");
+        }, 1500);
+      });
+    }
+  } catch (error) {
+    // Handle any errors
+    console.error("Error:", error);
   }
 };
+
+const refFname = ref(null);
+const refLname = ref(null);
+const refEmail = ref(null);
+const refUser = ref(null);
+
+const reqacclevel = ref();
+
+const createLoadingState = () => {
+  let timerInterval;
+  Swal.fire({
+    title: "Request Submitting",
+    html: "Loading... <b></b> milliseconds.",
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const timer = Swal.getPopup().querySelector("b");
+      timerInterval = setInterval(() => {
+        timer.textContent = `${Swal.getTimerLeft()}`;
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    },
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      console.log("I was closed by the timer");
+      Swal.fire("Request Submitted!", "", "success");
+    }
+  });
+};
+
+const state = reactive({
+  reqFirstname: "",
+  reqLastname: "",
+  reqEmail: "",
+  reqUsername: "",
+});
+
+const Acclevel = [
+  { label: "Administrator Account", value: "1" },
+  { label: "User Account", value: "0" },
+  { label: "Coordinator", value: "2" },
+  { label: "Project Leaders", value: "3" },
+];
+
+const requestAcc = () => {
+  console.log("Test");
+  accreq.value = true;
+};
+
+const createReqUser = () => {
+  console.log("Test");
+  createLoadingState();
+};
 </script>
+
+<style scoped>
+.spacer {
+  padding-right: 8px; /* Adds space to the right */
+}
+.element-class:hover {
+  cursor: pointer;
+}
+</style>
