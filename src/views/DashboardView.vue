@@ -26,8 +26,8 @@
           :rows="rows"
           :columns="columns"
           row-key="name"
-          separator="cell"
           :filter="filter"
+          separator="cell"
         >
           <template v-slot:top-right>
             <q-input
@@ -72,7 +72,7 @@
     <!-- Form Modals -->
     <!-- New User modal -->
     <q-dialog v-model="fixed" persistent>
-      <q-card>
+      <q-card class="rounded-borders-20">
         <form id="UserForm" @submit.prevent.stop="CreateUser">
           <q-card-section class="q-gutter-md">
             <div class="text-h6">New User</div>
@@ -246,7 +246,7 @@
     <!-- Edit Modal -->
 
     <q-dialog v-model="editdialog" persistent>
-      <q-card>
+      <q-card class="rounded-borders-20">
         <form id="UpdateUserForm" @submit.prevent.stop="UpdateUser">
           <q-card-section class="q-gutter-md">
             <div class="text-h6">Update User Account</div>

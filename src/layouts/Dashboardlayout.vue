@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh LpR fFf" class="background">
+  <q-layout view="lHh LpR fFf" class="surface-mixed-100">
     <q-header flat height-hint="58" class="surface-container on-surface-text">
       <!-- Apply surface-container-lowest if needed -->
       <q-toolbar>
@@ -30,11 +30,18 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      class="q-pa-md"
+      class="q-pa-md surface-300"
       :width="240"
     >
       <q-scroll-area class="fit">
-        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
+        <q-btn
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-xs"
+          v-if="$q.screen.gt.xs"
+          to="/stats"
+        >
           <q-avatar size="28px">
             <img src="http://localhost/backdbase/pic/download.jpg" />
           </q-avatar>

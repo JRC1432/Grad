@@ -63,7 +63,7 @@ const readStatus = (props) => {
 <template>
   <div class="q-pa-xs">
     <q-btn flat round icon="notifications_active" class="q-ml-md">
-      <q-menu>
+      <q-menu class="rounded-borders-20">
         <div class="q-pa-sm notifexpansion">
           <q-list v-for="actlogs in actlog" :key="actlogs.actlog">
             <q-item
@@ -130,7 +130,7 @@ const readStatus = (props) => {
   </div>
 
   <q-dialog v-model="dialogMessage" persistent>
-    <q-card style="width: 700px; max-width: 80vw">
+    <q-card style="width: 700px; max-width: 80vw" class="rounded-borders-20">
       <q-toolbar class="bg-orange-5">
         <IconAlertOctagon :size="30" stroke-width="2" />
 
@@ -142,7 +142,11 @@ const readStatus = (props) => {
         >
       </q-toolbar>
       <q-card-section>
-        <q-card class="my-card" v-for="logmsgs in logmsg" :key="logmsgs.logmsg">
+        <q-card
+          class="my-card rounded-borders-20"
+          v-for="logmsgs in logmsg"
+          :key="logmsgs.logmsg"
+        >
           <div class="q-pa-md text-h6">Action by: {{ logmsgs.added_by }}</div>
           <div class="q-pa-md text-h7">
             Action Log: {{ logmsgs.action_title }}

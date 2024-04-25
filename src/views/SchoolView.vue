@@ -69,7 +69,10 @@
     <!-- Table Ends Here -->
 
     <q-dialog v-model="editSchool" persistent>
-      <q-card style="min-width: 1000px; width: 1000px">
+      <q-card
+        style="min-width: 1000px; width: 1000px"
+        class="rounded-borders-20"
+      >
         <q-card-section class="q-gutter-md">
           <div class="text-h6">Edit School Information</div>
           <q-space />
@@ -176,7 +179,7 @@
     </q-dialog>
 
     <q-dialog v-model="newSchool" persistent>
-      <q-card>
+      <q-card class="rounded-borders-20">
         <q-card-section class="q-gutter-md">
           <div class="text-h6">Add New School</div>
           <q-space />

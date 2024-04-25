@@ -93,7 +93,9 @@
                         class="text-bold"
                       />
                     </div>
-                    <div class="text-subtitle2">Total Number of Scholars:</div>
+                    <div class="text-subtitle2">
+                      Total Number of Ongoing, Graduated & Terminated Scholars:
+                    </div>
                   </div>
                 </div>
               </div>

@@ -8,7 +8,10 @@
         icon="dynamic_feed"
       />
       <q-dialog v-model="bulk" persistent>
-        <q-card style="min-width: 500px; width: 500px">
+        <q-card
+          style="min-width: 500px; width: 500px"
+          class="rounded-borders-20"
+        >
           <q-toolbar>
             <IconFileTypeCsv :size="30" stroke-width="2" />
 
@@ -22,7 +25,7 @@
 
           <q-card-section>
             <q-form id="bulkUploadForm" @submit.prevent.stop="bulkUploads">
-              <q-card class="my-card">
+              <q-card class="my-card rounded-borders-20">
                 <q-card-section class="bg-primary text-white">
                   <div class="text-h6">Upload Your File Here</div>
                   <div class="text-subtitle2">
