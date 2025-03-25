@@ -71,7 +71,7 @@ const readStatus = (props) => {
               v-ripple
               @click="readStatus(actlogs.id)"
               v-if="actlogs.read_stats == 'unread'"
-              class="secondary-fixed-dim"
+              class="surface-300"
             >
               <q-item-section>
                 <q-item-label
@@ -89,7 +89,7 @@ const readStatus = (props) => {
                   name="radio_button_checked"
                   color="green"
                 />
-                <q-icon v-else name="radio_button_checked" color="yellow" />
+                <q-icon v-else name="radio_button_checked" color="orange" />
               </q-item-section>
             </q-item>
 
@@ -98,7 +98,7 @@ const readStatus = (props) => {
               v-ripple
               @click="readStatus(actlogs.id)"
               v-else
-              class="surface"
+              class="surface-notif"
             >
               <q-item-section>
                 <q-item-label
@@ -116,7 +116,7 @@ const readStatus = (props) => {
                   name="radio_button_checked"
                   color="green"
                 />
-                <q-icon v-else name="radio_button_checked" color="yellow" />
+                <q-icon v-else name="radio_button_checked" color="orange" />
               </q-item-section>
             </q-item>
 

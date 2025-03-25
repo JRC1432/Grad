@@ -37,51 +37,46 @@ const axios = axiosMain.create({
   withCredentials: true,
 });
 myApp.provide("$axios", axios);
-router.beforeEach((to, from, next) => {
-  // console.log("text");
-  // ...
-  // explicitly return false to cancel the navigation
-  axios
-    .get("/read.php?authLog", {
+
+router.beforeEach(async (to, from, next) => {
+  try {
+    const response = await axios.get("/read.php?authLog", {
       withCredentials: true,
-    })
-    .then(function (response) {
-      user = response.data;
-      // console.log(user);
-      myApp.provide("$user", user);
-
-      // console.log(response.data);
-      // next();
-      // return;
-
-      if (response.data == false || response.data?.username == undefined) {
-        // console.log(to);
-        // next();
-
-        if (to.path !== "/") {
-          router.push("/");
-          //   next();
-        } else {
-          next();
-        }
-      } else {
-        if (to.path == "/") {
-          router.push("/stats");
-          //   next();
-        }
-
-        if (to?.meta?.access_level) {
-          if (to?.meta?.access_level == user.access_level) {
-            next();
-          } else {
-            router.push("/stats");
-            // next();
-          }
-        } else {
-          next();
-        }
-      }
     });
+    const user = response.data;
+
+    myApp.provide("$user", user);
+
+    if (!user || !user.username) {
+      // Redirect to login if not logged in
+      if (to.meta.requiresAuth) {
+        return next("/");
+      }
+      return next();
+    }
+
+    if (to.path === "/") {
+      return next("/stats");
+    }
+
+    // Check if the route has access restrictions
+    if (to.meta.requiresAuth && to.meta.accountType) {
+      if (!to.meta.accountType.includes(user.access_level)) {
+        Notify.create({
+          type: "negative",
+          message: "Unauthorized access!",
+          icon: "cancel",
+          position: "top-right",
+        });
+        return next("/stats"); // Redirect unauthorized users
+      }
+    }
+
+    return next();
+  } catch (error) {
+    console.error("Auth Check Error:", error);
+    return next("/");
+  }
 });
 
 myApp.use(router);

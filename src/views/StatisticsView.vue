@@ -39,7 +39,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-2">
           <q-select
-            hint="Scholar Charts Trigger"
+            hint="End Year"
             outlined
             behavior="menu"
             emit-value
@@ -69,7 +69,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="outline">
+          <q-card class="banner" flat>
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -79,7 +79,7 @@
                   <q-icon name="school" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10 outline-variant">
+              <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -103,7 +103,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="outline">
+          <q-card class="banner" flat>
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -113,7 +113,7 @@
                   <q-icon name="pending" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10 outline-variant">
+              <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold" id="number_up">
@@ -134,7 +134,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="outline">
+          <q-card class="banner" flat>
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -144,7 +144,7 @@
                   <q-icon name="check_circle" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10 outline-variant">
+              <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -164,7 +164,7 @@
           </q-card>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="outline">
+          <q-card class="banner" flat>
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
@@ -174,7 +174,7 @@
                   <q-icon name="cancel" size="xl"></q-icon>
                 </div>
               </div>
-              <div class="col-10 outline-variant">
+              <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
                     <div class="text-h4 text-bold">
@@ -201,7 +201,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-12 col-md-8">
-          <q-card class="rounded-borders-20 q-pa-md">
+          <q-card class="rounded-borders-20 q-pa-md" flat>
             <div class="row items-center no-wrap q-mb-lg">
               <div class="col">
                 <div class="text-h6 text-bold q-mb-md row items-center">
@@ -227,26 +227,12 @@
                     />
                   </div>
                 </div>
-                <!-- <div class="col-4 row q-pa-lg justify-start">
-                  <div class="q-mb-xl">
-                    <div class="text-h6 text-bold q-mb-md row items-center">
-                      <IconChartBar
-                        class="text-negative q-mr-sm"
-                        :size="40"
-                        stroke-width="2"
-                      />
-                      <span class="text-h6 text-bold text-primary"
-                        >Scholar Charts</span
-                      >
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </q-card-section>
           </q-card>
         </div>
         <div class="col-xs-12 q-gutter-y-lg col-sm-12 col-md-4">
-          <q-card class="text-primary rounded-borders-20">
+          <q-card class="text-primary rounded-borders-20" flat>
             <q-card-section>
               <div class="text-h6">Male & Female Scholars</div>
             </q-card-section>
@@ -268,7 +254,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="text-primary rounded-borders-20">
+          <q-card class="text-primary rounded-borders-20" flat>
             <q-card-section>
               <div class="text-h6">Scholars Status Charts</div>
             </q-card-section>

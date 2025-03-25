@@ -57,7 +57,6 @@
             to="/stats"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="user.access_level != 4"
           >
             <q-item-section avatar>
               <IconChartPie :size="30" stroke-width="2" />
@@ -75,7 +74,6 @@
             to="/dash"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="user.access_level == 1"
           >
             <q-item-section avatar>
               <!-- <q-icon name="groups" /> -->
@@ -94,11 +92,6 @@
             to="/newscholar"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="
-              user.access_level == 1 ||
-              user.access_level == 2 ||
-              user.access_level == 3
-            "
           >
             <q-item-section avatar>
               <IconUserPlus :size="30" stroke-width="2" />
@@ -113,11 +106,6 @@
             to="/viewscholar"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="
-              user.access_level == 1 ||
-              user.access_level == 2 ||
-              user.access_level == 3
-            "
           >
             <q-item-section avatar>
               <IconSchool :size="30" stroke-width="2" />
@@ -132,11 +120,6 @@
             to="/school"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="
-              user.access_level == 1 ||
-              user.access_level == 2 ||
-              user.access_level == 3
-            "
           >
             <q-item-section avatar>
               <IconBuildingCommunity :size="30" stroke-width="2" />
@@ -151,11 +134,6 @@
             to="/log"
             class="rounded-borders q-my-xs"
             active-class="my-menu-link"
-            v-if="
-              user.access_level == 1 ||
-              user.access_level == 2 ||
-              user.access_level == 3
-            "
           >
             <q-item-section avatar>
               <IconFileInfo :size="30" stroke-width="2" />

@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6">
-          <q-card class="my-card text-black rounded-borders-20 q-mr-md">
+          <q-card class="my-card text-black rounded-borders-20 q-mr-md" flat>
             <q-card-section>
               <div class="text-h6 text-primary">View Scholars</div>
               <div class="text-subtitle2 text-primary">Scholars Table</div>
@@ -42,6 +42,7 @@
                       separator="cell"
                       :filter="filter"
                       v-model:pagination="pagination"
+                      class="custom-table"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -103,6 +104,7 @@
                       :filter="gfilter"
                       separator="cell"
                       v-model:pagination="pagination"
+                      class="custom-table"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -162,6 +164,7 @@
                       :filter="tfilter"
                       separator="cell"
                       v-model:pagination="pagination"
+                      class="custom-table"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -216,7 +219,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6">
-          <q-card class="my-card text-black rounded-borders-20">
+          <q-card class="my-card text-black rounded-borders-20" flat>
             <div class="text-h6 text-bold">
               <form id="editSinfoForm" @submit.prevent.stop="editSinfo">
                 <div class="q-pa-md">
@@ -2475,5 +2478,9 @@ const ViewDocx = (props) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.custom-table tbody tr td {
+  cursor: pointer; /* Change cursor design on hover */
 }
 </style>

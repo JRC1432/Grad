@@ -74,6 +74,7 @@
         alternative-labels
         color="primary"
         animated
+        flat
       >
         <q-step
           :name="1"

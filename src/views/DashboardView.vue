@@ -2,7 +2,7 @@
   <!-- Table Starts Here -->
 
   <div class="q-pa-md">
-    <q-card class="my-card rounded-borders-20">
+    <q-card class="my-card rounded-borders-20" flat>
       <q-card-section>
         <div class="text-h6 text-primary">Users Control Panel</div>
         <div class="text-subtitle2 text-primary">Users Table</div>
@@ -28,6 +28,7 @@
           row-key="name"
           :filter="filter"
           separator="cell"
+          v-model:pagination="pagination"
         >
           <template v-slot:top-right>
             <q-input
@@ -405,6 +406,10 @@ const user = inject("$user");
 const q$ = useQuasar();
 const $q = useQuasar();
 const axios = inject("$axios");
+const pagination = ref({
+  page: 1, // Current page
+  rowsPerPage: 12, // Rows per page
+});
 
 // Items Variables
 const nameRef = ref(null);

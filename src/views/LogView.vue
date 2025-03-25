@@ -2,7 +2,7 @@
   <!-- Table Starts Here -->
 
   <div class="q-pa-md">
-    <q-card class="my-card rounded-borders-20">
+    <q-card class="my-card rounded-borders-20" flat>
       <q-card-section>
         <div class="text-h6 text-primary">Activity Log</div>
         <div class="text-subtitle2 text-primary">Activity Log Table</div>
@@ -18,6 +18,7 @@
           row-key="name"
           separator="cell"
           :filter="filter"
+          v-model:pagination="pagination"
         >
           <template v-slot:top-right>
             <q-input
@@ -73,6 +74,11 @@ import Swal from "sweetalert2";
 const user = inject("$user");
 const $q = useQuasar();
 const axios = inject("$axios");
+
+const pagination = ref({
+  page: 1, // Current page
+  rowsPerPage: 12, // Rows per page
+});
 
 const filter = ref("");
 const rows = ref([]);

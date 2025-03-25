@@ -77,7 +77,7 @@
               <div class="q-px-sm">
                 <span class="text-bold">User Access Level</span>
                 <q-select
-                  ref="upSlctUservalidate"
+                  ref="refSlctUservalidate"
                   outlined
                   dense
                   emit-value
@@ -88,7 +88,7 @@
                   v-model="reqacclevel"
                   name="reqacclevel"
                   :options="Acclevel"
-                  :rules="SelectValidate"
+                  :rules="inputRules"
                 />
               </div>
             </div>
@@ -96,13 +96,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn
-            flat
-            label="Submit!"
-            color="primary"
-            type="submit"
-            v-close-popup
-          />
+          <q-btn flat label="Submit!" color="primary" type="submit" />
         </q-card-actions>
       </form>
     </q-card>
@@ -171,7 +165,7 @@ const refFname = ref(null);
 const refLname = ref(null);
 const refEmail = ref(null);
 const refUser = ref(null);
-
+const refSlctUservalidate = ref(null);
 const reqacclevel = ref();
 
 const createLoadingState = () => {
@@ -220,8 +214,23 @@ const requestAcc = () => {
 };
 
 const createReqUser = () => {
-  console.log("Test");
-  createLoadingState();
+  refEmail.value.validate();
+  refFname.value.validate();
+  refLname.value.validate();
+  refUser.value.validate();
+  refSlctUservalidate.value.validate();
+
+  if (
+    refEmail.value.hasError ||
+    refFname.value.hasError ||
+    refLname.value.hasError ||
+    refUser.value.hasError ||
+    refSlctUservalidate.value.hasError
+  ) {
+  } else {
+    accreq.value = false;
+    createLoadingState();
+  }
 };
 </script>
 

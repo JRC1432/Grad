@@ -12,7 +12,7 @@
         :width="800"
       />
     </div>
-    <div class="col-12 col-lg-4 col-md-4 q-px-xl surface-300">
+    <div class="col-12 col-lg-4 col-md-4 q-px-xl">
       <div class="justify-center">
         <div class="text-h5 text-center text-bold q-pt-xl q-mt-xl">
           <q-avatar size="70px" class="q-mb-sm">
