@@ -64,7 +64,7 @@ const readStatus = (props) => {
   <div class="q-pa-xs">
     <q-btn flat round icon="notifications_active" class="q-ml-md">
       <q-menu class="rounded-borders-20">
-        <div class="q-pa-sm notifexpansion">
+        <div class="q-pa-sm notifexpansion on-surface-text">
           <q-list v-for="actlogs in actlog" :key="actlogs.actlog">
             <q-item
               clickable

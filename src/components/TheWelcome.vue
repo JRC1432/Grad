@@ -12,11 +12,13 @@
         :width="800"
       />
     </div>
-    <div class="col-12 col-lg-4 col-md-4 q-px-xl">
+    <div class="col-12 col-lg-4 col-md-4 q-px-xl cards">
       <div class="justify-center">
-        <div class="text-h5 text-center text-bold q-pt-xl q-mt-xl">
-          <q-avatar size="70px" class="q-mb-sm">
-            <img src="http://localhost/backdbase/pic/download.jpg" />
+        <div
+          class="text-h5 text-center text-bold q-pt-xl q-mt-xl on-surface-text"
+        >
+          <q-avatar rounded size="70px" class="q-mb-sm">
+            <img src="../assets/seilogopng.png" />
           </q-avatar>
           <q-space />
 

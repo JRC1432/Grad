@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.5",
     "@quasar/extras": "^1.16.4",
     "@tabler/icons-vue": "^2.25.0",
     "@vuelidate/core": "^2.0.3",

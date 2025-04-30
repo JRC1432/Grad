@@ -1,244 +1,94 @@
 <template>
-  <span class="spacer"> New on our system?</span>
+  <div class="q-pa-md">
+    <q-layout
+      view="hHh Lpr lff"
+      container
+      style="height: 300px"
+      class="shadow-2 rounded-borders"
+    >
+      <q-header
+        elevated
+        :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'"
+      >
+        <q-toolbar>
+          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-toolbar-title>Header</q-toolbar-title>
+        </q-toolbar>
+      </q-header>
 
-  <a @click="requestAcc" class="element-class"><u>Request an account</u></a>
+      <q-drawer
+        v-model="drawer"
+        show-if-above
+        :mini="miniState"
+        @mouseenter="miniState = false"
+        @mouseleave="miniState = true"
+        :width="200"
+        :breakpoint="500"
+        bordered
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+      >
+        <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+          <q-list padding>
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="inbox" />
+              </q-item-section>
 
-  <q-dialog v-model="accreq">
-    <q-card>
-      <form id="UserAccForm" @submit.prevent.stop="createReqUser">
-        <q-card-section>
-          <div class="text-h6">Request Account</div>
-        </q-card-section>
+              <q-item-section> Inbox </q-item-section>
+            </q-item>
 
-        <q-card-section class="q-pt-none">
-          <div class="row row_width q-col-gutter-xs">
-            <div class="col-xs-12 col-sm-12">
-              <div class="q-px-sm">
-                <span class="text-bold">Request To:</span>
-                <q-input
-                  ref="refEmail"
-                  v-model="state.reqEmail"
-                  name="reqEmail"
-                  outlined
-                  dense
-                  hide-bottom-space
-                  :rules="[
-                    (val) => isValidEmail(val) || 'Invalid email address',
-                  ]"
-                  hint="Email **"
-                />
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <div class="q-px-sm">
-                <span class="text-bold">First Name</span>
-                <q-input
-                  ref="refFname"
-                  v-model="state.reqFirstname"
-                  name="reqFirstname"
-                  outlined
-                  dense
-                  hide-bottom-space
-                  :rules="inputRules"
-                />
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <div class="q-px-sm">
-                <span class="text-bold">Last Name</span>
-                <q-input
-                  ref="refLname"
-                  v-model="state.reqLastname"
-                  name="reqLastname"
-                  outlined
-                  dense
-                  hide-bottom-space
-                  :rules="inputRules"
-                />
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12">
-              <div class="q-px-sm">
-                <span class="text-bold">Username</span>
-                <q-input
-                  ref="refUser"
-                  v-model="state.reqUsername"
-                  name="reqUsername"
-                  outlined
-                  dense
-                  hide-bottom-space
-                  :rules="[checkUsernames, maxLength]"
-                  no-error-icon
-                  :debounce="1000"
-                />
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-12">
-              <div class="q-px-sm">
-                <span class="text-bold">User Access Level</span>
-                <q-select
-                  ref="refSlctUservalidate"
-                  outlined
-                  dense
-                  emit-value
-                  map-options
-                  hide-bottom-space
-                  transition-show="flip-up"
-                  transition-hide="flip-down"
-                  v-model="reqacclevel"
-                  name="reqacclevel"
-                  :options="Acclevel"
-                  :rules="inputRules"
-                />
-              </div>
-            </div>
-          </div>
-        </q-card-section>
+            <q-item active clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="star" />
+              </q-item-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Submit!" color="primary" type="submit" />
-        </q-card-actions>
-      </form>
-    </q-card>
-  </q-dialog>
+              <q-item-section> Star </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="send" />
+              </q-item-section>
+
+              <q-item-section> Send </q-item-section>
+            </q-item>
+
+            <q-separator />
+
+            <q-item clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon name="drafts" />
+              </q-item-section>
+
+              <q-item-section> Drafts </q-item-section>
+            </q-item>
+          </q-list>
+        </q-scroll-area>
+      </q-drawer>
+
+      <q-page-container>
+        <q-page padding>
+          <p v-for="n in 15" :key="n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil
+            praesentium molestias a adipisci, dolore vitae odit, quidem
+            consequatur optio voluptates asperiores pariatur eos numquam rerum
+            delectus commodi perferendis voluptate?
+          </p>
+        </q-page>
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 
-<script setup>
-import { ref, reactive, inject, onBeforeUnmount } from "vue";
-import Swal from "sweetalert2";
-import { useQuasar } from "quasar";
+<script>
+import { ref } from "vue";
 
-const q$ = useQuasar();
-const $q = useQuasar();
-
-const axios = inject("$axios");
-
-const accreq = ref(false);
-
-// Rules & Validations
-const inputRules = [
-  (val) => (val && val.length > 0) || "Please type something",
-];
-
-// Select Validation
-
-const SelectValidate = [
-  (val) => val === null || "Please Select the User Status",
-];
-
-// Email Vaildation
-
-const isValidEmail = () => {
-  const regex = /^[A-Za-z0-9+_.-]+@(.+)$/;
-  return regex.test(state.reqEmail);
-};
-
-// Validation for Length
-
-function maxLength(val) {
-  return val.length >= 6 || "Please use maximum of 6 characters";
-}
-
-// Validation for Usernames for Create
-
-const checkUsernames = async (value) => {
-  const formData = new FormData(document.getElementById("UserAccForm"));
-  formData.append("username", state.reqUsername);
-  try {
-    const response = await axios.post("/read.php?checkUser", formData);
-    if (response.data === true) {
-      // Do something if username is available
-    } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("This username is already been taken!!!");
-        }, 1500);
-      });
-    }
-  } catch (error) {
-    // Handle any errors
-    console.error("Error:", error);
-  }
-};
-
-const refFname = ref(null);
-const refLname = ref(null);
-const refEmail = ref(null);
-const refUser = ref(null);
-const refSlctUservalidate = ref(null);
-const reqacclevel = ref();
-
-const createLoadingState = () => {
-  let timerInterval;
-  Swal.fire({
-    title: "Request Submitting",
-    html: "Loading... <b></b> milliseconds.",
-    timer: 2000,
-    timerProgressBar: true,
-    didOpen: () => {
-      Swal.showLoading();
-      const timer = Swal.getPopup().querySelector("b");
-      timerInterval = setInterval(() => {
-        timer.textContent = `${Swal.getTimerLeft()}`;
-      }, 100);
-    },
-    willClose: () => {
-      clearInterval(timerInterval);
-    },
-  }).then((result) => {
-    /* Read more about handling dismissals below */
-    if (result.dismiss === Swal.DismissReason.timer) {
-      console.log("I was closed by the timer");
-      Swal.fire("Request Submitted!", "", "success");
-    }
-  });
-};
-
-const state = reactive({
-  reqFirstname: "",
-  reqLastname: "",
-  reqEmail: "",
-  reqUsername: "",
-});
-
-const Acclevel = [
-  { label: "Administrator Account", value: "1" },
-  { label: "User Account", value: "0" },
-  { label: "Coordinator", value: "2" },
-  { label: "Project Leaders", value: "3" },
-];
-
-const requestAcc = () => {
-  console.log("Test");
-  accreq.value = true;
-};
-
-const createReqUser = () => {
-  refEmail.value.validate();
-  refFname.value.validate();
-  refLname.value.validate();
-  refUser.value.validate();
-  refSlctUservalidate.value.validate();
-
-  if (
-    refEmail.value.hasError ||
-    refFname.value.hasError ||
-    refLname.value.hasError ||
-    refUser.value.hasError ||
-    refSlctUservalidate.value.hasError
-  ) {
-  } else {
-    accreq.value = false;
-    createLoadingState();
-  }
+export default {
+  setup() {
+    return {
+      drawer: ref(false),
+      miniState: ref(true),
+    };
+  },
 };
 </script>
-
-<style scoped>
-.spacer {
-  padding-right: 8px; /* Adds space to the right */
-}
-.element-class:hover {
-  cursor: pointer;
-}
-</style>

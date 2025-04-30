@@ -17,6 +17,12 @@ import Vue3Lottie from "vue3-lottie";
 import "@quasar/extras/material-icons/material-icons.css";
 import "@quasar/extras/fontawesome-v5/fontawesome-v5.css";
 
+import "@fontsource/poppins"; // Defaults to weight 400
+import "@fontsource/poppins/300.css"; // Light
+import "@fontsource/poppins/400.css"; // Regular
+import "@fontsource/poppins/700.css"; // Bold
+import "@fontsource/poppins/400-italic.css"; // Specify weight and style
+
 // Import Quasar css
 import "quasar/src/css/index.sass";
 
@@ -26,16 +32,21 @@ import App from "./App.vue";
 
 var user = [];
 var rootDomain = "http://localhost";
-const myApp = createApp(App);
 
-const baseURL =
-  process.env.NODE_ENV === "development"
-    ? rootDomain + "/backdbase/"
-    : "/backdbase/";
+// const baseURL =
+//   process.env.NODE_ENV === "development"
+//     ? rootDomain + "/backdbase/"
+//     : "/backdbase/";
+
+export const baseURL = import.meta.env.DEV
+  ? "http://localhost/backdbase/"
+  : "../backdbase/";
+
 const axios = axiosMain.create({
   baseURL,
   withCredentials: true,
 });
+const myApp = createApp(App);
 myApp.provide("$axios", axios);
 
 router.beforeEach(async (to, from, next) => {

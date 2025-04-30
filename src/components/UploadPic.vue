@@ -93,10 +93,12 @@ const upload = () => {
     </q-avatar>
     <q-menu>
       <q-item clickable v-close-popup>
-        <q-item-section @click="showPic = true">Upload Photo</q-item-section>
+        <q-item-section @click="showPic = true" class="on-surface-text"
+          >Upload Photo</q-item-section
+        >
       </q-item>
       <q-item clickable v-close-popup @click="logOut">
-        <q-item-section>Log out</q-item-section>
+        <q-item-section class="on-surface-text">Log out</q-item-section>
       </q-item>
     </q-menu>
     <q-tooltip>Account</q-tooltip>
@@ -107,7 +109,9 @@ const upload = () => {
       <form id="picForm" @submit.prevent="upload">
         <q-card-section horizontal>
           <q-card-section class="q-pt-xs">
-            <div class="text-overline">Upload Your Profile Photo Here...</div>
+            <div class="text-overline on-surface-text">
+              Upload Your Profile Photo Here...
+            </div>
             <div class="text-h5 q-mt-sm q-mb-xs">
               <div class="text-caption text-grey">
                 <q-file
@@ -141,7 +145,7 @@ const upload = () => {
         <q-separator />
 
         <q-card-actions>
-          <q-btn flat v-close-popup> Cancel </q-btn>
+          <q-btn flat v-close-popup class="on-surface-text"> Cancel </q-btn>
           <q-btn push flat color="primary" @click="upload">
             Save Changes
           </q-btn>

@@ -2,7 +2,7 @@
   <!-- Table Starts Here -->
 
   <div class="q-pa-md">
-    <q-card class="my-card rounded-borders-20" flat>
+    <q-card class="my-card rounded-borders-20 cards" flat>
       <q-card-section>
         <div class="text-h6 text-primary">Users Control Panel</div>
         <div class="text-subtitle2 text-primary">Users Table</div>
@@ -29,6 +29,7 @@
           :filter="filter"
           separator="cell"
           v-model:pagination="pagination"
+          class="cards"
         >
           <template v-slot:top-right>
             <q-input
@@ -408,7 +409,7 @@ const $q = useQuasar();
 const axios = inject("$axios");
 const pagination = ref({
   page: 1, // Current page
-  rowsPerPage: 12, // Rows per page
+  rowsPerPage: 14, // Rows per page
 });
 
 // Items Variables

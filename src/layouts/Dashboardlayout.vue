@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh LpR fFf" class="surface-mixed-100">
+  <q-layout view="hHh Lpr lff" class="surface-mixed-100">
     <q-header flat height-hint="58" class="surface-container on-surface-text">
       <!-- Apply surface-container-lowest if needed -->
       <q-toolbar>
@@ -11,6 +11,21 @@
           aria-label="Menu"
           icon="menu"
         />
+        <q-btn
+          flat
+          no-caps
+          no-wrap
+          class="q-ml-xs"
+          v-if="$q.screen.gt.xs"
+          to="/stats"
+        >
+          <q-avatar size="28px" rounded>
+            <img src="../assets/seilogopng.png" />
+          </q-avatar>
+          <q-toolbar-title shrink class="text-weight-bold">
+            DOST - SEI
+          </q-toolbar-title>
+        </q-btn>
 
         <q-space />
 
@@ -22,33 +37,18 @@
       </q-toolbar>
     </q-header>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      class="q-pa-md surface-300"
-      :width="240"
+      :mini="miniState"
+      @mouseenter="miniState = false"
+      @mouseleave="miniState = true"
+      :width="200"
+      :breakpoint="500"
+      class="surface-300 on-surface-text"
     >
-      <q-scroll-area class="fit">
-        <q-btn
-          flat
-          no-caps
-          no-wrap
-          class="q-ml-xs"
-          v-if="$q.screen.gt.xs"
-          to="/stats"
-        >
-          <q-avatar size="28px">
-            <img src="http://localhost/backdbase/pic/download.jpg" />
-          </q-avatar>
-          <q-toolbar-title shrink class="text-weight-bold">
-            DOST - SEI
-          </q-toolbar-title>
-        </q-btn>
+      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
         <q-list padding>
           <q-item
             clickable
@@ -59,13 +59,10 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <IconChartPie :size="30" stroke-width="2" />
+              <q-icon name="dashboard" />
             </q-item-section>
-
             <q-item-section> Dashboard </q-item-section>
           </q-item>
-
-          <!-- <q-separator class="q-my-md" /> -->
 
           <q-item
             clickable
@@ -76,14 +73,11 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <!-- <q-icon name="groups" /> -->
-              <IconUsersGroup :size="30" stroke-width="2" />
+              <q-icon name="group" />
             </q-item-section>
 
-            <q-item-section> User Management </q-item-section>
+            <q-item-section> Users </q-item-section>
           </q-item>
-
-          <q-separator class="q-mt-md q-mb-xs" />
 
           <q-item
             clickable
@@ -94,11 +88,12 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <IconUserPlus :size="30" stroke-width="2" />
+              <q-icon name="group_add" />
             </q-item-section>
 
-            <q-item-section> Add New Scholar </q-item-section>
+            <q-item-section> New Scholar </q-item-section>
           </q-item>
+
           <q-item
             clickable
             v-ripple
@@ -108,7 +103,7 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <IconSchool :size="30" stroke-width="2" />
+              <q-icon name="school" />
             </q-item-section>
 
             <q-item-section> Scholars </q-item-section>
@@ -122,10 +117,38 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <IconBuildingCommunity :size="30" stroke-width="2" />
+              <q-icon name="home_work" />
             </q-item-section>
 
             <q-item-section> Schools </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/forms"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <q-icon name="description" />
+            </q-item-section>
+
+            <q-item-section> Forms </q-item-section>
+          </q-item>
+          <q-item
+            clickable
+            v-ripple
+            tag="a"
+            to="/brochure"
+            class="rounded-borders q-my-xs"
+            active-class="my-menu-link"
+          >
+            <q-item-section avatar>
+              <q-icon name="menu_book" />
+            </q-item-section>
+
+            <q-item-section> Brochures </q-item-section>
           </q-item>
           <q-item
             clickable
@@ -136,7 +159,7 @@
             active-class="my-menu-link"
           >
             <q-item-section avatar>
-              <IconFileInfo :size="30" stroke-width="2" />
+              <q-icon name="list_alt" />
             </q-item-section>
 
             <q-item-section> Logs </q-item-section>
@@ -144,6 +167,9 @@
         </q-list>
       </q-scroll-area>
     </q-drawer>
+    <q-page-container>
+      <router-view />
+    </q-page-container>
   </q-layout>
 </template>
 <script setup>
@@ -171,6 +197,9 @@ const leftDrawerOpen = ref(false);
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
+
+const drawer = ref(false);
+const miniState = ref(true);
 </script>
 
 <style lang="sass" scoped>
@@ -181,6 +210,10 @@ function toggleLeftDrawer() {
   .my-card
   width: 100%
   max-width: 350px
+  .rounded-borders-40
+  border-radius: 40px !important // Adjust the radius as needed
+  .overflow-hidden
+  overflow: hidden
 
   .example-item
   height: 5px

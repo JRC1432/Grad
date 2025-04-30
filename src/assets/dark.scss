@@ -26,7 +26,7 @@
     background-color: #282828;
   }
   .surface-300 {
-    background-color: #3f3f3f;
+    background-color: #3f3f3f !important;
   }
   .surface-400 {
     background-color: #575757;
@@ -88,5 +88,11 @@
 
   .banner-6 {
     background-color: #3c3b37 !important;
+  }
+  .cards {
+    background-color: #2d2d30 !important;
+  }
+  .cards-2 {
+    background-color: #252728 !important;
   }
 }

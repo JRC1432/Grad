@@ -3,7 +3,10 @@
     <div class="col-xs-12 col-sm-6">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6">
-          <q-card class="my-card text-black rounded-borders-20 q-mr-md" flat>
+          <q-card
+            class="my-card text-black rounded-borders-20 q-mr-md cards"
+            flat
+          >
             <q-card-section>
               <div class="text-h6 text-primary">View Scholars</div>
               <div class="text-subtitle2 text-primary">Scholars Table</div>
@@ -14,7 +17,7 @@
                 <q-tabs
                   v-model="tab"
                   dense
-                  class="text-grey"
+                  class="text-grey cards"
                   active-color="primary"
                   indicator-color="primary"
                   align="left"
@@ -30,7 +33,7 @@
 
                 <!-- Ongoing Scholars -->
 
-                <q-tab-panels v-model="tab" animated>
+                <q-tab-panels v-model="tab" animated class="cards">
                   <q-tab-panel name="oscholars">
                     <q-table
                       flat
@@ -42,7 +45,7 @@
                       separator="cell"
                       :filter="filter"
                       v-model:pagination="pagination"
-                      class="custom-table"
+                      class="custom-table cards"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -104,7 +107,7 @@
                       :filter="gfilter"
                       separator="cell"
                       v-model:pagination="pagination"
-                      class="custom-table"
+                      class="custom-table cards"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -164,7 +167,7 @@
                       :filter="tfilter"
                       separator="cell"
                       v-model:pagination="pagination"
-                      class="custom-table"
+                      class="custom-table cards"
                     >
                       <template v-slot:top-right>
                         <q-input
@@ -219,7 +222,7 @@
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6">
-          <q-card class="my-card text-black rounded-borders-20" flat>
+          <q-card class="my-card text-black rounded-borders-20 cards" flat>
             <div class="text-h6 text-bold">
               <form id="editSinfoForm" @submit.prevent.stop="editSinfo">
                 <div class="q-pa-md">

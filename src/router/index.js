@@ -22,7 +22,7 @@ const router = createRouter({
       path: "/test",
       name: "test",
       component: () => import("../views/TestView.vue"),
-      meta: { requiresAuth: true, accountType: [0] },
+      meta: { requiresAuth: true, accountType: [0, 1] },
     },
     {
       path: "/test2",
@@ -73,6 +73,16 @@ const router = createRouter({
           path: "/log",
           name: "log",
           component: () => import("../views/LogView.vue"),
+        },
+        {
+          path: "/forms",
+          name: "forms",
+          component: () => import("../views/FormsView.vue"),
+        },
+        {
+          path: "/brochure",
+          name: "brochure",
+          component: () => import("../views/BrochuresView.vue"),
         },
         {
           path: "/school",

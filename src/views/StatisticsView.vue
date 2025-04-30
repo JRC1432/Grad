@@ -9,7 +9,9 @@
               :size="40"
               stroke-width="2"
             />
-            <span class="text-h4 text-bold text-primary">DASHBOARD</span>
+            <span class="text-h4 text-bold text-primary custom-text"
+              >DASHBOARD</span
+            >
           </div>
         </div>
 
@@ -73,7 +75,7 @@
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
-                  class="row justify-center items-center"
+                  class="row justify-center items-center on-surface-text"
                   style="height: 70px"
                 >
                   <q-icon name="school" size="xl"></q-icon>
@@ -82,7 +84,7 @@
               <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
-                    <div class="text-h4 text-bold">
+                    <div class="text-h4 text-bold custom-text on-surface-text">
                       <vue3-autocounter
                         ref="counter"
                         :startAmount="0"
@@ -93,7 +95,7 @@
                         class="text-bold"
                       />
                     </div>
-                    <div class="text-subtitle2">
+                    <div class="text-subtitle2 custom-text on-surface-text">
                       Total Number of Ongoing, Graduated & Terminated Scholars:
                     </div>
                   </div>
@@ -107,7 +109,7 @@
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
-                  class="row justify-center items-center"
+                  class="row justify-center items-center on-surface-text"
                   style="height: 70px"
                 >
                   <q-icon name="pending" size="xl"></q-icon>
@@ -116,7 +118,10 @@
               <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
-                    <div class="text-h4 text-bold" id="number_up">
+                    <div
+                      class="text-h4 text-bold custom-text on-surface-text"
+                      id="number_up"
+                    >
                       <vue3-autocounter
                         ref="counter"
                         :startAmount="0"
@@ -126,7 +131,9 @@
                       />
                     </div>
                     <div id="number_up"></div>
-                    <div class="text-subtitle2">OnGoing:</div>
+                    <div class="text-subtitle2 custom-text on-surface-text">
+                      OnGoing:
+                    </div>
                   </div>
                 </div>
               </div>
@@ -138,7 +145,7 @@
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
-                  class="row justify-center items-center"
+                  class="row justify-center items-center on-surface-text"
                   style="height: 70px"
                 >
                   <q-icon name="check_circle" size="xl"></q-icon>
@@ -147,7 +154,7 @@
               <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
-                    <div class="text-h4 text-bold">
+                    <div class="text-h4 text-bold custom-text on-surface-text">
                       <vue3-autocounter
                         ref="counter"
                         :startAmount="0"
@@ -156,7 +163,9 @@
                         class="text-bold"
                       />
                     </div>
-                    <div class="text-subtitle2">Graduated:</div>
+                    <div class="text-subtitle2 custom-text on-surface-text">
+                      Graduated:
+                    </div>
                   </div>
                 </div>
               </div>
@@ -168,7 +177,7 @@
             <div class="row">
               <div class="col-2 q-pa-md">
                 <div
-                  class="row justify-center items-center"
+                  class="row justify-center items-center on-surface-text"
                   style="height: 70px"
                 >
                   <q-icon name="cancel" size="xl"></q-icon>
@@ -177,7 +186,7 @@
               <div class="col-10 banner-2">
                 <div class="row items-center" style="height: 95px">
                   <div class="q-ml-md">
-                    <div class="text-h4 text-bold">
+                    <div class="text-h4 text-bold custom-text on-surface-text">
                       <vue3-autocounter
                         ref="counter"
                         :startAmount="0"
@@ -186,7 +195,9 @@
                         class="text-bold"
                       />
                     </div>
-                    <div class="text-subtitle2">Terminated:</div>
+                    <div class="text-subtitle2 custom-text on-surface-text">
+                      Terminated:
+                    </div>
                   </div>
                 </div>
               </div>
@@ -201,7 +212,7 @@
     <div class="col-xs-12 col-sm-6">
       <div class="q-col-gutter-md row items-start">
         <div class="col-xs-12 col-sm-12 col-md-8">
-          <q-card class="rounded-borders-20 q-pa-md" flat>
+          <q-card class="rounded-borders-20 q-pa-md cards" flat>
             <div class="row items-center no-wrap q-mb-lg">
               <div class="col">
                 <div class="text-h6 text-bold q-mb-md row items-center">
@@ -210,7 +221,7 @@
                     :size="40"
                     stroke-width="2"
                   />
-                  <span class="text-h6 text-bold text-primary"
+                  <span class="text-h6 text-bold text-primary custom-text"
                     >Scholar Charts</span
                   >
                 </div>
@@ -232,9 +243,11 @@
           </q-card>
         </div>
         <div class="col-xs-12 q-gutter-y-lg col-sm-12 col-md-4">
-          <q-card class="text-primary rounded-borders-20" flat>
+          <q-card class="text-primary rounded-borders-20 cards" flat>
             <q-card-section>
-              <div class="text-h6">Male & Female Scholars</div>
+              <div class="text-h6 text-bold custom-text">
+                Male & Female Scholars
+              </div>
             </q-card-section>
 
             <q-card-section class="q-pa-md">
@@ -254,9 +267,11 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="text-primary rounded-borders-20" flat>
+          <q-card class="text-primary rounded-borders-20 cards" flat>
             <q-card-section>
-              <div class="text-h6">Scholars Status Charts</div>
+              <div class="text-h6 text-bold custom-text">
+                Scholars Status Charts
+              </div>
             </q-card-section>
 
             <q-card-section class="q-pa-md">
@@ -494,3 +509,8 @@ defineComponent({
   },
 });
 </script>
+<style>
+.custom-text {
+  font-family: "Poppins", sans-serif;
+}
+</style>
