@@ -23,7 +23,7 @@
             <img src="../assets/seilogopng.png" />
           </q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
-            DOST - SEI
+            Graduate Scholarship Monitoring System
           </q-toolbar-title>
         </q-btn>
 

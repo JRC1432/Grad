@@ -130,14 +130,15 @@ const readStatus = (props) => {
   </div>
 
   <q-dialog v-model="dialogMessage" persistent>
-    <q-card style="width: 700px; max-width: 80vw" class="rounded-borders-20">
+    <q-card
+      style="width: 700px; max-width: 80vw"
+      class="rounded-borders-20 on-surface-text"
+    >
       <q-toolbar class="bg-orange-5">
         <IconAlertOctagon :size="30" stroke-width="2" />
 
         <q-toolbar-title
-          ><span class="text-weight-bold" color="primary"
-            >SYSTEM NOTIFICATION</span
-          >
+          ><span class="text-weight-bold">SYSTEM NOTIFICATION</span>
           !!</q-toolbar-title
         >
       </q-toolbar>

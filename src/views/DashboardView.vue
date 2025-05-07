@@ -74,7 +74,7 @@
     <!-- Form Modals -->
     <!-- New User modal -->
     <q-dialog v-model="fixed" persistent>
-      <q-card class="rounded-borders-20">
+      <q-card class="rounded-borders-20 on-surface-text">
         <form id="UserForm" @submit.prevent.stop="CreateUser">
           <q-card-section class="q-gutter-md">
             <div class="text-h6">New User</div>

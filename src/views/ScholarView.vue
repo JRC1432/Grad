@@ -1094,7 +1094,7 @@
   <q-dialog v-model="Docx" persistent>
     <q-card style="min-width: 1000px; width: 1000px">
       <q-card-section class="q-gutter-md">
-        <div class="text-h6">View Documents</div>
+        <div class="text-h6 on-surface-text">View Documents</div>
         <q-space />
 
         <q-btn flat color="primary" @click="CloseDocx">
@@ -1518,8 +1518,8 @@ const subsoptions = [
 ];
 
 const sexoptions = [
-  { label: "Male", value: "M", color: "primary" },
-  { label: "Female", value: "F", color: "primary" },
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
 ];
 const entryType = [
   { label: "NEW", value: "NEW" },

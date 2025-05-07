@@ -74,7 +74,7 @@
         class="rounded-borders-20"
       >
         <q-card-section class="q-gutter-md">
-          <div class="text-h6">Edit School Information</div>
+          <div class="text-h6 on-surface-text">Edit School Information</div>
           <q-space />
           <q-btn flat color="primary" v-close-popup>
             <IconSquareRoundedX :size="30" stroke-width="2" @click="onReset" />
@@ -437,6 +437,7 @@ const deleteRow = (props) => {
   $q.dialog({
     title: "Confirm",
     message: "Do you want to remove this course?",
+    class: "on-surface-text",
     cancel: true,
     persistent: true,
   })
