@@ -31,6 +31,7 @@
             :options="yrsoptions"
             @filter="filteryrs"
             @update:model-value="populateyears"
+            class="on-surface-text"
           >
             <template v-slot:no-option>
               <q-item>

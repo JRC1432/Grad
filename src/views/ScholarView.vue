@@ -235,7 +235,7 @@
                           stroke-width="2"
                         />
                         <span class="text-h6 text-bold text-primary"
-                          >Scholarship Informaion Details</span
+                          >Scholarship Information Details</span
                         >
                       </div>
                     </div>
@@ -387,7 +387,7 @@
                                 stroke-width="2"
                               />
                               <span class="text-h6 text-bold text-primary"
-                                >Contact Informations</span
+                                >Contact Information</span
                               >
                             </div>
                             <q-separator />
